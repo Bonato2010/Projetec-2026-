@@ -1,0 +1,12 @@
+{
+  "name": "eco-city-root",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "install": "npm install --prefix eco-city && npm install --prefix vida-site",
+    "dev:eco-city": "npm run dev --prefix eco-city",
+    "dev:vida": "npm run dev --prefix vida-site",
+    "build:eco-city": "npm run build --prefix eco-city",
+    "build:vida": "npm run build --prefix vida-site"
+  }
+}

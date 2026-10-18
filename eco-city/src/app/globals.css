@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+@theme {
+  --color-eco-green-light: #4ade80; /* Folha claro */
+  --color-eco-green-base: #22c55e;
+  --color-eco-green-dark: #14532d; /* Fundo natural */
+
+  --color-eco-blue-light: #38bdf8;
+  --color-eco-blue-base: #0ea5e9; /* Tech blue */
+  --color-eco-blue-glow: #0284c7;
+  --color-eco-blue-dark: #0f172a;
+
+  --color-eco-gold: #fbbf24; /* Ouro solar/logo */
+  --color-eco-gold-glow: #f59e0b;
+
+  --color-brand-graphite: #1a1a1a;
+  --color-brand-black: #050505; /* Deep space/tech black */
+  --color-brand-white: #ffffff;
+}
+
+:root {
+  --background: var(--color-brand-black);
+  --foreground: var(--color-brand-white);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: var(--color-brand-black);
+    --foreground: var(--color-brand-white);
+  }
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  overscroll-behavior: none;
+}
+
+/* Minimalist scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-brand-graphite);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-eco-blue-base);
+}
+
+/* Custom Eco-City Utility Classes */
+.bg-gradient-eco {
+  background: linear-gradient(135deg, var(--color-eco-green-dark) 0%, var(--color-brand-black) 40%, var(--color-brand-black) 60%, var(--color-eco-blue-dark) 100%);
+}
+
+.border-eco-glow {
+  border: 1px solid rgba(14, 165, 233, 0.3);
+  box-shadow: 0 0 15px rgba(14, 165, 233, 0.1);
+}
+
+.text-eco-gold-gradient {
+  background: linear-gradient(90deg, #fef08a 0%, #fbbf24 50%, #f59e0b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Abstract tech lines for backgrounds */
+.bg-tech-grid {
+  background-image:
+    linear-gradient(rgba(14, 165, 233, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(14, 165, 233, 0.05) 1px, transparent 1px);
+  background-size: 30px 30px;
+}

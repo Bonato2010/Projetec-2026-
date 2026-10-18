@@ -1,0 +1,61 @@
+{
+  "hospitals": [
+    {
+      "id": 1,
+      "name": "Hospital Municipal Albert Schweitzer",
+      "type": "hospital",
+      "lat": -22.8791,
+      "lon": -43.43
+    },
+    {
+      "id": 2,
+      "name": "UPA Bangu",
+      "type": "clinic",
+      "lat": -22.875,
+      "lon": -43.465
+    },
+    {
+      "id": 3,
+      "name": "Hospital Rocha Faria",
+      "type": "hospital",
+      "lat": -22.9022,
+      "lon": -43.5583
+    }
+  ],
+  "roads": [
+    {
+      "id": 10,
+      "name": "Avenida Brasil",
+      "type": "trunk",
+      "lat": -22.85,
+      "lon": -43.45
+    },
+    {
+      "id": 11,
+      "name": "Avenida Santa Cruz",
+      "type": "primary",
+      "lat": -22.88,
+      "lon": -43.48
+    }
+  ],
+  "parks": [
+    {
+      "id": 20,
+      "name": "Parque Estadual da Pedra Branca (borda)",
+      "lat": -22.92,
+      "lon": -43.45
+    },
+    {
+      "id": 21,
+      "name": "Praça Guilherme da Silveira",
+      "lat": -22.875,
+      "lon": -43.45
+    }
+  ],
+  "bounds": {
+    "minLat": -22.95,
+    "maxLat": -22.8,
+    "minLon": -43.6,
+    "maxLon": -43.4
+  }
+}
