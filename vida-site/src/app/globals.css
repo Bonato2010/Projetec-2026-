@@ -1,21 +1,21 @@
 @import "tailwindcss";
 
 @theme {
-  --color-eco-green-light: #4ade80; /* Folha claro */
-  --color-eco-green-base: #22c55e;
-  --color-eco-green-dark: #14532d; /* Fundo natural */
+  --color-eco-green-light: #34d399; /* Esmeralda claro/luminoso */
+  --color-eco-green-base: #10b981; /* Esmeralda base */
+  --color-eco-green-dark: #047857; /* Fundo natural profundo */
 
-  --color-eco-blue-light: #38bdf8;
-  --color-eco-blue-base: #0ea5e9; /* Tech blue */
-  --color-eco-blue-glow: #0284c7;
-  --color-eco-blue-dark: #0f172a;
+  --color-eco-blue-light: #60a5fa;
+  --color-eco-blue-base: #3b82f6; /* Tech blue */
+  --color-eco-blue-glow: #2563eb;
+  --color-eco-blue-dark: #1e3a8a;
 
-  --color-eco-gold: #fbbf24; /* Ouro solar/logo */
-  --color-eco-gold-glow: #f59e0b;
+  --color-eco-gold: #fbbf24; /* Ouro sofisticado */
+  --color-eco-gold-glow: #d97706;
 
-  --color-brand-graphite: #1a1a1a;
-  --color-brand-black: #050505; /* Deep space/tech black */
-  --color-brand-white: #ffffff;
+  --color-brand-graphite: #171717; /* Cinza escuro sofisticado */
+  --color-brand-black: #0a0a0a; /* Preto profundo / cinematográfico */
+  --color-brand-white: #f8fafc;
 }
 
 :root {
@@ -33,11 +33,17 @@
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
   margin: 0;
   padding: 0;
   overflow-x: hidden;
   overscroll-behavior: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  letter-spacing: -0.02em;
 }
 
 /* Minimalist scrollbar */

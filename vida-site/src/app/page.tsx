@@ -38,15 +38,15 @@ export default function VidaPage() {
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5, duration: 1 }}
-                  className="text-6xl md:text-8xl lg:text-9xl font-light tracking-[0.2em] uppercase mb-8 drop-shadow-2xl"
+                  className="text-6xl md:text-8xl lg:text-9xl font-thin tracking-[0.3em] uppercase mb-8 drop-shadow-2xl"
                >
-                 <span className="text-white">VI</span><span className="text-eco-green-light">DA</span>
+                 <span className="text-white">VI</span><span className="text-eco-green-light font-light">DA</span>
                </motion.h1>
                <motion.h2
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 1.5, duration: 1 }}
-                  className="text-xl md:text-2xl lg:text-3xl font-light tracking-wide max-w-4xl text-white/90 drop-shadow-lg"
+                  className="text-2xl md:text-3xl lg:text-4xl font-light tracking-widest max-w-4xl text-white/90 drop-shadow-lg"
                >
                   O sistema invisível que sustenta tudo.
                </motion.h2>
@@ -54,7 +54,7 @@ export default function VidaPage() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 2.5, duration: 1 }}
-                  className="mt-6 text-lg md:text-xl text-white/60 max-w-2xl font-light drop-shadow-md"
+                  className="mt-8 text-lg md:text-xl text-white/70 max-w-2xl font-light tracking-wide drop-shadow-md"
                >
                   Uma jornada pelas conexões entre natureza, ciência, sustentabilidade e saúde humana.
                </motion.p>
@@ -72,12 +72,12 @@ export default function VidaPage() {
             </section>
 
             {/* Capítulos de Conteúdo */}
-            <section className="w-full max-w-5xl px-6 py-24 mx-auto space-y-32 relative z-20">
-                <div className="absolute inset-0 bg-brand-black/40 backdrop-blur-sm -z-10 rounded-3xl pointer-events-none" />
+            <section className="w-full max-w-5xl px-6 py-32 mx-auto space-y-40 relative z-20">
+                <div className="absolute inset-0 bg-brand-black/50 backdrop-blur-md -z-10 rounded-[3rem] border border-white/5 pointer-events-none" />
 
-                <div className="space-y-8 p-8 md:p-12">
-                    <h3 className="text-4xl font-light text-eco-blue-light border-l-2 border-eco-blue-light pl-4">A Interdependência</h3>
-                    <div className="prose prose-invert prose-lg max-w-none text-white/80 font-light leading-relaxed">
+                <div className="space-y-10 p-8 md:p-16">
+                    <h3 className="text-4xl md:text-5xl font-thin tracking-wide text-eco-blue-light border-l-4 border-eco-blue-light pl-6">A Interdependência</h3>
+                    <div className="prose prose-invert prose-lg max-w-none text-white/70 font-light leading-relaxed tracking-wide">
                         <p>
                             A vida não existe isolada. Tudo está conectado. Água, energia, natureza, células, organismos, ambiente, cidades e saúde humana fazem parte de sistemas interdependentes.
                         </p>
@@ -87,9 +87,9 @@ export default function VidaPage() {
                     </div>
                 </div>
 
-                <div className="space-y-8 p-8 md:p-12">
-                    <h3 className="text-4xl font-light text-eco-green-light border-l-2 border-eco-green-light pl-4">Desafios Ambientais Urbanos</h3>
-                    <div className="prose prose-invert prose-lg max-w-none text-white/80 font-light leading-relaxed">
+                <div className="space-y-10 p-8 md:p-16">
+                    <h3 className="text-4xl md:text-5xl font-thin tracking-wide text-eco-green-light border-l-4 border-eco-green-light pl-6">Desafios Ambientais Urbanos</h3>
+                    <div className="prose prose-invert prose-lg max-w-none text-white/70 font-light leading-relaxed tracking-wide">
                         <p>
                             Nas grandes cidades, a concentração populacional e as atividades industriais geram desafios complexos. Fenômenos como a poluição atmosférica, contaminação da água pelo lançamento de esgoto sem tratamento, e o acúmulo inadequado de resíduos afetam diretamente a qualidade de vida.
                         </p>
@@ -99,9 +99,9 @@ export default function VidaPage() {
                     </div>
                 </div>
 
-                <div className="space-y-8 p-8 md:p-12">
-                    <h3 className="text-4xl font-light text-eco-gold border-l-2 border-eco-gold pl-4">Economia Circular</h3>
-                    <div className="prose prose-invert prose-lg max-w-none text-white/80 font-light leading-relaxed">
+                <div className="space-y-10 p-8 md:p-16">
+                    <h3 className="text-4xl md:text-5xl font-thin tracking-wide text-eco-gold border-l-4 border-eco-gold pl-6">Economia Circular</h3>
+                    <div className="prose prose-invert prose-lg max-w-none text-white/70 font-light leading-relaxed tracking-wide">
                         <p>
                             Enquanto a reciclagem transforma materiais descartados em matéria-prima para novos produtos, a economia circular vai além: procura manter produtos e materiais em uso por mais tempo.
                         </p>
@@ -111,9 +111,9 @@ export default function VidaPage() {
                     </div>
                 </div>
 
-                <div className="space-y-8 p-8 md:p-12">
-                    <h3 className="text-4xl font-light text-white border-l-2 border-white pl-4">Meio Ambiente e Saúde Coletiva</h3>
-                    <div className="prose prose-invert prose-lg max-w-none text-white/80 font-light leading-relaxed">
+                <div className="space-y-10 p-8 md:p-16">
+                    <h3 className="text-4xl md:text-5xl font-thin tracking-wide text-white border-l-4 border-white pl-6">Meio Ambiente e Saúde Coletiva</h3>
+                    <div className="prose prose-invert prose-lg max-w-none text-white/70 font-light leading-relaxed tracking-wide">
                         <p>
                             A saúde humana está intrinsecamente ligada à qualidade do ar que respiramos e da água que consumimos. A exposição contínua à poluição atmosférica está associada a riscos severos, enquanto a disponibilidade de água potável, saneamento e higiene são pilares da prevenção.
                         </p>
@@ -123,9 +123,9 @@ export default function VidaPage() {
                     </div>
                 </div>
 
-                 <div className="space-y-8 p-8 md:p-12 border-t border-white/10">
-                    <h3 className="text-2xl font-light text-white/60">Referências e Fontes</h3>
-                    <ul className="text-sm text-white/50 space-y-2 font-light">
+                 <div className="space-y-8 p-8 md:p-16 border-t border-white/10">
+                    <h3 className="text-2xl font-light text-white/50 tracking-wide">Referências e Fontes</h3>
+                    <ul className="text-sm text-white/40 space-y-3 font-light tracking-wide">
                         <li>Organização Mundial da Saúde (OMS)</li>
                         <li>Programa das Nações Unidas para o Meio Ambiente (PNUMA/UNEP)</li>
                         <li>Objetivos de Desenvolvimento Sustentável (Agenda 2030)</li>
