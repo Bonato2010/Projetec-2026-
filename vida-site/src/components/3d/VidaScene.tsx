@@ -2,48 +2,10 @@
 
 import React, { useRef, useEffect, useMemo, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Sphere, MeshDistortMaterial, Environment, Stars } from '@react-three/drei';
+import { Sphere, Stars } from '@react-three/drei';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import * as THREE from 'three';
 
-// Animate a glowing biological/planetary object to represent "VIDA"
-function GlowingCore() {
-  const meshRef = useRef<THREE.Mesh>(null);
-
-  useFrame((state) => {
-    if (meshRef.current) {
-      const t = state.clock.elapsedTime;
-      meshRef.current.rotation.y = t * 0.15;
-      meshRef.current.rotation.x = t * 0.1;
-
-      // Gentle breathing animation
-      const scale = 1.5 + Math.sin(t * 1.2) * 0.05;
-      meshRef.current.scale.set(scale, scale, scale);
-    }
-  });
-
-  return (
-    <Sphere ref={meshRef} args={[1, 128, 128]}>
-      <MeshDistortMaterial
-        color="#000000"
-        emissive="#047857"
-        emissiveIntensity={0.2}
-        distort={0.3}
-        speed={2}
-        roughness={0.1}
-        metalness={0.9}
-        clearcoat={1}
-        clearcoatRoughness={0.1}
-      />
-      {/* Inner glowing core for transmission effect depth */}
-      <Sphere args={[0.7, 32, 32]}>
-          <meshBasicMaterial color="#10b981" wireframe transparent opacity={0.15} />
-      </Sphere>
-    </Sphere>
-  );
-}
-
-// Simplex 3D Noise function for shaders
 const noise3D = `
 // GLSL textureless classic 3D noise "cnoise",
 // with an RSL-style periodic variant "pnoise".
@@ -92,10 +54,6 @@ float snoise(vec3 v)
   vec3 i1 = min( g.xyz, l.zxy );
   vec3 i2 = max( g.xyz, l.zxy );
 
-  //   x0 = x0 - 0.0 + 0.0 * C.xxx;
-  //   x1 = x0 - i1  + 1.0 * C.xxx;
-  //   x2 = x0 - i2  + 2.0 * C.xxx;
-  //   x3 = x0 - 1.0 + 3.0 * C.xxx;
   vec3 x1 = x0 - i1 + C.xxx;
   vec3 x2 = x0 - i2 + C.yyy; // 2.0*C.x = 1/3 = C.y
   vec3 x3 = x0 - D.yyy;      // -1.0+3.0*C.x = -0.5 = -D.y
@@ -124,8 +82,6 @@ float snoise(vec3 v)
   vec4 b0 = vec4( x.xy, y.xy );
   vec4 b1 = vec4( x.zw, y.zw );
 
-  //vec4 s0 = vec4(lessThan(b0,0.0))*2.0 - 1.0;
-  //vec4 s1 = vec4(lessThan(b1,0.0))*2.0 - 1.0;
   vec4 s0 = floor(b0)*2.0 + 1.0;
   vec4 s1 = floor(b1)*2.0 + 1.0;
   vec4 sh = -step(h, vec4(0.0));
@@ -150,8 +106,120 @@ float snoise(vec3 v)
   m = m * m;
   return 42.0 * dot( m*m, vec4( dot(p0,x0), dot(p1,x1),
                                 dot(p2,x2), dot(p3,x3) ) );
+}
+`;
+
+const earthVertexShader = `
+  ${noise3D}
+
+  varying vec2 vUv;
+  varying vec3 vNormal;
+  varying vec3 vPosition;
+  uniform float uTime;
+
+  void main() {
+    vUv = uv;
+    vNormal = normalize(normalMatrix * normal);
+    vPosition = position;
+
+    // Slight procedural deformation for mountains/terrain
+    float noiseVal = snoise(position * 2.0 + uTime * 0.05);
+    vec3 newPos = position + normal * noiseVal * 0.02;
+
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(newPos, 1.0);
   }
 `;
+
+const earthFragmentShader = `
+  ${noise3D}
+
+  varying vec2 vUv;
+  varying vec3 vNormal;
+  varying vec3 vPosition;
+  uniform float uTime;
+
+  void main() {
+    // Generate continents via noise
+    float n1 = snoise(vPosition * 1.5);
+    float n2 = snoise(vPosition * 4.0 + uTime * 0.02);
+    float elevation = n1 * 0.5 + n2 * 0.25;
+
+    vec3 oceanColor = vec3(0.02, 0.05, 0.15); // Deep dark blue ocean
+    vec3 shallowColor = vec3(0.0, 0.2, 0.3); // Shallow water
+    vec3 landColor = vec3(0.05, 0.25, 0.15); // Dark green land
+    vec3 mountainColor = vec3(0.2, 0.3, 0.25); // Greyish green mountains
+    vec3 cityLightColor = vec3(1.0, 0.8, 0.4); // Golden city lights
+
+    vec3 color = oceanColor;
+    float cityLights = 0.0;
+
+    if (elevation > 0.1) {
+      // Land
+      color = mix(landColor, mountainColor, smoothstep(0.1, 0.5, elevation));
+
+      // Add city lights on land edges (coasts)
+      float coastDist = abs(elevation - 0.1);
+      if (coastDist < 0.05) {
+         float cityNoise = snoise(vPosition * 20.0);
+         if (cityNoise > 0.6) {
+             cityLights = smoothstep(0.6, 1.0, cityNoise) * (1.0 - coastDist*20.0);
+         }
+      }
+    } else {
+      // Water
+      color = mix(oceanColor, shallowColor, smoothstep(-0.2, 0.1, elevation));
+    }
+
+    // Add city lights emission
+    color += cityLightColor * cityLights * 2.0;
+
+    // Atmospheric scattering (Fresnel effect)
+    float intensity = pow(0.6 - dot(vNormal, vec3(0, 0, 1.0)), 2.0);
+    vec3 atmosphereColor = vec3(0.1, 0.4, 0.8) * intensity * 1.5;
+
+    // Diffuse lighting from directional light (fake light from top-right)
+    vec3 lightDir = normalize(vec3(1.0, 1.0, 1.0));
+    float diff = max(dot(vNormal, lightDir), 0.0);
+
+    // Shadow side needs less city lights if not dark, but let's make cities glow in the dark
+    float dayNight = smoothstep(-0.2, 0.2, diff);
+    color += cityLightColor * cityLights * (1.0 - dayNight) * 3.0; // Brighter on night side
+
+    color = color * (diff * 0.8 + 0.2); // ambient + diffuse
+    color += atmosphereColor;
+
+    gl_FragColor = vec4(color, 1.0);
+  }
+`;
+
+function ProceduralEarth() {
+  const meshRef = useRef<THREE.Mesh>(null);
+  const materialRef = useRef<THREE.ShaderMaterial>(null);
+
+  const uniforms = useMemo(() => ({
+    uTime: { value: 0 }
+  }), []);
+
+  useFrame((state) => {
+    if (meshRef.current) {
+      meshRef.current.rotation.y = state.clock.elapsedTime * 0.05;
+    }
+    if (materialRef.current) {
+      materialRef.current.uniforms.uTime.value = state.clock.elapsedTime;
+    }
+  });
+
+  return (
+    <Sphere args={[2, 64, 64]} ref={meshRef}>
+      <shaderMaterial
+        ref={materialRef}
+        vertexShader={earthVertexShader}
+        fragmentShader={earthFragmentShader}
+        uniforms={uniforms}
+      />
+    </Sphere>
+  );
+}
 
 const particleVertexShader = `
   ${noise3D}
@@ -166,17 +234,23 @@ const particleVertexShader = `
   void main() {
     vColor = aColor;
 
-    // Base position
+    // Base position (sphere distribution)
     vec3 pos = position;
 
-    // Spread based on scroll
-    float spread = 1.0 + (uScroll * 0.001);
-    pos *= spread;
+    // Orbiting motion around Earth
+    float angle = uTime * 0.1 + (pos.y * 2.0); // varied speed based on height
+    float s = sin(angle);
+    float c = cos(angle);
+    mat2 rotMatrix = mat2(c, -s, s, c);
 
-    // Add noise-based movement
-    float noiseFreq = 0.5;
-    float noiseAmp = 0.8;
-    vec3 noisePos = vec3(pos.x * noiseFreq + uTime * 0.2, pos.y * noiseFreq + uTime * 0.2, pos.z * noiseFreq);
+    vec2 rotatedXZ = rotMatrix * vec2(pos.x, pos.z);
+    pos.x = rotatedXZ.x;
+    pos.z = rotatedXZ.y;
+
+    // Add noise-based movement for organic data flow
+    float noiseFreq = 1.5;
+    float noiseAmp = 0.2;
+    vec3 noisePos = vec3(pos.x * noiseFreq, pos.y * noiseFreq + uTime * 0.2, pos.z * noiseFreq);
 
     pos.x += snoise(noisePos) * noiseAmp;
     pos.y += snoise(noisePos + vec3(10.0)) * noiseAmp;
@@ -184,17 +258,17 @@ const particleVertexShader = `
 
     // Mouse interaction (repulsion)
     float dist = distance(pos, uMouse);
-    float repulsionRadius = 4.0;
+    float repulsionRadius = 2.0;
     if(dist < repulsionRadius) {
        vec3 dir = normalize(pos - uMouse);
        float force = (repulsionRadius - dist) / repulsionRadius;
-       pos += dir * force * 1.5;
+       pos += dir * force * 0.8;
     }
 
     vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
 
     // Size attenuation based on distance
-    gl_PointSize = aSize * (10.0 / -mvPosition.z);
+    gl_PointSize = aSize * (15.0 / -mvPosition.z);
     gl_Position = projectionMatrix * mvPosition;
   }
 `;
@@ -203,23 +277,18 @@ const particleFragmentShader = `
   varying vec3 vColor;
 
   void main() {
-    // Create a soft circle instead of a square
     float distanceToCenter = distance(gl_PointCoord, vec2(0.5));
     float alpha = 1.0 - smoothstep(0.1, 0.5, distanceToCenter);
-
-    // Soften opacity for glowing effect
-    gl_FragColor = vec4(vColor, alpha * 0.8);
+    gl_FragColor = vec4(vColor, alpha * 0.9);
   }
 `;
 
-// Advanced shader-based particle ecosystem
 function Particles() {
   const pointsRef = useRef<THREE.Points>(null);
   const materialRef = useRef<THREE.ShaderMaterial>(null);
 
-  const particlesCount = 4000;
+  const particlesCount = 3000;
 
-  // Use state to generate initial particles once, keeping React pure
   const [{ positions, colors, sizes }] = useState(() => {
     const pos = new Float32Array(particlesCount * 3);
     const col = new Float32Array(particlesCount * 3);
@@ -227,35 +296,34 @@ function Particles() {
 
     const colorEmerald = new THREE.Color('#34d399');
     const colorGold = new THREE.Color('#fbbf24');
-    const colorDeepBlue = new THREE.Color('#0ea5e9');
+    const colorCyan = new THREE.Color('#22d3ee');
 
     for(let i = 0; i < particlesCount; i++) {
-      // Torus-like distribution with noise
-      const radius = 3 + Math.random() * 8;
-      const angle1 = Math.random() * Math.PI * 2;
-      const angle2 = Math.random() * Math.PI * 2;
+      // Distribute particles in a shell around the Earth (radius > 2.0)
+      const radius = 2.2 + Math.pow(Math.random(), 2) * 2.0; // denser near earth
+      const theta = Math.acos(2 * Math.random() - 1);
+      const phi = Math.random() * Math.PI * 2;
 
-      const tubeRadius = 1.5 + Math.random() * 2;
+      pos[i*3] = radius * Math.sin(theta) * Math.cos(phi);
+      pos[i*3+1] = radius * Math.sin(theta) * Math.sin(phi);
+      pos[i*3+2] = radius * Math.cos(theta);
 
-      pos[i*3] = (radius + tubeRadius * Math.cos(angle2)) * Math.cos(angle1) + (Math.random() - 0.5);
-      pos[i*3+1] = tubeRadius * Math.sin(angle2) + (Math.random() - 0.5) * 4;
-      pos[i*3+2] = (radius + tubeRadius * Math.cos(angle2)) * Math.sin(angle1) + (Math.random() - 0.5);
-
-      // Color gradient based on radius
       const mixedColor = new THREE.Color();
       const rand = Math.random();
 
-      if (rand < 0.6) {
-          mixedColor.copy(colorEmerald).lerp(colorDeepBlue, Math.random() * 0.3);
-      } else {
+      if (rand < 0.4) {
+          mixedColor.copy(colorEmerald).lerp(colorCyan, Math.random());
+      } else if (rand < 0.8) {
           mixedColor.copy(colorGold).lerp(colorEmerald, Math.random() * 0.5);
+      } else {
+          mixedColor.copy(new THREE.Color(1, 1, 1)); // Bright nodes
       }
 
       col[i*3] = mixedColor.r;
       col[i*3+1] = mixedColor.g;
       col[i*3+2] = mixedColor.b;
 
-      sz[i] = 2.0 + Math.random() * 4.0;
+      sz[i] = 1.0 + Math.random() * 3.0;
     }
 
     return { positions: pos, colors: col, sizes: sz };
@@ -279,20 +347,17 @@ function Particles() {
     if (materialRef.current) {
         materialRef.current.uniforms.uTime.value = state.clock.elapsedTime;
 
-        // Mouse interaction mapped to shader uniform
         const vector = new THREE.Vector3(state.pointer.x, state.pointer.y, 0.5);
         vector.unproject(state.camera);
         const dir = vector.sub(state.camera.position).normalize();
         const distance = -state.camera.position.z / dir.z;
         const pos = state.camera.position.clone().add(dir.multiplyScalar(distance));
 
-        // Smoothly interpolate mouse position for organic feel
         materialRef.current.uniforms.uMouse.value.lerp(pos, 0.05);
     }
     if (pointsRef.current) {
-        // Slow overall rotation influenced by scroll
-        pointsRef.current.rotation.y = state.clock.elapsedTime * 0.02 + window.scrollY * 0.0005;
-        pointsRef.current.position.y = window.scrollY * 0.002;
+        pointsRef.current.rotation.y = state.clock.elapsedTime * 0.05;
+        pointsRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.1) * 0.1;
     }
   });
 
@@ -334,25 +399,55 @@ function Particles() {
   );
 }
 
+function SceneController() {
+    const groupRef = useRef<THREE.Group>(null);
+
+    useFrame(({ camera }) => {
+        if (groupRef.current) {
+            const scrollY = window.scrollY;
+            const scrollNormalized = Math.min(scrollY / (document.body.scrollHeight - window.innerHeight), 1.0);
+
+            // As we scroll down, move the earth to the right and scale it down slightly
+            const targetX = scrollNormalized * 3.5;
+            const targetY = scrollNormalized * -1.0;
+            const targetScale = 1.0 - scrollNormalized * 0.2;
+
+            groupRef.current.position.x += (targetX - groupRef.current.position.x) * 0.05;
+            groupRef.current.position.y += (targetY - groupRef.current.position.y) * 0.05;
+
+            const currentScale = groupRef.current.scale.x;
+            const newScale = currentScale + (targetScale - currentScale) * 0.05;
+            groupRef.current.scale.set(newScale, newScale, newScale);
+
+            // Parallax camera slightly based on scroll
+            camera.position.y = -scrollY * 0.001;
+            camera.lookAt(0, 0, 0);
+        }
+    });
+
+    return (
+        <group ref={groupRef}>
+            <ProceduralEarth />
+            <Particles />
+        </group>
+    );
+}
+
 export function VidaScene() {
   return (
-    <div className="absolute inset-0 pointer-events-none z-0 opacity-50 transition-opacity duration-1000">
-      <Canvas camera={{ position: [0, 0, 8], fov: 45 }}>
-        <ambientLight intensity={0.2} />
-        <directionalLight position={[5, 5, 5]} intensity={1} color="#ffffff" />
-        <pointLight position={[-5, -5, -5]} intensity={0.5} color="#10b981" />
+    <div className="fixed inset-0 pointer-events-none z-0">
+      <Canvas camera={{ position: [0, 0, 7], fov: 45 }}>
+        <ambientLight intensity={0.5} />
+        <directionalLight position={[5, 5, 5]} intensity={1.5} color="#ffffff" />
 
-        <Stars radius={100} depth={50} count={3000} factor={4} saturation={0} fade speed={1} />
-        <GlowingCore />
-        <Particles />
-
-        <Environment preset="night" />
+        <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
+        <SceneController />
 
         <EffectComposer>
           <Bloom
-            luminanceThreshold={0.2}
+            luminanceThreshold={0.15}
             luminanceSmoothing={0.9}
-            intensity={1.5}
+            intensity={1.2}
             mipmapBlur
           />
         </EffectComposer>
