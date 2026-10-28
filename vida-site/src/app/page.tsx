@@ -15,12 +15,10 @@ export default function VidaPage() {
   return (
     <div className="relative w-full min-h-screen bg-brand-black text-white font-sans selection:bg-eco-green-light selection:text-brand-black overflow-x-hidden">
       {/* Introduction Video Layer */}
-      <div className={`transition-opacity duration-1000 ${introComplete ? 'opacity-0 pointer-events-none' : 'opacity-100 z-50'}`}>
-        <VidaIntroVideo onComplete={() => setIntroComplete(true)} />
-      </div>
+      {!introComplete && <VidaIntroVideo onComplete={() => setIntroComplete(true)} />}
 
-      {/* 3D Global Environment (Renders continuously but stays behind content) */}
-      <VidaScene />
+      {/* 3D Global Environment */}
+      {introComplete && <VidaScene />}
 
       {/* Cinematic Content Layer */}
       <AnimatePresence>
