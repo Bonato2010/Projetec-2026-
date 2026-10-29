@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useEffect, useMemo, useState } from 'react';
+import React, { useRef, useMemo, useState, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Sphere, Stars } from '@react-three/drei';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
@@ -137,6 +137,7 @@ const earthFragmentShader = `
   varying vec3 vNormal;
   varying vec3 vPosition;
   uniform float uTime;
+  uniform vec3 uMouse;
 
   void main() {
     // Generate continents via noise
@@ -173,9 +174,10 @@ const earthFragmentShader = `
     // Add city lights emission
     color += cityLightColor * cityLights * 2.0;
 
-    // Atmospheric scattering (Fresnel effect)
+    // Atmospheric scattering (Fresnel effect) - make it react to mouse
+    float mouseInfluence = smoothstep(0.0, 3.0, distance(vPosition, uMouse));
     float intensity = pow(0.6 - dot(vNormal, vec3(0, 0, 1.0)), 2.0);
-    vec3 atmosphereColor = vec3(0.1, 0.4, 0.8) * intensity * 1.5;
+    vec3 atmosphereColor = vec3(0.1, 0.4, 0.8) * intensity * (1.5 + mouseInfluence * 0.5);
 
     // Diffuse lighting from directional light (fake light from top-right)
     vec3 lightDir = normalize(vec3(1.0, 1.0, 1.0));
@@ -197,7 +199,8 @@ function ProceduralEarth() {
   const materialRef = useRef<THREE.ShaderMaterial>(null);
 
   const uniforms = useMemo(() => ({
-    uTime: { value: 0 }
+    uTime: { value: 0 },
+    uMouse: { value: new THREE.Vector3(0, 0, 0) }
   }), []);
 
   useFrame((state) => {
@@ -206,6 +209,14 @@ function ProceduralEarth() {
     }
     if (materialRef.current) {
       materialRef.current.uniforms.uTime.value = state.clock.elapsedTime;
+
+      const vector = new THREE.Vector3(state.pointer.x, state.pointer.y, 0.5);
+      vector.unproject(state.camera);
+      const dir = vector.sub(state.camera.position).normalize();
+      const distance = -state.camera.position.z / dir.z;
+      const pos = state.camera.position.clone().add(dir.multiplyScalar(distance));
+
+      materialRef.current.uniforms.uMouse.value.lerp(pos, 0.05);
     }
   });
 
@@ -256,13 +267,17 @@ const particleVertexShader = `
     pos.y += snoise(noisePos + vec3(10.0)) * noiseAmp;
     pos.z += snoise(noisePos + vec3(20.0)) * noiseAmp;
 
-    // Mouse interaction (repulsion)
+    // Mouse interaction (repulsion/attraction network)
     float dist = distance(pos, uMouse);
-    float repulsionRadius = 2.0;
-    if(dist < repulsionRadius) {
+    float interactionRadius = 3.0;
+    if(dist < interactionRadius) {
        vec3 dir = normalize(pos - uMouse);
-       float force = (repulsionRadius - dist) / repulsionRadius;
-       pos += dir * force * 0.8;
+       // Push away slightly, but form a subtle ring/network around the mouse
+       float force = (interactionRadius - dist) / interactionRadius;
+       pos += dir * force * 1.2 * sin(uTime * 2.0 + dist * 5.0);
+
+       // Highlight color when interacting
+       vColor = mix(vColor, vec3(0.2, 1.0, 0.8), force * 0.8);
     }
 
     vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
@@ -278,8 +293,9 @@ const particleFragmentShader = `
 
   void main() {
     float distanceToCenter = distance(gl_PointCoord, vec2(0.5));
-    float alpha = 1.0 - smoothstep(0.1, 0.5, distanceToCenter);
-    gl_FragColor = vec4(vColor, alpha * 0.9);
+    // Softer glow for particles
+    float alpha = 1.0 - smoothstep(0.0, 0.5, distanceToCenter);
+    gl_FragColor = vec4(vColor, alpha * 0.8);
   }
 `;
 
@@ -287,7 +303,7 @@ function Particles() {
   const pointsRef = useRef<THREE.Points>(null);
   const materialRef = useRef<THREE.ShaderMaterial>(null);
 
-  const particlesCount = 3000;
+  const particlesCount = 4000;
 
   const [{ positions, colors, sizes }] = useState(() => {
     const pos = new Float32Array(particlesCount * 3);
@@ -300,20 +316,22 @@ function Particles() {
 
     for(let i = 0; i < particlesCount; i++) {
       // Distribute particles in a shell around the Earth (radius > 2.0)
-      const radius = 2.2 + Math.pow(Math.random(), 2) * 2.0; // denser near earth
+      // Make distribution more ring-like to simulate orbital networks
+      const radius = 2.2 + Math.pow(Math.random(), 3) * 3.0;
       const theta = Math.acos(2 * Math.random() - 1);
       const phi = Math.random() * Math.PI * 2;
 
+      // Flatten the poles slightly to create an orbital belt
       pos[i*3] = radius * Math.sin(theta) * Math.cos(phi);
-      pos[i*3+1] = radius * Math.sin(theta) * Math.sin(phi);
+      pos[i*3+1] = radius * Math.sin(theta) * Math.sin(phi) * 0.5;
       pos[i*3+2] = radius * Math.cos(theta);
 
       const mixedColor = new THREE.Color();
       const rand = Math.random();
 
-      if (rand < 0.4) {
+      if (rand < 0.5) {
           mixedColor.copy(colorEmerald).lerp(colorCyan, Math.random());
-      } else if (rand < 0.8) {
+      } else if (rand < 0.9) {
           mixedColor.copy(colorGold).lerp(colorEmerald, Math.random() * 0.5);
       } else {
           mixedColor.copy(new THREE.Color(1, 1, 1)); // Bright nodes
@@ -323,7 +341,7 @@ function Particles() {
       col[i*3+1] = mixedColor.g;
       col[i*3+2] = mixedColor.b;
 
-      sz[i] = 1.0 + Math.random() * 3.0;
+      sz[i] = 1.0 + Math.random() * 4.0;
     }
 
     return { positions: pos, colors: col, sizes: sz };
@@ -353,7 +371,7 @@ function Particles() {
         const distance = -state.camera.position.z / dir.z;
         const pos = state.camera.position.clone().add(dir.multiplyScalar(distance));
 
-        materialRef.current.uniforms.uMouse.value.lerp(pos, 0.05);
+        materialRef.current.uniforms.uMouse.value.lerp(pos, 0.1); // Faster tracking for particles
     }
     if (pointsRef.current) {
         pointsRef.current.rotation.y = state.clock.elapsedTime * 0.05;
@@ -401,11 +419,25 @@ function Particles() {
 
 function SceneController() {
     const groupRef = useRef<THREE.Group>(null);
+    const pointer = useRef(new THREE.Vector2());
+    const targetPointer = useRef(new THREE.Vector2());
+
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            targetPointer.current.x = (e.clientX / window.innerWidth) * 2 - 1;
+            targetPointer.current.y = -(e.clientY / window.innerHeight) * 2 + 1;
+        };
+        window.addEventListener('mousemove', handleMouseMove);
+        return () => window.removeEventListener('mousemove', handleMouseMove);
+    }, []);
 
     useFrame(({ camera }) => {
+        // Smooth pointer tracking for camera parallax
+        pointer.current.lerp(targetPointer.current, 0.05);
+
         if (groupRef.current) {
             const scrollY = window.scrollY;
-            const scrollNormalized = Math.min(scrollY / (document.body.scrollHeight - window.innerHeight), 1.0);
+            const scrollNormalized = Math.min(scrollY / (document.body.scrollHeight - window.innerHeight || 1), 1.0);
 
             // As we scroll down, move the earth to the right and scale it down slightly
             const targetX = scrollNormalized * 3.5;
@@ -419,8 +451,13 @@ function SceneController() {
             const newScale = currentScale + (targetScale - currentScale) * 0.05;
             groupRef.current.scale.set(newScale, newScale, newScale);
 
-            // Parallax camera slightly based on scroll
-            camera.position.y = -scrollY * 0.001;
+            // Camera Parallax based on scroll and mouse
+            const targetCameraY = -scrollY * 0.001 + pointer.current.y * 0.5;
+            const targetCameraX = pointer.current.x * 0.5;
+
+            camera.position.y += (targetCameraY - camera.position.y) * 0.05;
+            camera.position.x += (targetCameraX - camera.position.x) * 0.05;
+
             camera.lookAt(0, 0, 0);
         }
     });
