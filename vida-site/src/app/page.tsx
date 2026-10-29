@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { VidaIntroVideo } from '@/components/ui/VidaIntroVideo';
 import { motion, AnimatePresence, useMotionTemplate, useMotionValue } from 'framer-motion';
 import dynamic from 'next/dynamic';
+import { Leaf, Droplets, Wind, Zap, Building2, Globe2 } from 'lucide-react';
 
 const VidaScene = dynamic(() => import('@/components/3d/VidaScene').then(mod => mod.VidaScene), {
    ssr: false,
@@ -42,6 +43,10 @@ function GlassCard({ children, className = "" }: { children: React.ReactNode, cl
       </motion.div>
     );
   }
+
+const DataChart = dynamic(() => import('@/components/ui/DataChart').then(mod => mod.DataChart), {
+  ssr: false,
+});
 
 export default function VidaPage() {
   const [introComplete, setIntroComplete] = useState(false);
@@ -101,126 +106,234 @@ export default function VidaPage() {
             </section>
 
             {/* EDITORIAL SCENES */}
-            <div className="w-full max-w-7xl mx-auto px-6 lg:px-12 py-32 space-y-[30vh]">
+            <div className="w-full max-w-7xl mx-auto px-6 lg:px-12 py-32 space-y-[20vh]">
 
-                {/* SCENE: A Interdependência */}
-                <section className="relative w-full flex flex-col lg:flex-row items-center lg:items-start justify-end gap-16 min-h-[60vh]">
-                    <motion.div
-                        initial={{ opacity: 0, x: 50 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true, margin: "-20%" }}
-                        transition={{ duration: 1.2, ease: "easeOut" }}
-                        className="w-full lg:w-1/2 max-w-2xl"
-                    >
-                        <GlassCard className="p-10 md:p-14">
-                            <div className="flex items-center gap-4 mb-6">
-                                <div className="h-[1px] w-8 bg-eco-blue-light/50" />
-                                <h3 className="text-xs uppercase tracking-[0.3em] text-eco-blue-light font-bold">01 &mdash; Conexão Global</h3>
-                            </div>
-                            <h2 className="text-3xl md:text-5xl font-thin tracking-wide text-white mb-8 leading-tight">A Interdependência</h2>
-                            <div className="space-y-6 text-white/70 font-light leading-relaxed tracking-wide text-base md:text-lg">
-                                <p>
-                                    A vida não existe isolada. Tudo está conectado. Água, energia, natureza, células, organismos, ambiente, cidades e saúde humana fazem parte de sistemas interdependentes.
-                                </p>
-                                <p>
-                                    O uso responsável dos recursos naturais e a preservação da biodiversidade são fundamentais para garantir a sustentabilidade. As decisões que tomamos sobre produção, consumo e infraestrutura urbana ecoam em todo o sistema. A transição para fontes de energia renováveis, como a solar e a eólica, é um passo essencial (Objetivos de Desenvolvimento Sustentável e Agenda 2030).
-                                </p>
-                            </div>
-                        </GlassCard>
-                    </motion.div>
-                </section>
-
-                {/* SCENE: Desafios Ambientais Urbanos */}
+                {/* SEÇÃO A: FUNDAMENTOS DA SUSTENTABILIDADE */}
                 <section className="relative w-full flex flex-col lg:flex-row items-center justify-start gap-16 min-h-[60vh]">
                     <motion.div
                         initial={{ opacity: 0, x: -50 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true, margin: "-20%" }}
                         transition={{ duration: 1.2, ease: "easeOut" }}
-                        className="w-full lg:w-[65%] max-w-3xl"
+                        className="w-full lg:w-[60%] max-w-3xl"
                     >
                         <GlassCard className="p-10 md:p-14 border-l-4 border-l-eco-green-light">
                             <div className="flex items-center gap-4 mb-6">
+                                <Globe2 className="w-5 h-5 text-eco-green-light" />
                                 <div className="h-[1px] w-8 bg-eco-green-light/50" />
-                                <h3 className="text-xs uppercase tracking-[0.3em] text-eco-green-light font-bold">02 &mdash; Impacto Local</h3>
+                                <h3 className="text-xs uppercase tracking-[0.3em] text-eco-green-light font-bold">Fundamentos</h3>
                             </div>
-                            <h2 className="text-4xl md:text-6xl font-thin tracking-wide text-white mb-10 leading-tight">Desafios <br/><span className="text-eco-green-light font-normal">Ambientais</span> Urbanos</h2>
+                            <h2 className="text-3xl md:text-5xl font-thin tracking-wide text-white mb-8 leading-tight">O Desenvolvimento Sustentável</h2>
+                            <div className="space-y-6 text-white/70 font-light leading-relaxed tracking-wide text-base md:text-lg">
+                                <p>
+                                    A sustentabilidade baseia-se no princípio de atender às necessidades do presente sem comprometer a capacidade das gerações futuras de suprir suas próprias necessidades (Relatório Brundtland, 1987).
+                                </p>
+                                <p>
+                                    Não se trata apenas de preservação ambiental, mas de um equilíbrio intrincado entre três dimensões: <strong>ambiental, social e econômica</strong>. A vida humana, o desenvolvimento das cidades e a conservação dos recursos naturais e da biodiversidade são partes de um sistema global interdependente, onde as ações locais geram impactos planetários.
+                                </p>
+                            </div>
+                        </GlassCard>
+                    </motion.div>
+                </section>
 
-                            <div className="grid md:grid-cols-2 gap-8 text-white/70 font-light leading-relaxed tracking-wide text-sm md:text-base">
-                                <div className="space-y-4">
-                                    <div className="flex items-center gap-3 text-white/90 border-b border-white/10 pb-2">
-                                        <div className="w-2 h-2 rounded-full bg-red-400" />
-                                        <span className="uppercase tracking-widest text-xs font-bold">Pressão Urbana</span>
-                                    </div>
-                                    <p>
-                                        Nas grandes cidades, a concentração populacional e as atividades industriais geram desafios complexos. Fenômenos como a poluição atmosférica, contaminação da água pelo lançamento de esgoto sem tratamento, e o acúmulo inadequado de resíduos afetam diretamente a qualidade de vida.
-                                    </p>
+                {/* SEÇÃO B & C: MUDANÇAS CLIMÁTICAS E BIODIVERSIDADE */}
+                <section className="relative w-full flex flex-col gap-12 min-h-[80vh]">
+                    <div className="grid lg:grid-cols-2 gap-8">
+                        <motion.div
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-10%" }}
+                            transition={{ duration: 1 }}
+                        >
+                            <GlassCard className="p-8 md:p-12 h-full flex flex-col">
+                                <div className="flex items-center gap-4 mb-6">
+                                    <Wind className="w-5 h-5 text-orange-400" />
+                                    <h3 className="text-xs uppercase tracking-[0.3em] text-orange-400 font-bold">Mudanças Climáticas</h3>
                                 </div>
-                                <div className="space-y-4">
-                                    <div className="flex items-center gap-3 text-white/90 border-b border-white/10 pb-2">
-                                        <div className="w-2 h-2 rounded-full bg-orange-400" />
-                                        <span className="uppercase tracking-widest text-xs font-bold">Clima e Ocupação</span>
+                                <h2 className="text-2xl md:text-4xl font-thin tracking-wide text-white mb-6">O Aquecimento Global</h2>
+                                <p className="text-white/70 font-light leading-relaxed mb-8 flex-grow">
+                                    A elevação acelerada das temperaturas globais é impulsionada pela emissão de gases de efeito estufa (GEE), majoritariamente provenientes da queima de combustíveis fósseis e do desmatamento. Mitigação (redução de emissões) e adaptação climática são urgentes, segundo o IPCC.
+                                </p>
+                                <div className="h-48 w-full bg-black/20 rounded-xl p-4 border border-white/5">
+                                    <p className="text-xs text-white/50 mb-2 font-mono uppercase">Anomalia de Temp. Global (°C) - Fonte: NASA</p>
+                                    <DataChart
+                                        type="area"
+                                        color="#fb923c"
+                                        dataKey="temp"
+                                        data={[
+                                            { year: '1980', temp: 0.27 },
+                                            { year: '1990', temp: 0.44 },
+                                            { year: '2000', temp: 0.42 },
+                                            { year: '2010', temp: 0.72 },
+                                            { year: '2020', temp: 1.02 },
+                                            { year: '2023', temp: 1.17 }
+                                        ]}
+                                    />
+                                </div>
+                            </GlassCard>
+                        </motion.div>
+
+                        <motion.div
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-10%" }}
+                            transition={{ duration: 1, delay: 0.2 }}
+                        >
+                            <GlassCard className="p-8 md:p-12 h-full flex flex-col">
+                                <div className="flex items-center gap-4 mb-6">
+                                    <Leaf className="w-5 h-5 text-eco-green-light" />
+                                    <h3 className="text-xs uppercase tracking-[0.3em] text-eco-green-light font-bold">Biodiversidade</h3>
+                                </div>
+                                <h2 className="text-2xl md:text-4xl font-thin tracking-wide text-white mb-6">Ecossistemas em Risco</h2>
+                                <p className="text-white/70 font-light leading-relaxed flex-grow">
+                                    A perda de habitats, impulsionada pelo desmatamento e ocupação irregular, ameaça serviços ecossistêmicos essenciais. A floresta não é apenas um santuário de espécies, mas uma infraestrutura natural que regula o clima, purifica o ar e mantém o ciclo das chuvas. A restauração ecológica é indispensável para a manutenção da vida.
+                                </p>
+                                <div className="mt-8 grid grid-cols-2 gap-4">
+                                    <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+                                        <span className="block text-2xl font-light text-eco-green-light mb-1">1 Milhão</span>
+                                        <span className="text-xs text-white/50 uppercase tracking-wider">Espécies em risco de extinção (IPBES)</span>
                                     </div>
-                                    <p>
-                                        A ocupação desordenada contribui para enchentes, alagamentos e a formação de ilhas de calor, problemas críticos em regiões como a Zona Oeste do Rio de Janeiro. Além disso, eventos como inversão térmica e chuva ácida demonstram como as alterações locais impactam o clima urbano e a saúde respiratória.
+                                    <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+                                        <span className="block text-2xl font-light text-eco-green-light mb-1">~30%</span>
+                                        <span className="text-xs text-white/50 uppercase tracking-wider">Da superfície terrestre é coberta por florestas (ONU)</span>
+                                    </div>
+                                </div>
+                            </GlassCard>
+                        </motion.div>
+                    </div>
+                </section>
+
+                {/* SEÇÃO D & E: ÁGUA E ECONOMIA CIRCULAR */}
+                <section className="relative w-full flex flex-col gap-12 lg:gap-24 min-h-[80vh]">
+                    <motion.div
+                        initial={{ opacity: 0, y: 50 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-20%" }}
+                        transition={{ duration: 1.2, ease: "easeOut" }}
+                        className="w-full"
+                    >
+                         <GlassCard className="p-8 md:p-14">
+                            <div className="grid lg:grid-cols-12 gap-12 items-center">
+                                <div className="lg:col-span-5">
+                                    <div className="flex items-center gap-4 mb-6">
+                                        <Droplets className="w-5 h-5 text-blue-400" />
+                                        <h3 className="text-xs uppercase tracking-[0.3em] text-blue-400 font-bold">Água & Saneamento</h3>
+                                    </div>
+                                    <h2 className="text-3xl md:text-5xl font-thin tracking-wide text-white mb-6">A Crise Hídrica Silenciosa</h2>
+                                    <div className="space-y-4 text-white/70 font-light leading-relaxed">
+                                        <p>
+                                            Embora a Terra seja coberta por água, menos de 1% está disponível para consumo humano. O ciclo hidrológico está sendo alterado pelas mudanças climáticas e pela poluição dos rios e oceanos.
+                                        </p>
+                                        <p>
+                                            O saneamento básico é a primeira linha de defesa da saúde pública. A contaminação por lançamento de esgoto sem tratamento afeta severamente os ecossistemas aquáticos e as populações urbanas periféricas (ANA - Agência Nacional de Águas).
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className="lg:col-span-7 bg-black/30 rounded-2xl p-6 md:p-8 border border-white/5">
+                                     <div className="flex items-center gap-4 mb-6">
+                                        <Zap className="w-5 h-5 text-lime-400" />
+                                        <h3 className="text-xs uppercase tracking-[0.3em] text-lime-400 font-bold">Economia Circular & Resíduos</h3>
+                                    </div>
+                                    <p className="text-white/80 font-light leading-relaxed mb-6">
+                                        A economia linear de &quot;extrair, produzir, descartar&quot; é insustentável. A <strong>Economia Circular</strong> propõe manter materiais em uso pelo maior tempo possível. A reciclagem e a compostagem são essenciais, mas o redesenho de produtos para evitar o desperdício é o verdadeiro avanço.
                                     </p>
+                                    <div className="flex flex-wrap gap-4 text-sm font-mono text-white/50">
+                                        <span className="px-3 py-1 rounded-full border border-white/10 bg-white/5">Reduzir</span>
+                                        <span className="px-3 py-1 rounded-full border border-white/10 bg-white/5">Reutilizar</span>
+                                        <span className="px-3 py-1 rounded-full border border-white/10 bg-white/5">Reciclar</span>
+                                        <span className="px-3 py-1 rounded-full border border-lime-400/30 text-lime-300 bg-lime-400/10">Repensar</span>
+                                    </div>
                                 </div>
                             </div>
                         </GlassCard>
                     </motion.div>
                 </section>
 
-                {/* SCENE: Economia Circular & Saúde Coletiva */}
+                {/* SEÇÃO F & G: CIDADES SUSTENTÁVEIS E ENERGIA */}
                 <section className="relative w-full flex flex-col gap-12 lg:gap-24 min-h-[80vh]">
-
-                    <motion.div
-                        initial={{ opacity: 0, y: 50 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "-20%" }}
-                        transition={{ duration: 1.2, ease: "easeOut" }}
-                        className="w-full max-w-4xl mx-auto"
-                    >
-                         <GlassCard className="p-10 md:p-14 text-center">
-                            <h3 className="text-xs uppercase tracking-[0.3em] text-eco-gold mb-4 font-bold">03 &mdash; O Ciclo da Matéria</h3>
-                            <h2 className="text-4xl md:text-5xl font-thin tracking-wide text-white mb-8">Economia Circular</h2>
-                            <div className="space-y-6 text-white/70 font-light leading-relaxed tracking-wide text-base md:text-lg max-w-3xl mx-auto text-left md:text-center">
-                                <p>
-                                    Enquanto a reciclagem transforma materiais descartados em matéria-prima para novos produtos, a economia circular vai além: procura manter produtos e materiais em uso por mais tempo.
+                    <div className="grid lg:grid-cols-12 gap-8">
+                        <motion.div
+                            initial={{ opacity: 0, x: -50 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true, margin: "-10%" }}
+                            transition={{ duration: 1 }}
+                            className="lg:col-span-8"
+                        >
+                            <GlassCard className="p-8 md:p-12 h-full border-l-4 border-l-indigo-400">
+                                <div className="flex items-center gap-4 mb-6">
+                                    <Building2 className="w-5 h-5 text-indigo-400" />
+                                    <h3 className="text-xs uppercase tracking-[0.3em] text-indigo-400 font-bold">Cidades Sustentáveis</h3>
+                                </div>
+                                <h2 className="text-3xl md:text-5xl font-thin tracking-wide text-white mb-6">O Desafio Urbano</h2>
+                                <p className="text-white/70 font-light leading-relaxed mb-8">
+                                    Mais da metade da população global vive em áreas urbanas. O planejamento inadequado resulta em ilhas de calor, problemas de mobilidade e aumento da poluição atmosférica, afetando diretamente a saúde pública. A infraestrutura verde e o transporte público eletrificado são caminhos vitais para mitigar esses impactos, especialmente em regiões periféricas.
                                 </p>
-                                <p>
-                                    A aplicação da Política Nacional de Resíduos Sólidos e da Estratégia Nacional de Economia Circular incentiva a redução, reutilização, reparo e reaproveitamento. A coleta seletiva é o primeiro passo essencial para facilitar o encaminhamento de plásticos, papel, vidro, metal e resíduos eletrônicos. Práticas como a compostagem completam o ciclo para resíduos orgânicos. Os benefícios incluem a redução da poluição, a preservação de recursos naturais e a geração de novas frentes de trabalho.
+                            </GlassCard>
+                        </motion.div>
+
+                        <motion.div
+                            initial={{ opacity: 0, x: 50 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true, margin: "-10%" }}
+                            transition={{ duration: 1, delay: 0.2 }}
+                            className="lg:col-span-4"
+                        >
+                            <GlassCard className="p-8 h-full flex flex-col justify-center text-center">
+                                <div className="flex justify-center mb-4">
+                                    <Zap className="w-8 h-8 text-yellow-400" />
+                                </div>
+                                <h3 className="text-xl font-light tracking-wider text-white mb-4">Transição Energética</h3>
+                                <p className="text-sm text-white/60 font-light leading-relaxed">
+                                    A substituição de combustíveis fósseis por fontes renováveis (solar, eólica, biomassa) é crucial. No entanto, é importante reconhecer que nenhuma fonte de energia é totalmente isenta de impactos ambientais. O desafio é maximizar a eficiência e minimizar a pegada ecológica.
                                 </p>
-                            </div>
-                        </GlassCard>
-                    </motion.div>
+                            </GlassCard>
+                        </motion.div>
+                    </div>
+                </section>
 
-                    <motion.div
-                        initial={{ opacity: 0, y: 50 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "-20%" }}
-                        transition={{ duration: 1.2, delay: 0.2, ease: "easeOut" }}
-                        className="w-full max-w-5xl mx-auto"
-                    >
-                        <GlassCard className="p-10 md:p-16 relative overflow-hidden">
-                            <div className="absolute top-0 right-0 w-96 h-96 bg-eco-cyan/5 blur-[120px] rounded-full pointer-events-none" />
-
-                            <div className="flex items-center gap-4 mb-6">
-                                <div className="h-[1px] w-8 bg-white/50" />
-                                <h3 className="text-xs uppercase tracking-[0.3em] text-white/50 font-bold">04 &mdash; O Fator Humano</h3>
-                            </div>
-
-                            <h2 className="text-3xl md:text-5xl font-thin tracking-wide text-white mb-10 border-l-2 border-white pl-6">Meio Ambiente e <br/>Saúde Coletiva</h2>
-
-                            <div className="grid lg:grid-cols-2 gap-12 text-white/80 font-light leading-relaxed tracking-wide text-base md:text-lg relative z-10">
-                                <p>
-                                    A saúde humana está intrinsecamente ligada à qualidade do ar que respiramos e da água que consumimos. A exposição contínua à poluição atmosférica está associada a riscos severos, enquanto a disponibilidade de água potável, saneamento e higiene são pilares da prevenção.
+                {/* SEÇÃO H, I, J, K: ODS, INDICADORES, CONSUMO E SOLUÇÕES */}
+                <section className="relative w-full flex flex-col gap-12 lg:gap-24 min-h-[80vh]">
+                    <div className="grid lg:grid-cols-2 gap-8">
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true, margin: "-10%" }}
+                            transition={{ duration: 1 }}
+                        >
+                            <GlassCard className="p-8 h-full bg-gradient-to-b from-white/[0.05] to-transparent">
+                                <h3 className="text-xs uppercase tracking-[0.3em] text-white/50 font-bold mb-6">Agenda 2030 (ONU)</h3>
+                                <h2 className="text-2xl md:text-4xl font-thin tracking-wide text-white mb-6">Objetivos de Desenv. Sustentável</h2>
+                                <p className="text-white/70 font-light leading-relaxed mb-8">
+                                    Os 17 ODS são um apelo global à ação para acabar com a pobreza, proteger o meio ambiente e o clima e garantir que as pessoas, em todos os lugares, possam desfrutar de paz e de prosperidade.
                                 </p>
-                                <p>
-                                    Eventos climáticos extremos — ondas de calor intensas, secas prolongadas e enchentes — amplificam as vulnerabilidades sociais. O planejamento urbano estratégico, com a ampliação de áreas verdes, é vital para mitigar esses impactos e promover ambientes mais saudáveis. Sustentabilidade não é apenas preservação, é prevenção em saúde coletiva.
+                                <div className="flex flex-wrap gap-3">
+                                    <span className="px-3 py-1.5 border border-red-500/30 text-red-400 text-xs tracking-wider rounded-md bg-red-500/10">ODS 1: Erradicação da Pobreza</span>
+                                    <span className="px-3 py-1.5 border border-blue-400/30 text-blue-300 text-xs tracking-wider rounded-md bg-blue-400/10">ODS 6: Água e Saneamento</span>
+                                    <span className="px-3 py-1.5 border border-yellow-500/30 text-yellow-400 text-xs tracking-wider rounded-md bg-yellow-500/10">ODS 7: Energia Limpa</span>
+                                    <span className="px-3 py-1.5 border border-orange-500/30 text-orange-400 text-xs tracking-wider rounded-md bg-orange-500/10">ODS 11: Cidades Sustentáveis</span>
+                                    <span className="px-3 py-1.5 border border-green-500/30 text-green-400 text-xs tracking-wider rounded-md bg-green-500/10">ODS 13: Ação Contra a Mudança Global</span>
+                                </div>
+                            </GlassCard>
+                        </motion.div>
+
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true, margin: "-10%" }}
+                            transition={{ duration: 1, delay: 0.2 }}
+                        >
+                            <GlassCard className="p-8 h-full bg-gradient-to-b from-white/[0.05] to-transparent">
+                                <h3 className="text-xs uppercase tracking-[0.3em] text-white/50 font-bold mb-6">Inovação e Ação</h3>
+                                <h2 className="text-2xl md:text-4xl font-thin tracking-wide text-white mb-6">Consumo & Soluções</h2>
+                                <p className="text-white/70 font-light leading-relaxed mb-6">
+                                    O consumo consciente relaciona escolhas individuais às responsabilidades das infraestruturas corporativas. A inovação desempenha papel vital no monitoramento ambiental por sensores IoT, no mapeamento via satélite (INPE) e em tecnologias de restauração ecológica e infraestrutura verde para prevenção de desastres.
                                 </p>
-                            </div>
-                        </GlassCard>
-                    </motion.div>
+                                <div className="p-4 border-l-2 border-eco-green-light bg-eco-green-light/5 text-sm text-white/80 font-light">
+                                    &quot;A tecnologia nos dá os dados e os sensores nos mostram a realidade, mas a mudança estrutural só ocorre quando aliamos ciência a políticas públicas efetivas.&quot;
+                                </div>
+                            </GlassCard>
+                        </motion.div>
+                    </div>
                 </section>
 
                 {/* SCENE: Equipe Oficial */}

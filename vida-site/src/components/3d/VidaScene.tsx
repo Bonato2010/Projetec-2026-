@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useRef, useMemo, useState, useEffect } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { Sphere, Stars } from '@react-three/drei';
+import { Canvas, useFrame, useLoader } from '@react-three/fiber';
+import { Sphere, Stars, useTexture } from '@react-three/drei';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import * as THREE from 'three';
 
@@ -110,136 +110,120 @@ float snoise(vec3 v)
 `;
 
 const earthVertexShader = `
-  ${noise3D}
-
   varying vec2 vUv;
   varying vec3 vNormal;
   varying vec3 vPosition;
-  uniform float uTime;
 
   void main() {
     vUv = uv;
     vNormal = normalize(normalMatrix * normal);
     vPosition = position;
-
-    // Slight procedural deformation for mountains/terrain
-    float noiseVal = snoise(position * 2.0 + uTime * 0.05);
-    vec3 newPos = position + normal * noiseVal * 0.02;
-
-    gl_Position = projectionMatrix * modelViewMatrix * vec4(newPos, 1.0);
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
   }
 `;
 
 const earthFragmentShader = `
-  ${noise3D}
-
   varying vec2 vUv;
   varying vec3 vNormal;
   varying vec3 vPosition;
+
+  uniform sampler2D tColor;
+  uniform sampler2D tNormal;
+  uniform sampler2D tSpecular;
+  uniform sampler2D tNight;
+  uniform sampler2D tClouds;
   uniform float uTime;
-  uniform vec3 uMouse;
+  uniform vec3 uSunPosition;
 
   void main() {
-    // Generate continents via noise
-    float n1 = snoise(vPosition * 1.5);
-    float n2 = snoise(vPosition * 4.0 + uTime * 0.02);
-    float elevation = n1 * 0.5 + n2 * 0.25;
+    // Base textures
+    vec3 colorMap = texture2D(tColor, vUv).rgb;
+    vec3 normalMap = texture2D(tNormal, vUv).rgb * 2.0 - 1.0; // rudimentary normal un-packing
+    float specMap = texture2D(tSpecular, vUv).r;
+    vec3 nightMap = texture2D(tNight, vUv).rgb;
 
-    vec3 oceanColor = vec3(0.02, 0.05, 0.15); // Deep dark blue ocean
-    vec3 shallowColor = vec3(0.0, 0.2, 0.3); // Shallow water
-    vec3 landColor = vec3(0.05, 0.25, 0.15); // Dark green land
-    vec3 mountainColor = vec3(0.2, 0.3, 0.25); // Greyish green mountains
-    vec3 cityLightColor = vec3(1.0, 0.8, 0.4); // Golden city lights
+    // Animate clouds slightly
+    vec2 cloudUv = vec2(vUv.x + uTime * 0.005, vUv.y);
+    vec4 cloudMap = texture2D(tClouds, cloudUv);
 
-    vec3 color = oceanColor;
-    float cityLights = 0.0;
+    // Lighting
+    vec3 viewDirection = normalize(-vPosition);
+    vec3 sunDir = normalize(uSunPosition);
 
-    if (elevation > 0.1) {
-      // Land
-      color = mix(landColor, mountainColor, smoothstep(0.1, 0.5, elevation));
+    // Standard N dot L with slight wrap
+    float diff = max(dot(vNormal, sunDir), 0.0);
 
-      // Add city lights on land edges (coasts)
-      float coastDist = abs(elevation - 0.1);
-      if (coastDist < 0.05) {
-         float cityNoise = snoise(vPosition * 20.0);
-         if (cityNoise > 0.6) {
-             cityLights = smoothstep(0.6, 1.0, cityNoise) * (1.0 - coastDist*20.0);
-         }
-      }
-    } else {
-      // Water
-      color = mix(oceanColor, shallowColor, smoothstep(-0.2, 0.1, elevation));
-    }
+    // Day color
+    vec3 dayColor = colorMap * diff;
 
-    // Add city lights emission
-    color += cityLightColor * cityLights * 2.0;
+    // Specular (Ocean reflection)
+    vec3 reflection = reflect(-sunDir, vNormal);
+    float spec = pow(max(dot(viewDirection, reflection), 0.0), 32.0) * specMap;
+    dayColor += vec3(spec);
 
-    // Atmospheric scattering (Fresnel effect) - make it react to mouse
-    float mouseInfluence = smoothstep(0.0, 3.0, distance(vPosition, uMouse));
-    float intensity = pow(0.6 - dot(vNormal, vec3(0, 0, 1.0)), 2.0);
-    vec3 atmosphereColor = vec3(0.1, 0.4, 0.8) * intensity * (1.5 + mouseInfluence * 0.5);
+    // Night color
+    float nightMix = smoothstep(0.1, -0.1, dot(vNormal, sunDir));
+    vec3 nightColor = nightMap * nightMix;
 
-    // Diffuse lighting from directional light (fake light from top-right)
-    vec3 lightDir = normalize(vec3(1.0, 1.0, 1.0));
-    float diff = max(dot(vNormal, lightDir), 0.0);
+    // Combine day and night
+    vec3 finalColor = dayColor + nightColor;
 
-    // Shadow side needs less city lights if not dark, but let's make cities glow in the dark
-    float dayNight = smoothstep(-0.2, 0.2, diff);
-    color += cityLightColor * cityLights * (1.0 - dayNight) * 3.0; // Brighter on night side
+    // Add Clouds
+    float cloudShadow = max(0.0, diff - 0.2); // Clouds are darker on the night side
+    vec3 clouds = cloudMap.rgb * cloudMap.a * (cloudShadow + 0.1);
+    finalColor = mix(finalColor, clouds, cloudMap.a * 0.8);
 
-    color = color * (diff * 0.8 + 0.2); // ambient + diffuse
-    color += atmosphereColor;
+    // Atmosphere (Fresnel)
+    float fresnel = pow(1.0 - max(dot(vNormal, viewDirection), 0.0), 3.0);
+    vec3 atmosphereColor = vec3(0.3, 0.6, 1.0) * fresnel * diff; // Atmosphere only lit by sun
+    finalColor += atmosphereColor;
 
-    gl_FragColor = vec4(color, 1.0);
+    gl_FragColor = vec4(finalColor, 1.0);
   }
 `;
 
-function ProceduralEarth() {
-  const meshRef = useRef<THREE.Mesh>(null);
+function RealisticEarth() {
+  const groupRef = useRef<THREE.Group>(null);
   const materialRef = useRef<THREE.ShaderMaterial>(null);
 
+  const [colorMap, normalMap, specMap, cloudsMap, nightMap] = useTexture([
+    '/textures/earth_color.jpg',
+    '/textures/earth_normal.jpg',
+    '/textures/earth_specular.jpg',
+    '/textures/earth_clouds.png',
+    '/textures/earth_night.jpg'
+  ]);
+
   const uniforms = useMemo(() => ({
+    tColor: { value: colorMap },
+    tNormal: { value: normalMap },
+    tSpecular: { value: specMap },
+    tClouds: { value: cloudsMap },
+    tNight: { value: nightMap },
     uTime: { value: 0 },
-    uMouse: { value: new THREE.Vector3(0, 0, 0) }
-  }), []);
-
-  const [pointer] = useState(() => new THREE.Vector2());
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-        pointer.x = (e.clientX / window.innerWidth) * 2 - 1;
-        pointer.y = -(e.clientY / window.innerHeight) * 2 + 1;
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [pointer]);
+    uSunPosition: { value: new THREE.Vector3(5, 3, 5) }
+  }), [colorMap, normalMap, specMap, cloudsMap, nightMap]);
 
   useFrame((state) => {
-    if (meshRef.current) {
-      meshRef.current.rotation.y = state.clock.elapsedTime * 0.05;
+    if (groupRef.current) {
+      groupRef.current.rotation.y = state.clock.elapsedTime * 0.05;
     }
     if (materialRef.current) {
       materialRef.current.uniforms.uTime.value = state.clock.elapsedTime;
-
-      const vector = new THREE.Vector3(pointer.x, pointer.y, 0.5);
-      vector.unproject(state.camera);
-      const dir = vector.sub(state.camera.position).normalize();
-      const distance = -state.camera.position.z / dir.z;
-      const pos = state.camera.position.clone().add(dir.multiplyScalar(distance));
-
-      materialRef.current.uniforms.uMouse.value.lerp(pos, 0.05);
     }
   });
 
   return (
-    <Sphere args={[2, 64, 64]} ref={meshRef}>
-      <shaderMaterial
-        ref={materialRef}
-        vertexShader={earthVertexShader}
-        fragmentShader={earthFragmentShader}
-        uniforms={uniforms}
-      />
-    </Sphere>
+    <group ref={groupRef}>
+        <Sphere args={[2, 64, 64]}>
+            <shaderMaterial
+                ref={materialRef}
+                vertexShader={earthVertexShader}
+                fragmentShader={earthFragmentShader}
+                uniforms={uniforms}
+            />
+        </Sphere>
+    </group>
   );
 }
 
@@ -520,8 +504,7 @@ function SceneController() {
 
     return (
         <group ref={groupRef}>
-            <ProceduralEarth />
-            <Particles />
+            <RealisticEarth />
         </group>
     );
 }
