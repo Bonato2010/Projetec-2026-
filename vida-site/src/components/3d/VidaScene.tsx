@@ -203,6 +203,17 @@ function ProceduralEarth() {
     uMouse: { value: new THREE.Vector3(0, 0, 0) }
   }), []);
 
+  const [pointer] = useState(() => new THREE.Vector2());
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+        pointer.x = (e.clientX / window.innerWidth) * 2 - 1;
+        pointer.y = -(e.clientY / window.innerHeight) * 2 + 1;
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, [pointer]);
+
   useFrame((state) => {
     if (meshRef.current) {
       meshRef.current.rotation.y = state.clock.elapsedTime * 0.05;
@@ -210,7 +221,7 @@ function ProceduralEarth() {
     if (materialRef.current) {
       materialRef.current.uniforms.uTime.value = state.clock.elapsedTime;
 
-      const vector = new THREE.Vector3(state.pointer.x, state.pointer.y, 0.5);
+      const vector = new THREE.Vector3(pointer.x, pointer.y, 0.5);
       vector.unproject(state.camera);
       const dir = vector.sub(state.camera.position).normalize();
       const distance = -state.camera.position.z / dir.z;
@@ -354,18 +365,36 @@ function Particles() {
   }), []);
 
   useEffect(() => {
+    const container = document.getElementById('vida-content-scroll');
     const handleScroll = () => {
-      uniforms.uScroll.value = window.scrollY;
+      uniforms.uScroll.value = container ? container.scrollTop : window.scrollY;
     };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    if (container) {
+      container.addEventListener('scroll', handleScroll, { passive: true });
+      return () => container.removeEventListener('scroll', handleScroll);
+    } else {
+      window.addEventListener('scroll', handleScroll, { passive: true });
+      return () => window.removeEventListener('scroll', handleScroll);
+    }
   }, [uniforms]);
+
+  const [pointer] = useState(() => new THREE.Vector2());
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+        pointer.x = (e.clientX / window.innerWidth) * 2 - 1;
+        pointer.y = -(e.clientY / window.innerHeight) * 2 + 1;
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, [pointer]);
 
   useFrame((state) => {
     if (materialRef.current) {
         materialRef.current.uniforms.uTime.value = state.clock.elapsedTime;
 
-        const vector = new THREE.Vector3(state.pointer.x, state.pointer.y, 0.5);
+        const vector = new THREE.Vector3(pointer.x, pointer.y, 0.5);
         vector.unproject(state.camera);
         const dir = vector.sub(state.camera.position).normalize();
         const distance = -state.camera.position.z / dir.z;
@@ -422,6 +451,29 @@ function SceneController() {
     const pointer = useRef(new THREE.Vector2());
     const targetPointer = useRef(new THREE.Vector2());
 
+    const [scrollState, setScrollState] = useState(0);
+    const scrollContainerRef = useRef<HTMLElement | null>(null);
+
+    useEffect(() => {
+        // Find the scrollable container we created in page.tsx
+        const container = document.getElementById('vida-content-scroll');
+        if (container) {
+            scrollContainerRef.current = container;
+            const handleScroll = () => {
+                setScrollState(container.scrollTop);
+            };
+            container.addEventListener('scroll', handleScroll, { passive: true });
+            return () => container.removeEventListener('scroll', handleScroll);
+        } else {
+            // Fallback for window scroll
+            const handleScroll = () => {
+                setScrollState(window.scrollY);
+            };
+            window.addEventListener('scroll', handleScroll, { passive: true });
+            return () => window.removeEventListener('scroll', handleScroll);
+        }
+    }, []);
+
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
             targetPointer.current.x = (e.clientX / window.innerWidth) * 2 - 1;
@@ -436,8 +488,12 @@ function SceneController() {
         pointer.current.lerp(targetPointer.current, 0.05);
 
         if (groupRef.current) {
-            const scrollY = window.scrollY;
-            const scrollNormalized = Math.min(scrollY / (document.body.scrollHeight - window.innerHeight || 1), 1.0);
+            const scrollY = scrollState;
+            const maxScroll = scrollContainerRef.current
+                ? scrollContainerRef.current.scrollHeight - scrollContainerRef.current.clientHeight
+                : document.body.scrollHeight - window.innerHeight;
+
+            const scrollNormalized = Math.min(scrollY / (maxScroll || 1), 1.0);
 
             // As we scroll down, move the earth to the right and scale it down slightly
             const targetX = scrollNormalized * 3.5;

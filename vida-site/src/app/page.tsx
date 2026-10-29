@@ -58,6 +58,7 @@ export default function VidaPage() {
       <AnimatePresence>
         {introComplete && (
           <motion.div
+            id="vida-content-scroll"
             key="vida-content"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -222,13 +223,69 @@ export default function VidaPage() {
                     </motion.div>
                 </section>
 
+                {/* SCENE: Equipe Oficial */}
+                <section className="relative w-full min-h-[60vh] flex flex-col items-center justify-center">
+                    <motion.div
+                        initial={{ opacity: 0, y: 50 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-20%" }}
+                        transition={{ duration: 1.2, ease: "easeOut" }}
+                        className="w-full max-w-5xl mx-auto"
+                    >
+                        <div className="flex flex-col items-center text-center mb-16">
+                            <div className="flex items-center gap-4 mb-4">
+                                <div className="h-[1px] w-12 bg-white/30" />
+                                <h3 className="text-xs uppercase tracking-[0.4em] text-white/50 font-bold">Equipe Oficial</h3>
+                                <div className="h-[1px] w-12 bg-white/30" />
+                            </div>
+                            <h2 className="text-4xl md:text-5xl font-thin tracking-widest text-white">Projeto V.I.D.A.</h2>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 relative">
+                            {/* Aluno Coordenador Destaque */}
+                            <div className="md:col-span-12 flex justify-center mb-8">
+                                <GlassCard className="p-8 md:p-12 border border-lime-500/40 relative overflow-hidden group w-full max-w-3xl">
+                                    <div className="absolute inset-0 bg-gradient-to-br from-lime-500/10 to-transparent pointer-events-none" />
+                                    <div className="absolute top-0 right-0 w-64 h-64 bg-lime-400/20 blur-[80px] rounded-full pointer-events-none group-hover:bg-lime-400/30 transition-all duration-700" />
+
+                                    <div className="relative z-10 flex flex-col items-center text-center">
+                                        <div className="inline-block px-4 py-1 rounded-full border border-lime-400 bg-lime-500/20 mb-6">
+                                            <span className="text-xs md:text-sm font-bold tracking-[0.3em] text-lime-400 drop-shadow-[0_0_8px_rgba(163,230,53,0.8)]">ALUNO COORDENADOR</span>
+                                        </div>
+                                        <h3 className="text-4xl md:text-6xl font-light tracking-wide text-lime-300 drop-shadow-[0_0_12px_rgba(163,230,53,0.5)]">
+                                            Daniel de Mello Bonato
+                                        </h3>
+                                    </div>
+                                </GlassCard>
+                            </div>
+
+                            {/* Demais Integrantes */}
+                            <div className="md:col-span-12 grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+                                {[
+                                    "Maria Eduarda Leite Domingues",
+                                    "João Pedro Roldão",
+                                    "Isaac Alisson",
+                                    "Ana Clara Nascimento",
+                                    "Lucas Cordeiro",
+                                    "Jean Vargas Nogueira",
+                                    "Hiasmin Vitória"
+                                ].map((name, idx) => (
+                                    <GlassCard key={idx} className="p-6 flex items-center justify-center text-center min-h-[120px] bg-white/[0.02] border-white/5 hover:border-white/20 hover:bg-white/[0.04]">
+                                        <h4 className="text-sm md:text-base font-light tracking-wider text-white/80">{name}</h4>
+                                    </GlassCard>
+                                ))}
+                            </div>
+                        </div>
+                    </motion.div>
+                </section>
+
                 {/* SCENE: Referências */}
                  <motion.div
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
                     transition={{ duration: 1 }}
-                    className="w-full max-w-3xl mx-auto pt-20"
+                    className="w-full max-w-3xl mx-auto pt-40"
                 >
                     <GlassCard className="p-8 border-none bg-white/[0.02]">
                         <h3 className="text-sm uppercase tracking-[0.2em] text-white/40 mb-8 font-light text-center">Referências e Fontes Institucionais</h3>

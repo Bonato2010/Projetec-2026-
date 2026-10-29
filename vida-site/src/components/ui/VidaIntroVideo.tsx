@@ -33,8 +33,8 @@ export function VidaIntroVideo({ onComplete }: { onComplete: () => void }) {
       // First try playing with audio
       videoRef.current.muted = false;
       await videoRef.current.play();
-    } catch (err: any) {
-      if (err.name === 'NotAllowedError') {
+    } catch (err: unknown) {
+      if (err instanceof Error && err.name === 'NotAllowedError') {
         // Fallback to muted autoplay
         console.log("Unmuted autoplay blocked, falling back to muted.");
         if (videoRef.current) {
