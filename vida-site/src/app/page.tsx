@@ -5,14 +5,21 @@ import { VidaIntroVideo } from '@/components/ui/VidaIntroVideo';
 import { motion, AnimatePresence, useMotionTemplate, useMotionValue } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import { Leaf, Droplets, Wind, Zap, Building2, Globe2 } from 'lucide-react';
+import { createContext, useContext } from 'react';
 
 const VidaScene = dynamic(() => import('@/components/3d/VidaScene').then(mod => mod.VidaScene), {
    ssr: false,
 });
 
-function GlassCard({ children, className = "" }: { children: React.ReactNode, className?: string }) {
+const HoverContext = createContext<{ activeCard: string | null, setActiveCard: (id: string | null) => void }>({
+    activeCard: null,
+    setActiveCard: () => {}
+});
+
+function GlassCard({ children, id, className = "" }: { children: React.ReactNode, id: string, className?: string }) {
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
+    const { activeCard, setActiveCard } = useContext(HoverContext);
 
     function handleMouseMove({ currentTarget, clientX, clientY }: React.MouseEvent) {
       const { left, top } = currentTarget.getBoundingClientRect();
@@ -20,20 +27,33 @@ function GlassCard({ children, className = "" }: { children: React.ReactNode, cl
       mouseY.set(clientY - top);
     }
 
+    const isActive = activeCard === id;
+    const isOtherActive = activeCard !== null && activeCard !== id;
+
     return (
       <motion.div
-        className={`group relative overflow-hidden rounded-3xl border border-white/10 bg-black/40 backdrop-blur-xl ${className}`}
+        className={`group relative overflow-hidden rounded-3xl border transition-all duration-500 ease-out backdrop-blur-xl
+            ${isActive ? 'border-white/40 bg-black/60 shadow-[0_0_40px_rgba(255,255,255,0.1)] z-50' :
+              isOtherActive ? 'border-white/5 bg-black/20 blur-[2px] opacity-40 scale-95 z-10' :
+              'border-white/10 bg-black/40 z-20 hover:border-white/30'}
+            ${className}`}
         onMouseMove={handleMouseMove}
-        whileHover={{ scale: 1.01, rotateX: 1, rotateY: -1, zIndex: 10 }}
-        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+        onMouseEnter={() => setActiveCard(id)}
+        onMouseLeave={() => setActiveCard(null)}
+        animate={{
+            scale: isActive ? 1.05 : isOtherActive ? 0.95 : 1,
+            rotateX: isActive ? 2 : 0,
+            rotateY: isActive ? -2 : 0
+        }}
+        transition={{ type: "spring", stiffness: 400, damping: 30 }}
       >
         <motion.div
           className="pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition duration-300 group-hover:opacity-100"
           style={{
             background: useMotionTemplate`
               radial-gradient(
-                650px circle at ${mouseX}px ${mouseY}px,
-                rgba(16, 185, 129, 0.15),
+                800px circle at ${mouseX}px ${mouseY}px,
+                rgba(255, 255, 255, 0.1),
                 transparent 80%
               )
             `,
@@ -42,7 +62,7 @@ function GlassCard({ children, className = "" }: { children: React.ReactNode, cl
         <div className="relative z-10">{children}</div>
       </motion.div>
     );
-  }
+}
 
 const DataChart = dynamic(() => import('@/components/ui/DataChart').then(mod => mod.DataChart), {
   ssr: false,
@@ -50,9 +70,12 @@ const DataChart = dynamic(() => import('@/components/ui/DataChart').then(mod => 
 
 export default function VidaPage() {
   const [introComplete, setIntroComplete] = useState(false);
+  const [activeCard, setActiveCard] = useState<string | null>(null);
 
   return (
+    <HoverContext.Provider value={{ activeCard, setActiveCard }}>
     <div className="relative w-full min-h-screen bg-brand-black text-white font-sans selection:bg-eco-green-light selection:text-brand-black overflow-x-hidden">
+
       {/* Introduction Video Layer */}
       {!introComplete && <VidaIntroVideo onComplete={() => setIntroComplete(true)} />}
 
@@ -70,6 +93,19 @@ export default function VidaPage() {
             transition={{ duration: 2, ease: "easeInOut" }}
             className="absolute inset-0 z-10 pointer-events-auto overflow-y-auto overflow-x-hidden"
           >
+            {/* Global Blur Overlay scoped to scroll container */}
+            <AnimatePresence>
+                {activeCard && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.4 }}
+                        className="fixed inset-0 z-40 bg-black/40 backdrop-blur-md pointer-events-none"
+                    />
+                )}
+            </AnimatePresence>
+
             {/* HERO SCENE */}
             <section className="relative w-full min-h-[100svh] flex flex-col items-center justify-center text-center px-6">
                <motion.div
@@ -115,22 +151,22 @@ export default function VidaPage() {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true, margin: "-20%" }}
                         transition={{ duration: 1.2, ease: "easeOut" }}
-                        className="w-full lg:w-[60%] max-w-3xl"
+                        className={`w-full lg:w-[60%] max-w-3xl transition-all duration-300 ${activeCard === 'card-fundamentos' ? 'z-50 relative' : 'z-0'}`}
                     >
-                        <GlassCard className="p-10 md:p-14 border-l-4 border-l-eco-green-light">
+                        <GlassCard id="card-fundamentos" className="p-10 md:p-14 border-l-4 border-l-eco-green-light">
                             <div className="flex items-center gap-4 mb-6">
                                 <Globe2 className="w-5 h-5 text-eco-green-light" />
                                 <div className="h-[1px] w-8 bg-eco-green-light/50" />
                                 <h3 className="text-xs uppercase tracking-[0.3em] text-eco-green-light font-bold">Fundamentos</h3>
                             </div>
-                            <h2 className="text-3xl md:text-5xl font-thin tracking-wide text-white mb-8 leading-tight">O Desenvolvimento Sustentável</h2>
-                            <div className="space-y-6 text-white/70 font-light leading-relaxed tracking-wide text-base md:text-lg">
+                            <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-eco-green-light to-white mb-6 leading-tight">O Equilíbrio Essencial</h2>
+                            <div className="space-y-4 text-white/80 font-light leading-relaxed tracking-wide text-lg md:text-xl">
                                 <p>
-                                    A sustentabilidade baseia-se no princípio de atender às necessidades do presente sem comprometer a capacidade das gerações futuras de suprir suas próprias necessidades (Relatório Brundtland, 1987).
+                                    O desenvolvimento sustentável une as dimensões ambiental, social e econômica. Nossas ações locais geram impactos planetários.
                                 </p>
-                                <p>
-                                    Não se trata apenas de preservação ambiental, mas de um equilíbrio intrincado entre três dimensões: <strong>ambiental, social e econômica</strong>. A vida humana, o desenvolvimento das cidades e a conservação dos recursos naturais e da biodiversidade são partes de um sistema global interdependente, onde as ações locais geram impactos planetários.
-                                </p>
+                                <button className="mt-4 px-6 py-2 rounded-full border border-eco-green-light/30 text-eco-green-light text-sm font-medium hover:bg-eco-green-light/10 transition-colors">
+                                    Explorar tema
+                                </button>
                             </div>
                         </GlassCard>
                     </motion.div>
@@ -144,15 +180,16 @@ export default function VidaPage() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, margin: "-10%" }}
                             transition={{ duration: 1 }}
+                            className={`transition-all duration-300 ${activeCard === 'card-clima' ? 'z-50 relative' : 'z-0'}`}
                         >
-                            <GlassCard className="p-8 md:p-12 h-full flex flex-col">
+                            <GlassCard id="card-clima" className="p-8 md:p-12 h-full flex flex-col">
                                 <div className="flex items-center gap-4 mb-6">
                                     <Wind className="w-5 h-5 text-orange-400" />
                                     <h3 className="text-xs uppercase tracking-[0.3em] text-orange-400 font-bold">Mudanças Climáticas</h3>
                                 </div>
-                                <h2 className="text-2xl md:text-4xl font-thin tracking-wide text-white mb-6">O Aquecimento Global</h2>
-                                <p className="text-white/70 font-light leading-relaxed mb-8 flex-grow">
-                                    A elevação acelerada das temperaturas globais é impulsionada pela emissão de gases de efeito estufa (GEE), majoritariamente provenientes da queima de combustíveis fósseis e do desmatamento. Mitigação (redução de emissões) e adaptação climática são urgentes, segundo o IPCC.
+                                <h2 className="text-2xl md:text-4xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-400 mb-4">Aquecimento Global</h2>
+                                <p className="text-white/80 font-light leading-relaxed mb-6 flex-grow text-lg">
+                                    Emissões de gases estufa aceleram a temperatura global. A urgência climática exige mitigação imediata (IPCC).
                                 </p>
                                 <div className="h-48 w-full bg-black/20 rounded-xl p-4 border border-white/5">
                                     <p className="text-xs text-white/50 mb-2 font-mono uppercase">Anomalia de Temp. Global (°C) - Fonte: NASA</p>
@@ -178,15 +215,16 @@ export default function VidaPage() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, margin: "-10%" }}
                             transition={{ duration: 1, delay: 0.2 }}
+                            className={`transition-all duration-300 ${activeCard === 'card-biodiversidade' ? 'z-50 relative' : 'z-0'}`}
                         >
-                            <GlassCard className="p-8 md:p-12 h-full flex flex-col">
+                            <GlassCard id="card-biodiversidade" className="p-8 md:p-12 h-full flex flex-col">
                                 <div className="flex items-center gap-4 mb-6">
                                     <Leaf className="w-5 h-5 text-eco-green-light" />
                                     <h3 className="text-xs uppercase tracking-[0.3em] text-eco-green-light font-bold">Biodiversidade</h3>
                                 </div>
-                                <h2 className="text-2xl md:text-4xl font-thin tracking-wide text-white mb-6">Ecossistemas em Risco</h2>
-                                <p className="text-white/70 font-light leading-relaxed flex-grow">
-                                    A perda de habitats, impulsionada pelo desmatamento e ocupação irregular, ameaça serviços ecossistêmicos essenciais. A floresta não é apenas um santuário de espécies, mas uma infraestrutura natural que regula o clima, purifica o ar e mantém o ciclo das chuvas. A restauração ecológica é indispensável para a manutenção da vida.
+                                <h2 className="text-2xl md:text-4xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-eco-green-light to-lime-300 mb-4">Ecossistemas em Risco</h2>
+                                <p className="text-white/80 font-light leading-relaxed flex-grow text-lg">
+                                    A perda de habitats ameaça serviços essenciais. Restaurar a biodiversidade é garantir nossa infraestrutura natural.
                                 </p>
                                 <div className="mt-8 grid grid-cols-2 gap-4">
                                     <div className="bg-white/5 border border-white/10 rounded-xl p-4">
@@ -210,23 +248,23 @@ export default function VidaPage() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "-20%" }}
                         transition={{ duration: 1.2, ease: "easeOut" }}
-                        className="w-full"
+                        className={`w-full transition-all duration-300 ${activeCard === 'card-agua' ? 'z-50 relative' : 'z-0'}`}
                     >
-                         <GlassCard className="p-8 md:p-14">
+                         <GlassCard id="card-agua" className="p-8 md:p-14">
                             <div className="grid lg:grid-cols-12 gap-12 items-center">
                                 <div className="lg:col-span-5">
                                     <div className="flex items-center gap-4 mb-6">
                                         <Droplets className="w-5 h-5 text-blue-400" />
                                         <h3 className="text-xs uppercase tracking-[0.3em] text-blue-400 font-bold">Água & Saneamento</h3>
                                     </div>
-                                    <h2 className="text-3xl md:text-5xl font-thin tracking-wide text-white mb-6">A Crise Hídrica Silenciosa</h2>
-                                    <div className="space-y-4 text-white/70 font-light leading-relaxed">
+                                    <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300 mb-6">Crise Hídrica e Saneamento</h2>
+                                    <div className="space-y-4 text-white/80 font-light leading-relaxed text-lg">
                                         <p>
-                                            Embora a Terra seja coberta por água, menos de 1% está disponível para consumo humano. O ciclo hidrológico está sendo alterado pelas mudanças climáticas e pela poluição dos rios e oceanos.
+                                            Apenas 1% da água global é potável. O saneamento básico é a primeira linha de defesa da saúde pública (ANA).
                                         </p>
-                                        <p>
-                                            O saneamento básico é a primeira linha de defesa da saúde pública. A contaminação por lançamento de esgoto sem tratamento afeta severamente os ecossistemas aquáticos e as populações urbanas periféricas (ANA - Agência Nacional de Águas).
-                                        </p>
+                                        <button className="mt-4 px-6 py-2 rounded-full border border-blue-400/30 text-blue-400 text-sm font-medium hover:bg-blue-400/10 transition-colors">
+                                            Explorar tema
+                                        </button>
                                     </div>
                                 </div>
                                 <div className="lg:col-span-7 bg-black/30 rounded-2xl p-6 md:p-8 border border-white/5">
@@ -234,8 +272,8 @@ export default function VidaPage() {
                                         <Zap className="w-5 h-5 text-lime-400" />
                                         <h3 className="text-xs uppercase tracking-[0.3em] text-lime-400 font-bold">Economia Circular & Resíduos</h3>
                                     </div>
-                                    <p className="text-white/80 font-light leading-relaxed mb-6">
-                                        A economia linear de &quot;extrair, produzir, descartar&quot; é insustentável. A <strong>Economia Circular</strong> propõe manter materiais em uso pelo maior tempo possível. A reciclagem e a compostagem são essenciais, mas o redesenho de produtos para evitar o desperdício é o verdadeiro avanço.
+                                    <p className="text-white/80 font-light leading-relaxed mb-6 text-lg">
+                                        A economia circular rejeita o modelo de &quot;produzir e descartar&quot;. Redesenhar produtos para evitar o desperdício é o verdadeiro avanço tecnológico.
                                     </p>
                                     <div className="flex flex-wrap gap-4 text-sm font-mono text-white/50">
                                         <span className="px-3 py-1 rounded-full border border-white/10 bg-white/5">Reduzir</span>
@@ -257,17 +295,20 @@ export default function VidaPage() {
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true, margin: "-10%" }}
                             transition={{ duration: 1 }}
-                            className="lg:col-span-8"
+                            className={`lg:col-span-8 transition-all duration-300 ${activeCard === 'card-cidades' ? 'z-50 relative' : 'z-0'}`}
                         >
-                            <GlassCard className="p-8 md:p-12 h-full border-l-4 border-l-indigo-400">
+                            <GlassCard id="card-cidades" className="p-8 md:p-12 h-full border-l-4 border-l-indigo-400">
                                 <div className="flex items-center gap-4 mb-6">
                                     <Building2 className="w-5 h-5 text-indigo-400" />
                                     <h3 className="text-xs uppercase tracking-[0.3em] text-indigo-400 font-bold">Cidades Sustentáveis</h3>
                                 </div>
-                                <h2 className="text-3xl md:text-5xl font-thin tracking-wide text-white mb-6">O Desafio Urbano</h2>
-                                <p className="text-white/70 font-light leading-relaxed mb-8">
-                                    Mais da metade da população global vive em áreas urbanas. O planejamento inadequado resulta em ilhas de calor, problemas de mobilidade e aumento da poluição atmosférica, afetando diretamente a saúde pública. A infraestrutura verde e o transporte público eletrificado são caminhos vitais para mitigar esses impactos, especialmente em regiões periféricas.
+                                <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400 mb-6">Cidades do Futuro</h2>
+                                <p className="text-white/80 font-light leading-relaxed mb-8 text-lg">
+                                    Infraestrutura verde e mobilidade eficiente mitigam ilhas de calor e poluição. Planejamento inteligente salva vidas.
                                 </p>
+                                <button className="mt-2 px-6 py-2 rounded-full border border-indigo-400/30 text-indigo-400 text-sm font-medium hover:bg-indigo-400/10 transition-colors">
+                                    Saiba mais
+                                </button>
                             </GlassCard>
                         </motion.div>
 
@@ -276,15 +317,15 @@ export default function VidaPage() {
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true, margin: "-10%" }}
                             transition={{ duration: 1, delay: 0.2 }}
-                            className="lg:col-span-4"
+                            className={`lg:col-span-4 transition-all duration-300 ${activeCard === 'card-energia' ? 'z-50 relative' : 'z-0'}`}
                         >
-                            <GlassCard className="p-8 h-full flex flex-col justify-center text-center">
+                            <GlassCard id="card-energia" className="p-8 h-full flex flex-col justify-center text-center">
                                 <div className="flex justify-center mb-4">
                                     <Zap className="w-8 h-8 text-yellow-400" />
                                 </div>
-                                <h3 className="text-xl font-light tracking-wider text-white mb-4">Transição Energética</h3>
-                                <p className="text-sm text-white/60 font-light leading-relaxed">
-                                    A substituição de combustíveis fósseis por fontes renováveis (solar, eólica, biomassa) é crucial. No entanto, é importante reconhecer que nenhuma fonte de energia é totalmente isenta de impactos ambientais. O desafio é maximizar a eficiência e minimizar a pegada ecológica.
+                                <h3 className="text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-br from-yellow-400 to-orange-300 mb-4">Matriz Limpa</h3>
+                                <p className="text-base text-white/80 font-light leading-relaxed">
+                                    Renováveis minimizam a pegada ecológica. A transição é essencial, buscando máxima eficiência.
                                 </p>
                             </GlassCard>
                         </motion.div>
@@ -299,12 +340,13 @@ export default function VidaPage() {
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true, margin: "-10%" }}
                             transition={{ duration: 1 }}
+                            className={`transition-all duration-300 ${activeCard === 'card-ods' ? 'z-50 relative' : 'z-0'}`}
                         >
-                            <GlassCard className="p-8 h-full bg-gradient-to-b from-white/[0.05] to-transparent">
+                            <GlassCard id="card-ods" className="p-8 h-full bg-gradient-to-b from-white/[0.05] to-transparent">
                                 <h3 className="text-xs uppercase tracking-[0.3em] text-white/50 font-bold mb-6">Agenda 2030 (ONU)</h3>
-                                <h2 className="text-2xl md:text-4xl font-thin tracking-wide text-white mb-6">Objetivos de Desenv. Sustentável</h2>
-                                <p className="text-white/70 font-light leading-relaxed mb-8">
-                                    Os 17 ODS são um apelo global à ação para acabar com a pobreza, proteger o meio ambiente e o clima e garantir que as pessoas, em todos os lugares, possam desfrutar de paz e de prosperidade.
+                                <h2 className="text-2xl md:text-4xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-white mb-4">Ação Global Integrada</h2>
+                                <p className="text-white/80 font-light leading-relaxed mb-6 text-lg">
+                                    Os 17 ODS exigem ação unificada para proteger o clima, erradicar a pobreza e assegurar prosperidade universal.
                                 </p>
                                 <div className="flex flex-wrap gap-3">
                                     <span className="px-3 py-1.5 border border-red-500/30 text-red-400 text-xs tracking-wider rounded-md bg-red-500/10">ODS 1: Erradicação da Pobreza</span>
@@ -321,16 +363,14 @@ export default function VidaPage() {
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true, margin: "-10%" }}
                             transition={{ duration: 1, delay: 0.2 }}
+                            className={`transition-all duration-300 ${activeCard === 'card-inovacao' ? 'z-50 relative' : 'z-0'}`}
                         >
-                            <GlassCard className="p-8 h-full bg-gradient-to-b from-white/[0.05] to-transparent">
+                            <GlassCard id="card-inovacao" className="p-8 h-full bg-gradient-to-b from-white/[0.05] to-transparent">
                                 <h3 className="text-xs uppercase tracking-[0.3em] text-white/50 font-bold mb-6">Inovação e Ação</h3>
-                                <h2 className="text-2xl md:text-4xl font-thin tracking-wide text-white mb-6">Consumo & Soluções</h2>
-                                <p className="text-white/70 font-light leading-relaxed mb-6">
-                                    O consumo consciente relaciona escolhas individuais às responsabilidades das infraestruturas corporativas. A inovação desempenha papel vital no monitoramento ambiental por sensores IoT, no mapeamento via satélite (INPE) e em tecnologias de restauração ecológica e infraestrutura verde para prevenção de desastres.
+                                <h2 className="text-2xl md:text-4xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-300 mb-4">Dados e Políticas</h2>
+                                <p className="text-white/80 font-light leading-relaxed mb-6 text-lg">
+                                    Sensores IoT mapeiam a crise, mas a mudança estrutural exige aliar ciência rigorosa a políticas públicas.
                                 </p>
-                                <div className="p-4 border-l-2 border-eco-green-light bg-eco-green-light/5 text-sm text-white/80 font-light">
-                                    &quot;A tecnologia nos dá os dados e os sensores nos mostram a realidade, mas a mudança estrutural só ocorre quando aliamos ciência a políticas públicas efetivas.&quot;
-                                </div>
                             </GlassCard>
                         </motion.div>
                     </div>
@@ -356,8 +396,8 @@ export default function VidaPage() {
 
                         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 relative">
                             {/* Aluno Coordenador Destaque */}
-                            <div className="md:col-span-12 flex justify-center mb-8">
-                                <GlassCard className="p-8 md:p-12 border border-lime-500/40 relative overflow-hidden group w-full max-w-3xl">
+                            <div className={`md:col-span-12 flex justify-center mb-8 transition-all duration-300 ${activeCard === 'card-daniel' ? 'z-50 relative' : 'z-0'}`}>
+                                <GlassCard id="card-daniel" className="p-8 md:p-12 border border-lime-500/40 relative overflow-hidden group w-full max-w-3xl">
                                     <div className="absolute inset-0 bg-gradient-to-br from-lime-500/10 to-transparent pointer-events-none" />
                                     <div className="absolute top-0 right-0 w-64 h-64 bg-lime-400/20 blur-[80px] rounded-full pointer-events-none group-hover:bg-lime-400/30 transition-all duration-700" />
 
@@ -382,11 +422,15 @@ export default function VidaPage() {
                                     "Lucas Cordeiro",
                                     "Jean Vargas Nogueira",
                                     "Hiasmin Vitória"
-                                ].map((name, idx) => (
-                                    <GlassCard key={idx} className="p-6 flex items-center justify-center text-center min-h-[120px] bg-white/[0.02] border-white/5 hover:border-white/20 hover:bg-white/[0.04]">
-                                        <h4 className="text-sm md:text-base font-light tracking-wider text-white/80">{name}</h4>
-                                    </GlassCard>
-                                ))}
+                                ].map((name, idx) => {
+                                    const cardId = `equipe-${idx}`;
+                                    return (
+                                    <div key={idx} className={`transition-all duration-300 ${activeCard === cardId ? 'z-50 relative' : 'z-0'}`}>
+                                        <GlassCard id={cardId} className="p-6 flex items-center justify-center text-center min-h-[120px] bg-white/[0.02] border-white/5 hover:border-white/20 hover:bg-white/[0.04]">
+                                            <h4 className="text-sm md:text-base font-light tracking-wider text-white/80">{name}</h4>
+                                        </GlassCard>
+                                    </div>
+                                )})}
                             </div>
                         </div>
                     </motion.div>
@@ -398,9 +442,9 @@ export default function VidaPage() {
                     whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
                     transition={{ duration: 1 }}
-                    className="w-full max-w-3xl mx-auto pt-40"
+                    className={`w-full max-w-3xl mx-auto pt-40 transition-all duration-300 ${activeCard === 'card-referencias' ? 'z-50 relative' : 'z-0'}`}
                 >
-                    <GlassCard className="p-8 border-none bg-white/[0.02]">
+                    <GlassCard id="card-referencias" className="p-8 border-none bg-white/[0.02]">
                         <h3 className="text-sm uppercase tracking-[0.2em] text-white/40 mb-8 font-light text-center">Referências e Fontes Institucionais</h3>
                         <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 text-xs text-white/30 font-light tracking-wide">
                             <li className="flex items-center gap-3"><div className="w-1 h-1 bg-white/20 rounded-full"/> Organização Mundial da Saúde (OMS)</li>
@@ -430,5 +474,6 @@ export default function VidaPage() {
         )}
       </AnimatePresence>
     </div>
+    </HoverContext.Provider>
   );
 }
