@@ -1,0 +1,27 @@
+
+> eco-city@0.1.0 dev
+> next dev
+
+⚠ Port 3000 is in use by an unknown process, using available port 3002 instead.
+▲ Next.js 16.4.0 (Turbopack)
+- Local:         http://localhost:3002
+- Network:       http://192.168.0.2:3002
+✓ Ready in 622ms
+⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of /app/package-lock.json as the root directory.
+ To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+ Detected additional lockfiles:
+   * /app/eco-city/package-lock.json
+
+✓ Running next.config.ts took 47ms
+⨯ Another next dev server is already running.
+
+- Local:        http://localhost:3000
+- PID:          21052
+- Dir:          /app/eco-city
+- Log:          .next/dev/logs/next-development.log
+
+You can access the existing server at http://localhost:3000,
+or run kill 21052 to stop it and start a new one.
+[?25h

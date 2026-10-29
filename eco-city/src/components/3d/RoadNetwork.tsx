@@ -40,12 +40,6 @@ export function RoadNetwork() {
         }
     }
 
-    // Also add a generic grid representing secondary streets for density
-    for (let x = -150; x <= 150; x += 15) {
-        lines.push(new THREE.Vector3(x, 0, -150), new THREE.Vector3(x, 0, 150));
-        lines.push(new THREE.Vector3(-150, 0, x), new THREE.Vector3(150, 0, x));
-    }
-
     const geometry = new THREE.BufferGeometry().setFromPoints(lines);
     return geometry;
   }, [data]);

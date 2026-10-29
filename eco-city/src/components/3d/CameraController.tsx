@@ -27,16 +27,20 @@ export function CameraController() {
 
     switch (zoomLevel) {
       case 'REGIONAL':
-        targetPos.current.set(0, 200, 200);
+        // High aerial view encompassing the park and surroundings
+        targetPos.current.set(0, 250, 250);
         break;
       case 'URBANO':
-        targetPos.current.set(0, 80, 80);
+        // Medium aerial view framing the whole park
+        targetPos.current.set(0, 120, 140);
         break;
       case 'LOCAL':
-        targetPos.current.set(0, 30, 30);
+        // Closer view of park features (towers, nave)
+        targetPos.current.set(0, 60, 60);
         break;
       case 'DETALHADO':
-        targetPos.current.set(0, 15, 15);
+        // Detailed view at ground/pedestrian level
+        targetPos.current.set(0, 20, 20);
         break;
     }
   }, [zoomLevel, presentationMode]);
