@@ -24,18 +24,484 @@
   ],
   "roads": [
     {
-      "id": 10,
-      "name": "Avenida Brasil",
-      "type": "trunk",
-      "lat": -22.85,
-      "lon": -43.45
-    },
-    {
-      "id": 11,
-      "name": "Avenida Santa Cruz",
+      "id": 100,
       "type": "primary",
       "lat": -22.88,
-      "lon": -43.48
+      "lon": -43.433
+    },
+    {
+      "id": 200,
+      "type": "secondary",
+      "lat": -22.88,
+      "lon": -43.427
+    },
+    {
+      "id": 300,
+      "type": "residential",
+      "lat": -22.878,
+      "lon": -43.435
+    },
+    {
+      "id": 400,
+      "type": "residential",
+      "lat": -22.872,
+      "lon": -43.435
+    },
+    {
+      "id": 101,
+      "type": "primary",
+      "lat": -22.8795,
+      "lon": -43.433
+    },
+    {
+      "id": 201,
+      "type": "secondary",
+      "lat": -22.8795,
+      "lon": -43.427
+    },
+    {
+      "id": 301,
+      "type": "residential",
+      "lat": -22.878,
+      "lon": -43.4345
+    },
+    {
+      "id": 401,
+      "type": "residential",
+      "lat": -22.872,
+      "lon": -43.4345
+    },
+    {
+      "id": 102,
+      "type": "primary",
+      "lat": -22.878999999999998,
+      "lon": -43.433
+    },
+    {
+      "id": 202,
+      "type": "secondary",
+      "lat": -22.878999999999998,
+      "lon": -43.427
+    },
+    {
+      "id": 302,
+      "type": "residential",
+      "lat": -22.878,
+      "lon": -43.434000000000005
+    },
+    {
+      "id": 402,
+      "type": "residential",
+      "lat": -22.872,
+      "lon": -43.434000000000005
+    },
+    {
+      "id": 103,
+      "type": "primary",
+      "lat": -22.8785,
+      "lon": -43.433
+    },
+    {
+      "id": 203,
+      "type": "secondary",
+      "lat": -22.8785,
+      "lon": -43.427
+    },
+    {
+      "id": 303,
+      "type": "residential",
+      "lat": -22.878,
+      "lon": -43.4335
+    },
+    {
+      "id": 403,
+      "type": "residential",
+      "lat": -22.872,
+      "lon": -43.4335
+    },
+    {
+      "id": 104,
+      "type": "primary",
+      "lat": -22.878,
+      "lon": -43.433
+    },
+    {
+      "id": 204,
+      "type": "secondary",
+      "lat": -22.878,
+      "lon": -43.427
+    },
+    {
+      "id": 304,
+      "type": "residential",
+      "lat": -22.878,
+      "lon": -43.433
+    },
+    {
+      "id": 404,
+      "type": "residential",
+      "lat": -22.872,
+      "lon": -43.433
+    },
+    {
+      "id": 105,
+      "type": "primary",
+      "lat": -22.877499999999998,
+      "lon": -43.433
+    },
+    {
+      "id": 205,
+      "type": "secondary",
+      "lat": -22.877499999999998,
+      "lon": -43.427
+    },
+    {
+      "id": 305,
+      "type": "residential",
+      "lat": -22.878,
+      "lon": -43.432500000000005
+    },
+    {
+      "id": 405,
+      "type": "residential",
+      "lat": -22.872,
+      "lon": -43.432500000000005
+    },
+    {
+      "id": 106,
+      "type": "primary",
+      "lat": -22.877,
+      "lon": -43.433
+    },
+    {
+      "id": 206,
+      "type": "secondary",
+      "lat": -22.877,
+      "lon": -43.427
+    },
+    {
+      "id": 306,
+      "type": "residential",
+      "lat": -22.878,
+      "lon": -43.432
+    },
+    {
+      "id": 406,
+      "type": "residential",
+      "lat": -22.872,
+      "lon": -43.432
+    },
+    {
+      "id": 107,
+      "type": "primary",
+      "lat": -22.8765,
+      "lon": -43.433
+    },
+    {
+      "id": 207,
+      "type": "secondary",
+      "lat": -22.8765,
+      "lon": -43.427
+    },
+    {
+      "id": 307,
+      "type": "residential",
+      "lat": -22.878,
+      "lon": -43.4315
+    },
+    {
+      "id": 407,
+      "type": "residential",
+      "lat": -22.872,
+      "lon": -43.4315
+    },
+    {
+      "id": 108,
+      "type": "primary",
+      "lat": -22.875999999999998,
+      "lon": -43.433
+    },
+    {
+      "id": 208,
+      "type": "secondary",
+      "lat": -22.875999999999998,
+      "lon": -43.427
+    },
+    {
+      "id": 308,
+      "type": "residential",
+      "lat": -22.878,
+      "lon": -43.431000000000004
+    },
+    {
+      "id": 408,
+      "type": "residential",
+      "lat": -22.872,
+      "lon": -43.431000000000004
+    },
+    {
+      "id": 109,
+      "type": "primary",
+      "lat": -22.8755,
+      "lon": -43.433
+    },
+    {
+      "id": 209,
+      "type": "secondary",
+      "lat": -22.8755,
+      "lon": -43.427
+    },
+    {
+      "id": 309,
+      "type": "residential",
+      "lat": -22.878,
+      "lon": -43.4305
+    },
+    {
+      "id": 409,
+      "type": "residential",
+      "lat": -22.872,
+      "lon": -43.4305
+    },
+    {
+      "id": 110,
+      "type": "primary",
+      "lat": -22.875,
+      "lon": -43.433
+    },
+    {
+      "id": 210,
+      "type": "secondary",
+      "lat": -22.875,
+      "lon": -43.427
+    },
+    {
+      "id": 310,
+      "type": "residential",
+      "lat": -22.878,
+      "lon": -43.43
+    },
+    {
+      "id": 410,
+      "type": "residential",
+      "lat": -22.872,
+      "lon": -43.43
+    },
+    {
+      "id": 111,
+      "type": "primary",
+      "lat": -22.874499999999998,
+      "lon": -43.433
+    },
+    {
+      "id": 211,
+      "type": "secondary",
+      "lat": -22.874499999999998,
+      "lon": -43.427
+    },
+    {
+      "id": 311,
+      "type": "residential",
+      "lat": -22.878,
+      "lon": -43.429500000000004
+    },
+    {
+      "id": 411,
+      "type": "residential",
+      "lat": -22.872,
+      "lon": -43.429500000000004
+    },
+    {
+      "id": 112,
+      "type": "primary",
+      "lat": -22.874,
+      "lon": -43.433
+    },
+    {
+      "id": 212,
+      "type": "secondary",
+      "lat": -22.874,
+      "lon": -43.427
+    },
+    {
+      "id": 312,
+      "type": "residential",
+      "lat": -22.878,
+      "lon": -43.429
+    },
+    {
+      "id": 412,
+      "type": "residential",
+      "lat": -22.872,
+      "lon": -43.429
+    },
+    {
+      "id": 113,
+      "type": "primary",
+      "lat": -22.8735,
+      "lon": -43.433
+    },
+    {
+      "id": 213,
+      "type": "secondary",
+      "lat": -22.8735,
+      "lon": -43.427
+    },
+    {
+      "id": 313,
+      "type": "residential",
+      "lat": -22.878,
+      "lon": -43.4285
+    },
+    {
+      "id": 413,
+      "type": "residential",
+      "lat": -22.872,
+      "lon": -43.4285
+    },
+    {
+      "id": 114,
+      "type": "primary",
+      "lat": -22.872999999999998,
+      "lon": -43.433
+    },
+    {
+      "id": 214,
+      "type": "secondary",
+      "lat": -22.872999999999998,
+      "lon": -43.427
+    },
+    {
+      "id": 314,
+      "type": "residential",
+      "lat": -22.878,
+      "lon": -43.428000000000004
+    },
+    {
+      "id": 414,
+      "type": "residential",
+      "lat": -22.872,
+      "lon": -43.428000000000004
+    },
+    {
+      "id": 115,
+      "type": "primary",
+      "lat": -22.8725,
+      "lon": -43.433
+    },
+    {
+      "id": 215,
+      "type": "secondary",
+      "lat": -22.8725,
+      "lon": -43.427
+    },
+    {
+      "id": 315,
+      "type": "residential",
+      "lat": -22.878,
+      "lon": -43.4275
+    },
+    {
+      "id": 415,
+      "type": "residential",
+      "lat": -22.872,
+      "lon": -43.4275
+    },
+    {
+      "id": 116,
+      "type": "primary",
+      "lat": -22.872,
+      "lon": -43.433
+    },
+    {
+      "id": 216,
+      "type": "secondary",
+      "lat": -22.872,
+      "lon": -43.427
+    },
+    {
+      "id": 316,
+      "type": "residential",
+      "lat": -22.878,
+      "lon": -43.427
+    },
+    {
+      "id": 416,
+      "type": "residential",
+      "lat": -22.872,
+      "lon": -43.427
+    },
+    {
+      "id": 117,
+      "type": "primary",
+      "lat": -22.871499999999997,
+      "lon": -43.433
+    },
+    {
+      "id": 217,
+      "type": "secondary",
+      "lat": -22.871499999999997,
+      "lon": -43.427
+    },
+    {
+      "id": 317,
+      "type": "residential",
+      "lat": -22.878,
+      "lon": -43.426500000000004
+    },
+    {
+      "id": 417,
+      "type": "residential",
+      "lat": -22.872,
+      "lon": -43.426500000000004
+    },
+    {
+      "id": 118,
+      "type": "primary",
+      "lat": -22.871,
+      "lon": -43.433
+    },
+    {
+      "id": 218,
+      "type": "secondary",
+      "lat": -22.871,
+      "lon": -43.427
+    },
+    {
+      "id": 318,
+      "type": "residential",
+      "lat": -22.878,
+      "lon": -43.426
+    },
+    {
+      "id": 418,
+      "type": "residential",
+      "lat": -22.872,
+      "lon": -43.426
+    },
+    {
+      "id": 119,
+      "type": "primary",
+      "lat": -22.8705,
+      "lon": -43.433
+    },
+    {
+      "id": 219,
+      "type": "secondary",
+      "lat": -22.8705,
+      "lon": -43.427
+    },
+    {
+      "id": 319,
+      "type": "residential",
+      "lat": -22.878,
+      "lon": -43.4255
+    },
+    {
+      "id": 419,
+      "type": "residential",
+      "lat": -22.872,
+      "lon": -43.4255
     }
   ],
   "parks": [
@@ -47,15 +513,15 @@
     },
     {
       "id": 21,
-      "name": "Praça Guilherme da Silveira",
+      "name": "Pra\u00e7a Guilherme da Silveira",
       "lat": -22.875,
       "lon": -43.45
     }
   ],
   "bounds": {
-    "minLat": -22.95,
-    "maxLat": -22.8,
-    "minLon": -43.6,
-    "maxLon": -43.4
+    "minLat": -22.885,
+    "maxLat": -22.865,
+    "minLon": -43.44,
+    "maxLon": -43.42
   }
 }

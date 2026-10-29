@@ -3,10 +3,10 @@
 import React, { useRef } from 'react';
 import * as THREE from 'three';
 import { RoadNetwork } from './RoadNetwork';
-import { BuildingInstancer } from './BuildingInstancer';
 import { Hospitals } from './Hospitals';
 import { TrafficSystem } from './TrafficSystem';
 import { UpaRealengo } from './UpaRealengo';
+import { ParqueRealengo } from './ParqueRealengo';
 
 export function City() {
   const group = useRef<THREE.Group>(null);
@@ -14,9 +14,11 @@ export function City() {
   return (
     <group ref={group}>
       <RoadNetwork />
-      <BuildingInstancer />
       <Hospitals />
       <TrafficSystem />
+
+      {/* Parque Realengo Susana Naspolini as the central focus */}
+      <ParqueRealengo position={[0, 0, 0]} />
 
       {/* Explicitly positioned UPA Realengo based on OSM relative coordinates near the center/west zone representation */}
       <UpaRealengo position={[-40, 0, 30]} />
