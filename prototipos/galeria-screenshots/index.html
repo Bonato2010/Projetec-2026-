@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeria de Protótipos - Projetos</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="gallery-header">
+        <div class="header-content">
+            <h1>Central de Pré-Visualização</h1>
+            <p>Galeria automática de screenshots dos protótipos em desenvolvimento.</p>
+            <div class="update-info" id="update-info">
+                <span>Última atualização: <strong id="last-update-time">Buscando...</strong></span>
+            </div>
+        </div>
+    </header>
+
+    <main class="gallery-container">
+
+        <!-- PROJETO 1: Mapa do Parque -->
+        <section class="project-section">
+            <div class="project-info">
+                <h2>1. Mapa Interativo do Parque Realengo</h2>
+                <p>Representação ilustrada do parque com filtros interativos, zoom, e painel de informações dinâmico para cada localidade.</p>
+            </div>
+
+            <div class="screenshots-grid">
+                <!-- Desktop -->
+                <div class="screenshot-card">
+                    <div class="card-header">
+                        <span class="badge desktop">Desktop (1440x900)</span>
+                        <h3>Visão Geral</h3>
+                    </div>
+                    <div class="img-container">
+                        <img src="screenshots/mapa-parque/desktop-home.png" alt="Mapa Parque - Visão Geral Desktop" class="zoomable" onerror="this.src='https://via.placeholder.com/1440x900?text=Gerando+Screenshot...'">
+                    </div>
+                </div>
+
+                <div class="screenshot-card">
+                    <div class="card-header">
+                        <span class="badge desktop">Desktop (1440x900)</span>
+                        <h3>Painel de Informações e Filtros</h3>
+                    </div>
+                    <div class="img-container">
+                        <img src="screenshots/mapa-parque/desktop-info-panel.png" alt="Mapa Parque - Painel Desktop" class="zoomable" onerror="this.src='https://via.placeholder.com/1440x900?text=Gerando+Screenshot...'">
+                    </div>
+                </div>
+
+                <!-- Mobile -->
+                <div class="screenshot-card mobile-card">
+                    <div class="card-header">
+                        <span class="badge mobile">Mobile (390x844)</span>
+                        <h3>Interface Principal</h3>
+                    </div>
+                    <div class="img-container">
+                        <img src="screenshots/mapa-parque/mobile-home.png" alt="Mapa Parque - Mobile" class="zoomable" onerror="this.src='https://via.placeholder.com/390x844?text=Gerando+Screenshot...'">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROJETO 2: Painel Ambiental -->
+        <section class="project-section pending">
+            <div class="project-info">
+                <h2>2. Painel de Monitoramento Ambiental</h2>
+                <p>Dashboard de dados em tempo real sobre qualidade do ar, temperatura e umidade.</p>
+            </div>
+            <div class="empty-state">
+                <div class="icon">🚧</div>
+                <h3>Protótipo em Desenvolvimento</h3>
+                <p>Os screenshots automáticos aparecerão aqui quando a aplicação estiver executável.</p>
+            </div>
+        </section>
+
+        <!-- PROJETO 3: Simulador Drenagem -->
+        <section class="project-section pending">
+            <div class="project-info">
+                <h2>3. Simulador de Drenagem e Enchentes</h2>
+                <p>Simulação 3D das chuvas e escoamento de água no terreno do parque.</p>
+            </div>
+            <div class="empty-state">
+                <div class="icon">🚧</div>
+                <h3>Protótipo em Desenvolvimento</h3>
+                <p>Os screenshots automáticos aparecerão aqui quando a aplicação estiver executável.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal para Zoom -->
+    <div id="image-modal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="modal-img">
+        <div id="caption"></div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>
