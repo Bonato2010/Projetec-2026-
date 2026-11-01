@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa Interativo - Parque Realengo Susana Naspolini</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <header class="sidebar-header">
+                <h1>Parque Realengo Susana Naspolini</h1>
+                <p class="subtitle">Mapa Interativo Ilustrativo</p>
+                <div class="disclaimer">
+                    <span class="icon">ℹ️</span>
+                    Este mapa é uma representação ilustrativa baseada em plantas e imagens disponíveis. Não é um levantamento topográfico oficial.
+                </div>
+            </header>
+
+            <div class="sidebar-content">
+                <!-- Filters -->
+                <section class="filters-section">
+                    <h3>Filtros por Categoria</h3>
+                    <div class="filters" id="filters-container">
+                        <button class="filter-btn active" data-category="all">Todos</button>
+                        <button class="filter-btn" data-category="esporte">Esportes</button>
+                        <button class="filter-btn" data-category="lazer">Lazer & Convivência</button>
+                        <button class="filter-btn" data-category="natureza">Natureza</button>
+                        <button class="filter-btn" data-category="agua">Água</button>
+                        <button class="filter-btn" data-category="cultura">Cultura & Educação</button>
+                        <button class="filter-btn" data-category="infraestrutura">Infraestrutura</button>
+                    </div>
+                </section>
+
+                <!-- Legend -->
+                <section class="legend-section">
+                    <h3>Legenda</h3>
+                    <ul class="legend-list">
+                        <li><span class="legend-color nature"></span> Vegetação/Bosque</li>
+                        <li><span class="legend-color path"></span> Caminhos/Pisos</li>
+                        <li><span class="legend-color water"></span> Espelhos d'água/Área Aquática</li>
+                        <li><span class="legend-color sports"></span> Quadras/Esportes</li>
+                        <li><span class="legend-color infrastructure"></span> Torres/Passarelas</li>
+                    </ul>
+                </section>
+
+                <!-- Information Panel (Dynamic) -->
+                <section class="info-panel hidden" id="info-panel">
+                    <button class="close-btn" id="close-info" aria-label="Fechar informações">×</button>
+                    <div class="info-image-container">
+                        <img src="" alt="" id="info-image" class="hidden">
+                        <div class="info-image-placeholder" id="info-image-placeholder">
+                            <span>Sem imagem disponível</span>
+                        </div>
+                    </div>
+                    <h2 id="info-title">Título</h2>
+                    <span class="info-category" id="info-category">Categoria</span>
+                    <p id="info-description">Descrição do local.</p>
+                    <div class="info-curiosity" id="info-curiosity-container">
+                        <strong>Curiosidade:</strong>
+                        <p id="info-curiosity-text"></p>
+                    </div>
+                </section>
+            </div>
+        </aside>
+
+        <!-- Main Map Area -->
+        <main class="map-container">
+            <div class="map-controls">
+                <button id="zoom-in" title="Aproximar">+</button>
+                <button id="zoom-out" title="Afastar">-</button>
+                <button id="zoom-reset" title="Restaurar visualização">⟲</button>
+            </div>
+
+            <div class="map-wrapper" id="map-wrapper">
+                <!-- SVG Map -->
+                <!-- Dimensions matching roughly a 16:9 aerial aspect for park layout -->
+                <svg id="interactive-map" viewBox="0 0 1600 900" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <!-- Gradients and Patterns -->
+                        <linearGradient id="water-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#80DEEA"/>
+                            <stop offset="100%" stop-color="#00ACC1"/>
+                        </linearGradient>
+                        <pattern id="grass-pattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                            <rect width="20" height="20" fill="#A5D6A7"/>
+                            <circle cx="10" cy="10" r="1.5" fill="#81C784"/>
+                            <circle cx="5" cy="5" r="1" fill="#81C784"/>
+                        </pattern>
+                        <!-- Tree symbol -->
+                        <g id="tree">
+                            <circle cx="0" cy="0" r="15" fill="#4CAF50" opacity="0.8"/>
+                            <circle cx="-3" cy="-3" r="8" fill="#66BB6A" opacity="0.6"/>
+                            <circle cx="4" cy="4" r="6" fill="#388E3C" opacity="0.5"/>
+                        </g>
+                        <!-- Drop Shadow -->
+                        <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+                            <feDropShadow dx="2" dy="5" stdDeviation="4" flood-opacity="0.3"/>
+                        </filter>
+                        <filter id="light-shadow" x="-5%" y="-5%" width="110%" height="110%">
+                            <feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.2"/>
+                        </filter>
+                    </defs>
+
+                    <!-- Base / Background Ground -->
+                    <rect width="1600" height="900" fill="#E8F5E9"/>
+
+                    <!-- Main paths / Acessos -->
+                    <!-- Grupo Infraestrutura -->
+                    <g id="layer-paths" class="map-element" data-id="caminhos" data-category="infraestrutura">
+                        <!-- Path defining the main circulation -->
+                        <path d="M 100 850 L 150 700 C 200 500 400 450 600 400 C 800 350 1100 400 1300 200 L 1500 100 L 1550 150 L 1350 300 C 1150 500 850 450 650 500 C 450 550 300 650 250 850 Z" fill="#D7CCC8" filter="url(#light-shadow)"/>
+                        <path d="M 600 400 L 800 200 L 850 250 L 650 500 Z" fill="#D7CCC8" filter="url(#light-shadow)"/>
+                        <path d="M 1100 400 L 1150 700 L 1250 700 L 1200 450 Z" fill="#D7CCC8" filter="url(#light-shadow)"/>
+                    </g>
+
+                    <!-- Entradas -->
+                    <g class="map-element entry-point" data-id="entrada-principal" data-category="infraestrutura">
+                        <circle cx="125" cy="850" r="25" fill="#FFB74D" stroke="#F57C00" stroke-width="3"/>
+                        <text x="125" y="855" text-anchor="middle" font-size="14" fill="#000" font-weight="bold">ENTRADA</text>
+                    </g>
+                    <g class="map-element entry-point" data-id="entrada-secundaria" data-category="infraestrutura">
+                        <circle cx="1425" cy="125" r="25" fill="#FFB74D" stroke="#F57C00" stroke-width="3"/>
+                        <text x="1425" y="130" text-anchor="middle" font-size="14" fill="#000" font-weight="bold">ENTRADA</text>
+                    </g>
+
+                    <!-- Natureza: Bosque e Jardins -->
+                    <g id="layer-nature" class="map-element" data-id="bosque" data-category="natureza">
+                        <!-- Large green areas -->
+                        <path d="M 50 50 L 500 50 C 450 250 250 350 50 350 Z" fill="url(#grass-pattern)"/>
+                        <path d="M 1550 850 L 1000 850 C 1100 750 1300 550 1550 550 Z" fill="url(#grass-pattern)"/>
+                        <!-- Random Trees -->
+                        <use href="#tree" x="100" y="100"/>
+                        <use href="#tree" x="150" y="150"/>
+                        <use href="#tree" x="250" y="100"/>
+                        <use href="#tree" x="350" y="150"/>
+                        <use href="#tree" x="150" y="250"/>
+                        <use href="#tree" x="250" y="250"/>
+
+                        <use href="#tree" x="1100" y="800"/>
+                        <use href="#tree" x="1200" y="750"/>
+                        <use href="#tree" x="1300" y="800"/>
+                        <use href="#tree" x="1400" y="700"/>
+                        <use href="#tree" x="1450" y="800"/>
+                        <use href="#tree" x="1500" y="650"/>
+                    </g>
+
+                    <!-- Água -->
+                    <g id="layer-water">
+                        <!-- Espelhos d'água -->
+                        <g class="map-element" data-id="espelho-agua" data-category="agua">
+                            <rect x="750" y="250" width="200" height="80" rx="10" fill="url(#water-grad)" filter="url(#light-shadow)"/>
+                            <rect x="770" y="220" width="160" height="30" rx="5" fill="url(#water-grad)" filter="url(#light-shadow)"/>
+                        </g>
+                        <!-- Área Aquática (Brinquedos aquáticos/fonte) -->
+                        <g class="map-element" data-id="area-aquatica" data-category="agua">
+                            <circle cx="500" cy="650" r="60" fill="url(#water-grad)" filter="url(#light-shadow)"/>
+                            <circle cx="500" cy="650" r="40" fill="#4DD0E1" opacity="0.6"/>
+                            <circle cx="500" cy="650" r="10" fill="#E0F7FA"/>
+                        </g>
+                    </g>
+
+                    <!-- Esportes -->
+                    <g id="layer-sports">
+                        <!-- Campo de Futebol -->
+                        <g class="map-element" data-id="campo-futebol" data-category="esporte">
+                            <rect x="1100" y="100" width="200" height="120" rx="5" fill="#43A047" stroke="#FFFFFF" stroke-width="2" filter="url(#shadow)"/>
+                            <rect x="1110" y="110" width="180" height="100" fill="none" stroke="#FFFFFF" stroke-width="1.5"/>
+                            <line x1="1200" y1="110" x2="1200" y2="210" stroke="#FFFFFF" stroke-width="1.5"/>
+                            <circle cx="1200" cy="160" r="15" fill="none" stroke="#FFFFFF" stroke-width="1.5"/>
+                            <rect x="1110" y="135" width="20" height="50" fill="none" stroke="#FFFFFF" stroke-width="1.5"/>
+                            <rect x="1270" y="135" width="20" height="50" fill="none" stroke="#FFFFFF" stroke-width="1.5"/>
+                        </g>
+
+                        <!-- Quadras Poliesportivas -->
+                        <g class="map-element" data-id="quadras" data-category="esporte">
+                            <rect x="900" y="100" width="160" height="90" rx="3" fill="#5C6BC0" filter="url(#shadow)"/>
+                            <rect x="910" y="110" width="140" height="70" fill="none" stroke="#FFFFFF" stroke-width="1"/>
+                            <line x1="980" y1="110" x2="980" y2="180" stroke="#FFFFFF" stroke-width="1"/>
+                            <circle cx="980" cy="145" r="10" fill="none" stroke="#FFFFFF" stroke-width="1"/>
+
+                            <rect x="900" y="210" width="160" height="90" rx="3" fill="#EF5350" filter="url(#shadow)"/>
+                            <rect x="910" y="220" width="140" height="70" fill="none" stroke="#FFFFFF" stroke-width="1"/>
+                            <line x1="980" y1="220" x2="980" y2="290" stroke="#FFFFFF" stroke-width="1"/>
+                            <circle cx="980" cy="255" r="10" fill="none" stroke="#FFFFFF" stroke-width="1"/>
+                        </g>
+
+                        <!-- Skatepark -->
+                        <g class="map-element" data-id="skatepark" data-category="esporte">
+                            <path d="M 600 700 C 600 650 750 650 750 700 C 750 750 850 750 850 800 C 850 850 600 850 600 700 Z" fill="#9E9E9E" filter="url(#shadow)"/>
+                            <circle cx="650" cy="720" r="20" fill="#757575"/>
+                            <path d="M 700 730 L 780 730 L 780 750 L 700 750 Z" fill="#BDBDBD"/>
+                            <circle cx="780" cy="800" r="25" fill="#757575"/>
+                        </g>
+                    </g>
+
+                    <!-- Lazer e Convivência -->
+                    <g id="layer-leisure">
+                        <!-- Playground -->
+                        <g class="map-element" data-id="playground" data-category="lazer">
+                            <rect x="250" y="450" width="150" height="120" rx="15" fill="#FFCC80" filter="url(#shadow)"/>
+                            <circle cx="280" cy="480" r="15" fill="#FF5252"/>
+                            <rect x="320" y="470" width="50" height="20" fill="#448AFF"/>
+                            <rect x="280" y="520" width="80" height="30" fill="#69F0AE"/>
+                            <circle cx="360" cy="530" r="12" fill="#BA68C8"/>
+                        </g>
+
+                        <!-- Churrasqueiras -->
+                        <g class="map-element" data-id="churrasqueiras" data-category="lazer">
+                            <!-- Area base -->
+                            <rect x="300" y="700" width="200" height="100" rx="10" fill="#D7CCC8" filter="url(#light-shadow)"/>
+                            <!-- Kiosks -->
+                            <circle cx="340" cy="730" r="12" fill="#8D6E63"/>
+                            <circle cx="340" cy="770" r="12" fill="#8D6E63"/>
+                            <circle cx="400" cy="730" r="12" fill="#8D6E63"/>
+                            <circle cx="400" cy="770" r="12" fill="#8D6E63"/>
+                            <circle cx="460" cy="750" r="12" fill="#8D6E63"/>
+                        </g>
+                    </g>
+
+                    <!-- Cultura e Educação -->
+                    <g id="layer-culture">
+                        <!-- Nave do Conhecimento (Futuristic/Modern Building) -->
+                        <g class="map-element" data-id="nave-conhecimento" data-category="cultura">
+                            <ellipse cx="1300" cy="500" rx="80" ry="60" fill="#ECEFF1" stroke="#90A4AE" stroke-width="3" filter="url(#shadow)"/>
+                            <ellipse cx="1300" cy="500" rx="40" ry="30" fill="#CFD8DC"/>
+                            <circle cx="1300" cy="500" r="15" fill="#81D4FA"/>
+                        </g>
+
+                        <!-- Anfiteatro -->
+                        <g class="map-element" data-id="anfiteatro" data-category="cultura">
+                            <path d="M 850 550 A 100 100 0 0 1 1050 550 L 950 650 Z" fill="#E0E0E0" filter="url(#shadow)"/>
+                            <!-- Steps -->
+                            <path d="M 870 560 A 80 80 0 0 1 1030 560" fill="none" stroke="#9E9E9E" stroke-width="4"/>
+                            <path d="M 890 575 A 60 60 0 0 1 1010 575" fill="none" stroke="#9E9E9E" stroke-width="4"/>
+                            <path d="M 910 590 A 40 40 0 0 1 990 590" fill="none" stroke="#9E9E9E" stroke-width="4"/>
+                            <!-- Stage -->
+                            <circle cx="950" cy="620" r="20" fill="#FFCA28"/>
+                        </g>
+                    </g>
+
+                    <!-- Estruturas Especiais: Torres e Passarelas -->
+                    <g id="layer-structures">
+                        <!-- Passarelas Elevadas -->
+                        <g class="map-element" data-id="passarelas" data-category="infraestrutura">
+                            <path d="M 550 350 C 650 300 750 450 850 350 C 950 250 1050 400 1150 300" fill="none" stroke="#FF9800" stroke-width="12" stroke-linecap="round" filter="url(#shadow)"/>
+                            <path d="M 550 350 C 650 300 750 450 850 350 C 950 250 1050 400 1150 300" fill="none" stroke="#FFE0B2" stroke-width="6" stroke-linecap="round"/>
+                        </g>
+
+                        <!-- 5 Torres Metálicas -->
+                        <g class="map-element" data-id="torres" data-category="infraestrutura">
+                            <!-- Tower 1 -->
+                            <circle cx="550" cy="350" r="18" fill="#546E7A" filter="url(#shadow)"/>
+                            <circle cx="550" cy="350" r="12" fill="#90A4AE"/>
+                            <circle cx="550" cy="350" r="6" fill="#FFFFFF"/>
+
+                            <!-- Tower 2 -->
+                            <circle cx="700" cy="380" r="18" fill="#546E7A" filter="url(#shadow)"/>
+                            <circle cx="700" cy="380" r="12" fill="#90A4AE"/>
+                            <circle cx="700" cy="380" r="6" fill="#FFFFFF"/>
+
+                            <!-- Tower 3 -->
+                            <circle cx="850" cy="350" r="18" fill="#546E7A" filter="url(#shadow)"/>
+                            <circle cx="850" cy="350" r="12" fill="#90A4AE"/>
+                            <circle cx="850" cy="350" r="6" fill="#FFFFFF"/>
+
+                            <!-- Tower 4 -->
+                            <circle cx="1000" cy="320" r="18" fill="#546E7A" filter="url(#shadow)"/>
+                            <circle cx="1000" cy="320" r="12" fill="#90A4AE"/>
+                            <circle cx="1000" cy="320" r="6" fill="#FFFFFF"/>
+
+                            <!-- Tower 5 -->
+                            <circle cx="1150" cy="300" r="18" fill="#546E7A" filter="url(#shadow)"/>
+                            <circle cx="1150" cy="300" r="12" fill="#90A4AE"/>
+                            <circle cx="1150" cy="300" r="6" fill="#FFFFFF"/>
+                        </g>
+                    </g>
+                </svg>
+            </div>
+        </main>
+    </div>
+
+    <!-- Info Data Store (JSON encoded in script tag or separate JS) -->
+    <script src="main.js"></script>
+</body>
+</html>
