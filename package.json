@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",
-    "build": "npm --prefix parque-realengo-3d install && npm --prefix parque-realengo-3d run build"
+    "build": "npm --prefix parque-realengo-3d install && npm --prefix parque-realengo-3d run build && node scripts/sync-site-3d.js"
   },
   "keywords": [
     "sustentabilidade",

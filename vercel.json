@@ -1,24 +1,30 @@
 {
   "version": 2,
-  "buildCommand": "npm --prefix parque-realengo-3d install && npm --prefix parque-realengo-3d run build",
+  "buildCommand": "npm --prefix parque-realengo-3d install && npm --prefix parque-realengo-3d run build && node scripts/sync-site-3d.js",
   "outputDirectory": ".",
   "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/parque3d", "destination": "/parque3d/", "permanent": false }
+  ],
   "rewrites": [
     { "source": "/", "destination": "/site/index.html" },
     { "source": "/index.html", "destination": "/site/index.html" },
     { "source": "/ranking-tv", "destination": "/site/index.html" },
     { "source": "/ranking", "destination": "/site/index.html" },
+    { "source": "/tv", "destination": "/site/index.html" },
     { "source": "/controle", "destination": "/site/controle.html" },
     { "source": "/controle.html", "destination": "/site/controle.html" },
     { "source": "/mobile", "destination": "/site/controle.html" },
     { "source": "/css/:path*", "destination": "/site/css/:path*" },
     { "source": "/js/:path*", "destination": "/site/js/:path*" },
     { "source": "/public/:path*", "destination": "/site/public/:path*" },
-    { "source": "/galeria", "destination": "/prototipos/galeria-screenshots/index.html" },
-    { "source": "/screenshots", "destination": "/screenshots/index.html" },
     { "source": "/parque3d", "destination": "/parque-realengo-3d/dist/index.html" },
     { "source": "/parque3d/", "destination": "/parque-realengo-3d/dist/index.html" },
     { "source": "/parque3d/:path*", "destination": "/parque-realengo-3d/dist/:path*" },
+    { "source": "/galeria", "destination": "/prototipos/galeria-screenshots/index.html" },
+    { "source": "/screenshots", "destination": "/screenshots/index.html" },
+    { "source": "/screenshots/:path*", "destination": "/screenshots/:path*" },
     { "source": "/api/ranking", "destination": "/api/ranking" },
     { "source": "/api/network-info", "destination": "/api/network-info" }
   ],
@@ -29,6 +35,19 @@
         { "key": "Access-Control-Allow-Origin", "value": "*" },
         { "key": "Access-Control-Allow-Methods", "value": "GET, POST, OPTIONS" },
         { "key": "Access-Control-Allow-Headers", "value": "Content-Type, Range" }
+      ]
+    },
+    {
+      "source": "/site/public/media/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" },
+        { "key": "Accept-Ranges", "value": "bytes" }
+      ]
+    },
+    {
+      "source": "/site/public/assets/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=86400, stale-while-revalidate=604800" }
       ]
     }
   ]

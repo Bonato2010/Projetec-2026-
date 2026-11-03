@@ -10,15 +10,25 @@ module.exports = function handler(req, res) {
     return res.status(200).end();
   }
 
-  const rankingFile = fs.existsSync(path.join(process.cwd(), 'site', 'data', 'ranking.json'))
-    ? path.join(process.cwd(), 'site', 'data', 'ranking.json')
-    : path.join(process.cwd(), 'data', 'ranking.json');
+  const tmpFile = path.join('/tmp', 'ranking.json');
+  const localCandidates = [
+    tmpFile,
+    path.join(__dirname, '..', 'site', 'data', 'ranking.json'),
+    path.join(__dirname, '..', 'data', 'ranking.json'),
+    path.join(process.cwd(), 'site', 'data', 'ranking.json'),
+    path.join(process.cwd(), 'data', 'ranking.json')
+  ];
+
   let ranking = [];
-  if (fs.existsSync(rankingFile)) {
-    try {
-      ranking = JSON.parse(fs.readFileSync(rankingFile, 'utf8'));
-    } catch (e) {
-      ranking = [];
+  for (const candidate of localCandidates) {
+    if (fs.existsSync(candidate)) {
+      try {
+        const parsed = JSON.parse(fs.readFileSync(candidate, 'utf8'));
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          ranking = parsed;
+          break;
+        }
+      } catch (e) {}
     }
   }
 
@@ -52,7 +62,15 @@ module.exports = function handler(req, res) {
       if (Math.abs(diff) > 0.01) return diff;
       return a.tempoSegundos - b.tempoSegundos;
     });
-    return res.status(200).json({ success: true, ranking: ranking.slice(0, 150), added: record });
+
+    ranking = ranking.slice(0, 150);
+
+    // Tentar persistir no /tmp (sobrevive em instâncias serverless aquecidas)
+    try {
+      fs.writeFileSync(tmpFile, JSON.stringify(ranking, null, 2), 'utf8');
+    } catch (writeErr) {}
+
+    return res.status(200).json({ success: true, ranking, added: record });
   }
 
   return res.status(405).json({ error: 'Method not allowed' });

@@ -1,0 +1,19 @@
+{
+  "name": "projetec-site-vida",
+  "version": "1.0.0",
+  "description": "Plataforma Educativa V.I.D.A. — Parque Realengo Jornalista Susana Naspolini",
+  "private": true,
+  "scripts": {
+    "start": "npx serve .",
+    "build": "node -e \"console.log('Site V.I.D.A. pronto para produção na Vercel')\""
+  },
+  "keywords": [
+    "projetec-2026",
+    "sustentabilidade",
+    "parque-realengo",
+    "quiz",
+    "vida"
+  ],
+  "author": "Equipe V.I.D.A.",
+  "license": "ISC"
+}
