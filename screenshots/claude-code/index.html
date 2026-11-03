@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>Galeria Visual — Parque Realengo 3D (Claude Code)</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0f172a;
+      --card: #1e293b;
+      --border: #334155;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+    }
+    body {
+      margin: 0;
+      padding: 24px;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+    h1 { margin-top: 0; color: var(--accent); }
+    .subtitle { color: var(--text-muted); margin-bottom: 32px; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      background: #000;
+    }
+    .card-body {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .card-title {
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    .card-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+  <h1>Galeria Visual — Parque Realengo 3D</h1>
+  <div class="subtitle">Evidências e capturas do gêmeo digital do Parque Urbano de Realengo Susana Naspolini</div>
+
+  <div class="grid">
+    <div class="card">
+      <img src="../../screenshots/3d/01_vista_aerea_geral.png" alt="Vista Aérea Geral">
+      <div class="card-body">
+        <div class="card-title">01. Vista Aérea Geral</div>
+        <div class="card-desc">Visão panorâmica de todo o complexo e implantação oficial.</div>
+      </div>
+    </div>
+    <div class="card">
+      <img src="../../screenshots/3d/03_super_torres_bioclimaticas_nevoa.png" alt="Super-Torres Bioclimáticas">
+      <div class="card-body">
+        <div class="card-title">03. Super-Torres Bioclimáticas</div>
+        <div class="card-desc">Torres em hiperboloide com sistema de nebulização ativo.</div>
+      </div>
+    </div>
+    <div class="card">
+      <img src="../../screenshots/3d/05_lago_bacia_retencao_riprap.png" alt="Espelho d'Água">
+      <div class="card-body">
+        <div class="card-title">05. Espelho d'Água e Bacia</div>
+        <div class="card-desc">Bacia hidráulica lobada com lâmina d'água translúcida PBR.</div>
+      </div>
+    </div>
+    <div class="card">
+      <img src="../../screenshots/3d/10_campo_sintetico_quadras_esportivas.png" alt="Complexo Esportivo">
+      <div class="card-body">
+        <div class="card-title">10. Complexo Esportivo</div>
+        <div class="card-desc">Quadras em resina acrílica azul/laranja e campo society.</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

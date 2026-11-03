@@ -244,21 +244,21 @@
 
   <script>
     const SHOTS = [
-      // 3D AAA RECONSTRUÍDO
-      { cat: '3d', file: '3d/01_vista_aerea_geral.png', title: '01. Vista Aérea Geral (Bioma Mata Atlântica)', desc: '78.129 m² com densidade vegetal expandida, ipês floridos, jacarandás, palmeiras e lago integrado' },
-      { cat: '3d', file: '3d/02_perspectiva_obliqua_panoramica.png', title: '02. Perspectiva Oblíqua Panorâmica', desc: 'Composição espacial das 5 Super-Torres, passarelas acessíveis e bacia de amortecimento' },
-      { cat: '3d', file: '3d/03_super_torres_bioclimaticas_nevoa.png', title: '03. Super-Torres com Névoa e Jardins Verticais', desc: 'Treliça metálica diagrid, névoa atomizada densa e folhagem trepadeira na base' },
-      { cat: '3d', file: '3d/04_passarelas_elevadas_mirante.png', title: '04. Passarelas Elevadas e Mirantes', desc: 'Circulação aérea suave (declividade ≤ 8%) com pisos em madeira tratada e guarda-corpos' },
-      { cat: '3d', file: '3d/05_lago_bacia_retencao_riprap.png', title: '05. Espelho d\'Água & Enrocamento Riprap', desc: '1.300 m² de lâmina d\'água PBR, bordas naturais de pedra riprap e ponte arqueada' },
-      { cat: '3d', file: '3d/06_nave_do_conhecimento_usina_solar.png', title: '06. Nave do Conhecimento & Usina Solar', desc: 'Pavilhão tecnológico com módulos solares fotovoltaicos, brises de proteção e rampa acessível' },
+      // 3D AAA RECONSTRUÍDO (CALIBRADO COM ORTOFOTO AÉREA REAL)
+      { cat: '3d', file: '3d/01_vista_aerea_geral.png', title: '01. Ortofoto e Vista Aérea Geral Fiel', desc: 'Implantação exata com as 5 Super-Torres em cobre dentro do espelho d\'água lobado, quadras azuis e Nave do Conhecimento' },
+      { cat: '3d', file: '3d/02_perspectiva_obliqua_panoramica.png', title: '02. Perspectiva Oblíqua Panorâmica', desc: 'Composição espacial das 5 Super-Torres, passarelas acessíveis, bacia de amortecimento e relevo de Realengo' },
+      { cat: '3d', file: '3d/03_super_torres_bioclimaticas_nevoa.png', title: '03. Super-Torres em Cobre Metálico com Diagrid e Névoa', desc: 'As 5 torres em cálice flared com pintura terracota/cobre (#c9784e), treliça diagrid e 236 bicos atomizadores' },
+      { cat: '3d', file: '3d/04_passarelas_elevadas_mirante.png', title: '04. Passarelas Elevadas e Rampa Panorâmica', desc: 'Circulação aérea suave entre as plataformas das torres, rampa sul e rampa curva leste para o splash pad' },
+      { cat: '3d', file: '3d/05_lago_bacia_retencao_riprap.png', title: '05. Espelho d\'Água Lobado Cyan sob as Torres', desc: 'Bacia hidráulica de 1.300 m² em azul piscina (#00a8e8) envolvendo a base de todas as 5 torres com jatos verticais' },
+      { cat: '3d', file: '3d/06_nave_do_conhecimento_usina_solar.png', title: '06. Nave do Conhecimento com Pátio Central Aberto', desc: 'Pavilhão moderno em planta quadrada com pátio interno ajardinado (atrium), brises, vidro e usina solar' },
       { cat: '3d', file: '3d/07_anfiteatro_cultural_susana_naspolini.png', title: '07. Concha Acústica & Anfiteatro', desc: 'Espaço cultural para cinema ao ar livre, palestras e arquibancada com degraus em concreto' },
       { cat: '3d', file: '3d/08_praca_do_mercado_messina_rivas.png', title: '08. Praça do Mercado Comunitário', desc: 'Projeto autêntico Messina | Rivas com 11 lojas e esplanada de convivência circular' },
       { cat: '3d', file: '3d/09_skatepark_street_bowls.png', title: '09. Skatepark Street & Bowls', desc: 'Concreto polido de alto desempenho com dois bowls interligados e obstáculos urbanos' },
-      { cat: '3d', file: '3d/10_campo_sintetico_quadras_esportivas.png', title: '10. Campo Society & Quadras Poliesportivas', desc: 'Piso em resina acrílica, demarcação técnica de basquete/futsal e alambrado' },
-      { cat: '3d', file: '3d/11_bosque_mata_atlantica_ipes_palmeiras.png', title: '11. Bosque Preservado da Mata Atlântica', desc: 'Ipês-amarelos, quaresmeiras, jacarandás, pau-brasil e clúsias em maciços orgânicos' },
+      { cat: '3d', file: '3d/10_campo_sintetico_quadras_esportivas.png', title: '10. Quadras Poliesportivas em Azul Royal, Celeste e Laranja', desc: 'Dual quadras em ângulo diagonal com pintura em Azul Royal (#1d4ed8), Celeste (#38bdf8) e garrafões Laranja (#ea580c)' },
+      { cat: '3d', file: '3d/11_bosque_mata_atlantica_ipes_palmeiras.png', title: '11. Bosque Preservado da Mata Atlântica', desc: 'Maciço arbóreo denso com paleta botânica realista verde oliva, esmeralda e folhagens tropicais' },
       { cat: '3d', file: '3d/12_acesso_norte_carlos_wenceslau.png', title: '12. Acesso Norte Integrado à Cidade', desc: 'Conexão com a malha urbana da Rua Carlos Wenceslau e calçadão de acolhimento' },
       { cat: '3d', file: '3d/13_mobiliario_urbano_postes_solares_bancos.png', title: '13. Mobiliário Urbano Inteligente', desc: 'Postes solares LED fotovoltaicos, bancos de ripas de madeira nobre e lixeiras seletivas' },
-      { cat: '3d', file: '3d/14_splash_pad_playground_infantil.png', title: '14. Splash Pad & Playground Infantil', desc: 'Piso anti-impacto emborrachado com jatos d\'água interativos para conforto térmico infantil' },
+      { cat: '3d', file: '3d/14_splash_pad_playground_infantil.png', title: '14. Splash Pad Circular com Anéis de Jatos', desc: 'Parque aquático infantil circular (diâmetro 18m) com jatos d\'água interativos e piso azul e amarelo' },
       { cat: '3d', file: '3d/15_quadras_volei_areia_ifrj.png', title: '15. Quadras de Areia e Acesso Oeste IFRJ', desc: 'Campos de vôlei de praia com textura de areia fina e bosque perimetral de amortecimento' },
       { cat: '3d', file: '3d/16_detalhe_aspersores_torre_central.png', title: '16. Sistema de Nebulização e Microclima', desc: 'Aspersores atomizadores de alta pressão e estrutura hiperboloide da torre de 47m' },
       { cat: '3d', file: '3d/17_horizonte_montanhoso_pedra_branca.png', title: '17. Horizonte Montanhoso de Realengo', desc: 'Silhueta autêntica do Maciço da Pedra Branca e Serra do Mendanha com névoa atmosférica' },
