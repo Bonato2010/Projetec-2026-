@@ -1,0 +1,29 @@
+{
+  "version": 2,
+  "buildCommand": "npm --prefix parque-realengo-3d install && npm --prefix parque-realengo-3d run build",
+  "outputDirectory": ".",
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/ranking-tv", "destination": "/index.html" },
+    { "source": "/ranking", "destination": "/index.html" },
+    { "source": "/controle", "destination": "/controle.html" },
+    { "source": "/mobile", "destination": "/controle.html" },
+    { "source": "/galeria", "destination": "/prototipos/galeria-screenshots/index.html" },
+    { "source": "/screenshots", "destination": "/screenshots/index.html" },
+    { "source": "/parque3d", "destination": "/parque-realengo-3d/dist/index.html" },
+    { "source": "/parque3d/", "destination": "/parque-realengo-3d/dist/index.html" },
+    { "source": "/parque3d/:path*", "destination": "/parque-realengo-3d/dist/:path*" },
+    { "source": "/api/ranking", "destination": "/api/ranking" },
+    { "source": "/api/network-info", "destination": "/api/network-info" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Access-Control-Allow-Methods", "value": "GET, POST, OPTIONS" },
+        { "key": "Access-Control-Allow-Headers", "value": "Content-Type, Range" }
+      ]
+    }
+  ]
+}
