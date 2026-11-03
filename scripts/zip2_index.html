@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solaris | Quiz Ambiental</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            padding: 28px 16px;
+            font-family: Arial, sans-serif;
+            color: #f4f7fb;
+            background: radial-gradient(ellipse at top, #10253b 0%, #030609 65%);
+        }
+        header { text-align: center; margin: 0 auto 26px; max-width: 700px; }
+        /* A logo é exibida sem filtros, efeitos ou alterações. */
+        header img {
+            display: block;
+            width: 240px;
+            max-width: 80%;
+            height: auto;
+            margin: 0 auto 12px;
+             filter:
+        drop-shadow(0 0 8px #00aaff)
+        drop-shadow(0 0 18px #00aaff)
+        drop-shadow(0 0 25px #f5ce69);  
+        }
+        header p {
+            color: #a9c7d9;
+            letter-spacing: 2px;
+            font-size: 12px;
+            line-height: 1.6;
+            margin: 0;
+        }
+        .quiz {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 26px;
+            background: #0b111bee;
+            border: 1px solid #167fbd;
+            border-radius: 16px;
+            box-shadow: 0 0 25px #007bff20, inset 0 0 20px #00aaff08;
+        }
+        h1 {
+            color: #f5ce69;
+            text-align: center;
+            margin-top: 0;
+            font-size: clamp(24px, 5vw, 32px);
+        }
+        h2 { font-size: 20px; line-height: 1.5; }
+        #progresso { color: #39baff; font-weight: bold; font-size: 14px; }
+        #alternativas button {
+            width: 100%;
+            display: block;
+            margin: 12px 0;
+            padding: 14px 15px;
+            border: 1px solid #28516b;
+            border-radius: 9px;
+            background: #101f2b;
+            color: white;
+            font-size: 15px;
+            line-height: 1.4;
+            text-align: left;
+            cursor: pointer;
+            transition: background .2s, border-color .2s, transform .2s;
+        }
+        #alternativas button:hover:not(:disabled) {
+            border-color: #16baff;
+            background: #163044;
+            transform: translateY(-1px);
+        }
+        #alternativas button:disabled { opacity: 1; color: white; cursor: default; }
+        #mensagem { min-height: 24px; font-weight: bold; line-height: 1.5; }
+        #pontuacao { color: #f5ce69; }
+        #proximo {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 9px;
+            background: linear-gradient(90deg, #087bce, #12b8dc);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        #proximo:hover { filter: brightness(1.12); }
+        #reiniciar {
+            width: 100%;
+            margin-top: 10px;
+            padding: 12px;
+            border: 1px solid #b79a48;
+            border-radius: 9px;
+            background: transparent;
+            color: #f5ce69;
+            font-size: 15px;
+            cursor: pointer;
+        }
+        footer {
+            max-width: 680px;
+            margin: 22px auto 0;
+            text-align: center;
+            color: #8199a9;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+        [hidden] { display: none !important; }
+        @media (max-width: 480px) {
+            body { padding: 20px 12px; }
+            .quiz { padding: 20px 16px; }
+            h2 { font-size: 18px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="logo.png" alt="Logo original do projeto Solaris">
+        <p>TECNOLOGIA • MEIO AMBIENTE • FUTURO</p>
+    </header>
+
+    <main class="quiz">
+        <h1>Quiz Ambiental</h1>
+        <p id="progresso"></p>
+        <h2 id="pergunta"></h2>
+        <div id="alternativas"></div>
+        <p id="mensagem" aria-live="polite"></p>
+        <p id="pontuacao">Pontos: 0</p>
+        <button id="proximo" hidden>Próxima pergunta</button>
+        <button id="reiniciar" hidden>Refazer quiz</button>
+    </main>
+
+    <footer>
+        SOLARIS — Inovação para um futuro sustentável
+    </footer>
+
+    <script src="script.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>V.I.D.A. — Simulador Hidrodinâmico e Bacias de Retenção</title>
+  <meta name="description" content="Simulação técnica do balanço hídrico e amortecimento de cheias do Parque Realengo Jornalista Susana Naspolini.">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Barra Superior / Header Técnico -->
+  <header class="sim-header">
+    <div class="sim-header-left">
+      <a href="/" class="sim-brand-back" title="Retornar à Central V.I.D.A.">
+        <svg class="icon-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+      </a>
+      <div class="sim-title-group">
+        <div class="sim-tag-row">
+          <span class="sim-badge-project">V.I.D.A.</span>
+          <span class="sim-badge-sub">MÓDULO 03 &bull; HIDROLOGIA URBANA</span>
+        </div>
+        <h1 class="sim-main-title">Simulador Hidrodinâmico e Amortecimento de Cheias</h1>
+        <p class="sim-sub-title">Parque Susana Naspolini &bull; Bacia Hidrográfica de Realengo (Rio de Janeiro)</p>
+      </div>
+    </div>
+
+    <div class="sim-header-right">
+      <div class="sim-live-status">
+        <span class="status-pulse-dot"></span>
+        <span class="status-live-text">ALERTA RIO &bull; REDE PLUVIOMÉTRICA ATIVA</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Controles Mobile / Seletor de visualização em telas pequenas -->
+  <div class="mobile-tab-bar">
+    <button id="btn-tab-viewport" class="mobile-tab-btn active" data-tab="viewport">
+      <svg class="icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+        <line x1="8" y1="21" x2="16" y2="21"/>
+        <line x1="12" y1="17" x2="12" y2="21"/>
+      </svg>
+      Corte Hidrodinâmico
+    </button>
+    <button id="btn-tab-controls" class="mobile-tab-btn" data-tab="controls">
+      <svg class="icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="4" y1="21" x2="4" y2="14"/>
+        <line x1="4" y1="10" x2="4" y2="3"/>
+        <line x1="12" y1="21" x2="12" y2="12"/>
+        <line x1="12" y1="8" x2="12" y2="3"/>
+        <line x1="20" y1="21" x2="20" y2="16"/>
+        <line x1="20" y1="12" x2="20" y2="3"/>
+        <line x1="1" y1="14" x2="7" y2="14"/>
+        <line x1="9" y1="8" x2="15" y2="8"/>
+        <line x1="17" y1="16" x2="23" y2="16"/>
+      </svg>
+      Parâmetros & Balanço
+    </button>
+  </div>
+
+  <!-- Container Principal -->
+  <main class="sim-container">
+    
+    <!-- Painel Lateral de Parâmetros e Indicadores -->
+    <aside id="controls-panel" class="sim-controls-panel">
+      
+      <!-- 1. Precipitação Pluvial -->
+      <section class="control-card">
+        <div class="card-head">
+          <div class="card-title-icon">
+            <svg class="icon-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"/>
+              <path d="M8 19v2M8 13v2M12 21v2M12 15v2M16 19v2M16 13v2"/>
+            </svg>
+            <h2>Precipitação Pluvial</h2>
+          </div>
+          <span id="rain-val-display" class="metric-pill">50 mm/h</span>
+        </div>
+
+        <div class="slider-wrapper">
+          <div class="slider-labels">
+            <span>10 mm/h (Mín)</span>
+            <span>120 mm/h (Extremo)</span>
+          </div>
+          <input type="range" id="rain-slider" class="slider-input" min="10" max="120" value="50" step="5" aria-label="Taxa de Precipitação">
+          <div class="slider-track-fill" id="slider-track-fill"></div>
+        </div>
+
+        <!-- Presets Técnicos -->
+        <div class="rain-presets-grid">
+          <button class="btn-preset" data-val="20" title="Chuva Fraca">
+            <span class="preset-name">Fraca</span>
+            <span class="preset-val">20 mm/h</span>
+          </button>
+          <button class="btn-preset active" data-val="50" title="Chuva Moderada">
+            <span class="preset-name">Moderada</span>
+            <span class="preset-val">50 mm/h</span>
+          </button>
+          <button class="btn-preset" data-val="75" title="Chuva Forte">
+            <span class="preset-name">Forte</span>
+            <span class="preset-val">75 mm/h</span>
+          </button>
+          <button class="btn-preset" data-val="110" title="Tempestade Extrema">
+            <span class="preset-name">Tempestade</span>
+            <span class="preset-val">110 mm/h</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- 2. Cenário Urbano Comparativo -->
+      <section class="control-card">
+        <div class="card-head">
+          <div class="card-title-icon">
+            <svg class="icon-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 21h18"/>
+              <path d="M5 21V7l8-4v18"/>
+              <path d="M19 21V11l-6-4"/>
+              <path d="M9 9v.01M9 12v.01M9 15v.01M9 18v.01"/>
+            </svg>
+            <h2>Cenário de Infraestrutura</h2>
+          </div>
+        </div>
+
+        <div class="scenario-toggle-group">
+          <button id="btn-scenario-park" class="btn-scenario active" type="button">
+            <div class="scenario-btn-text">
+              <strong>Com Parque Susana Naspolini</strong>
+              <small>Soluções Baseadas na Natureza (SbN)</small>
+            </div>
+            <span class="scenario-status-indicator"></span>
+          </button>
+          
+          <button id="btn-scenario-nopark" class="btn-scenario" type="button">
+            <div class="scenario-btn-text">
+              <strong>Cenário Histórico (2021)</strong>
+              <small>Área Degradada &bull; Solo Impermeável</small>
+            </div>
+            <span class="scenario-status-indicator"></span>
+          </button>
+        </div>
+      </section>
+
+      <!-- 3. Balanço Hídrico Instantâneo e KPIs -->
+      <section class="control-card kpi-section">
+        <div class="card-head">
+          <div class="card-title-icon">
+            <svg class="icon-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+            </svg>
+            <h2>Balanço Hídrico Instantâneo</h2>
+          </div>
+        </div>
+
+        <div class="kpi-grid">
+          <!-- KPI 1: Volume Retido -->
+          <div class="kpi-card">
+            <div class="kpi-header">
+              <span class="kpi-label">Volume Retido no Lago</span>
+              <span id="metric-retencao-pct" class="kpi-sub-pill">62%</span>
+            </div>
+            <div class="kpi-main-val">
+              <span id="metric-retencao-val" class="kpi-number">1.225</span>
+              <span class="kpi-unit">m³</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div id="retencao-bar-fill" class="progress-bar-fill" style="width: 62.8%;"></div>
+            </div>
+            <span class="kpi-caption">Capacidade do Reservatório: 1.950 m³ (1,95 mi L)</span>
+          </div>
+
+          <!-- KPI 2: Permeabilidade -->
+          <div class="kpi-card">
+            <div class="kpi-header">
+              <span class="kpi-label">Taxa de Permeabilidade Efetiva</span>
+            </div>
+            <div class="kpi-main-val">
+              <span id="metric-perm-val" class="kpi-number color-success">84,2%</span>
+            </div>
+            <span class="kpi-caption" id="metric-perm-desc">Solo vivo, biovaletas e jardins de chuva</span>
+          </div>
+
+          <!-- KPI 3: Infiltração -->
+          <div class="kpi-card">
+            <div class="kpi-header">
+              <span class="kpi-label">Infiltração no Lençol Freático</span>
+            </div>
+            <div class="kpi-main-val">
+              <span id="metric-infil-val" class="kpi-number color-info">90,0</span>
+              <span class="kpi-unit">L/s</span>
+            </div>
+            <span class="kpi-caption">Recarga estimada: ~52.000 m³/ano</span>
+          </div>
+
+          <!-- KPI 4: Risco Hidrológico -->
+          <div class="kpi-card">
+            <div class="kpi-header">
+              <span class="kpi-label">Risco nas Vias do Entorno</span>
+            </div>
+            <div id="metric-risco-badge" class="risk-badge-box risk-low">
+              <span class="risk-dot"></span>
+              <span class="risk-text">Estável &bull; Retenção Total de Enxurrada</span>
+            </div>
+            <span class="kpi-caption">Rua Prof. Carlos Wenceslau e vias locais</span>
+          </div>
+        </div>
+      </section>
+
+    </aside>
+
+    <!-- Viewport da Simulação Hidrodinâmica -->
+    <section id="viewport-panel" class="sim-viewport">
+      
+      <!-- Barra Superior do Viewport -->
+      <div class="viewport-header">
+        <div class="viewport-header-info">
+          <h2>Seção Transversal Hidrodinâmica em Tempo Real</h2>
+          <div class="viewport-path-crumbs">
+            <span class="crumb-item">Biovaleta Drenante</span>
+            <span class="crumb-sep">&rarr;</span>
+            <span class="crumb-item">Bacia de Retenção (1.950 m³)</span>
+            <span class="crumb-sep">&rarr;</span>
+            <span class="crumb-item">Rua Prof. Carlos Wenceslau</span>
+          </div>
+        </div>
+        
+        <div class="viewport-actions">
+          <button id="btn-toggle-rain" class="action-btn" title="Pausar / Retomar Chuva">
+            <svg class="icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="6" y="4" width="4" height="16"/>
+              <rect x="14" y="4" width="4" height="16"/>
+            </svg>
+            <span>Simulação Ativa</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Container do Canvas -->
+      <div class="canvas-wrapper">
+        <canvas id="sim-canvas"></canvas>
+        
+        <!-- Indicador de Cota / Nível de Água Flutuante -->
+        <div id="canvas-water-gauge" class="canvas-water-gauge">
+          <div class="gauge-label">Lotação do Lago</div>
+          <div id="gauge-pct-display" class="gauge-value">62%</div>
+          <div class="gauge-bar">
+            <div id="gauge-fill" class="gauge-fill" style="height: 62%;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Legenda Técnica Inferior -->
+      <div class="viewport-legend">
+        <div class="legend-item">
+          <span class="legend-color-box color-vegetation"></span>
+          <span>Topsoil e Grama Permeável (SbN)</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-color-box color-water"></span>
+          <span>Espelho D'água / Retenção Pluvial</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-color-box color-aquifer"></span>
+          <span>Infiltração para Lençol Freático</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-color-box color-asphalt"></span>
+          <span>Pavimento Asfáltico Protegido</span>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <script src="js/simulation.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

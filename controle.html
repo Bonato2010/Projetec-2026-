@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>V.I.D.A. — Controle do Visitante | Parque Realengo</title>
+  <meta name="description" content="Controle remoto interativo do Parque Realengo Susana Naspolini para feira de ciências.">
+  <link rel="stylesheet" href="css/mobile-controller.css">
+</head>
+<body>
+
+  <!-- ==========================================================================
+       TELA DE ESPERA / FILA DE VISITANTE (SINGLE ACTIVE VISITOR LOCK)
+       ========================================================================== -->
+  <div id="mobile-queue-screen" class="mobile-queue-screen" style="display: none;">
+    <div class="queue-card">
+      <div class="queue-emblem-wrap">
+        <img src="public/assets/logo-vida-simbolo-transparente.png" class="queue-logo" alt="V.I.D.A.">
+      </div>
+      <h2>Sessão em Andamento</h2>
+      <p class="queue-sub">Outro visitante está controlando a televisão do stand no momento.</p>
+      
+      <div class="queue-status-box">
+        <span class="queue-pulse-dot"></span>
+        <span id="queue-status-msg">Aguardando a liberação do stand...</span>
+      </div>
+
+      <p class="queue-note">Mantenha esta página aberta. O seu acesso será liberado automaticamente assim que o visitante atual concluir a experiência!</p>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       ETAPA 1: VÍDEO OFICIAL OBRIGATÓRIO EM TELA CHEIA (SEM HUB ANTECIPADO)
+       Ocupa 100% da tela, sem botões de início e sem cards. Ao terminar, transita automaticamente.
+       ========================================================================== -->
+  <div id="mobile-video-screen" class="mobile-video-screen">
+    
+    <div class="video-container-fullscreen">
+      <video id="mobile-video" playsinline preload="auto" autoplay muted>
+        <source src="public/media/intro-vida.mp4" type="video/mp4">
+        Seu dispositivo não suporta o vídeo MP4.
+      </video>
+
+      <!-- Botão Flutuante Discreto de Ativação de Áudio (Se bloqueado pelo navegador) -->
+      <button id="btn-unmute-floating" class="btn-unmute-floating" aria-label="Ativar Áudio">
+        <span>Ativar Áudio da Apresentação</span>
+      </button>
+
+      <!-- Barra de Progresso Contínua na Base do Vídeo -->
+      <div class="video-progress-bar-wrap">
+        <div id="video-progress-bar" class="video-progress-bar-fill"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ==========================================================================
+       ETAPA 2: DASHBOARD DO CONTROLE REMOTO TOUCH (LIBERADO APÓS O VÍDEO)
+       ========================================================================== -->
+  <div id="mobile-app-layout" class="mobile-app-layout" style="display: none;">
+    
+    <!-- Barra Superior -->
+    <header class="mobile-top-bar">
+      <div class="mobile-brand">
+        <div class="mobile-header-logo-frame">
+          <img src="public/assets/logo-vida-simbolo-transparente.png" class="mobile-header-logo" alt="V.I.D.A.">
+        </div>
+        <div class="mobile-brand-headings">
+          <h1>CONTROLE V.I.D.A.</h1>
+          <span class="mobile-brand-subtitle">Parque Realengo Susana Naspolini</span>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span id="session-code-display" class="session-badge-pill">VIDA-0000</span>
+        <button id="btn-end-session" class="btn-end-session" title="Encerrar sessão e liberar para o próximo visitante">Sair</button>
+      </div>
+    </header>
+
+    <!-- Score & Situation Bar -->
+    <div class="mobile-score-bar">
+      <div class="score-item">
+        <span class="score-label">SUA PONTUAÇÃO</span>
+        <span id="visitor-score-display" class="score-value">0 pts</span>
+      </div>
+      <div class="score-item right">
+        <span class="score-label">CONFORTO TÉRMICO</span>
+        <span id="thermal-relief-display" class="park-status-tag">31,5°C (-5,8°C)</span>
+      </div>
+    </div>
+
+    <!-- CONTROLE DE CÂMERA EM TEMPO REAL NA TV (D-PAD & ZOOM) -->
+    <section class="camera-control-dock" aria-label="Controle de Câmera da TV">
+      <div class="dock-header">
+        <span class="dock-title">CONTROLE DA CÂMERA NA TV</span>
+        <button id="btn-toggle-cam-mode" class="btn-mode-toggle" title="Alternar visão">Visão Aérea</button>
+      </div>
+
+      <div class="dpad-and-zoom-row">
+        <!-- D-Pad Direcional -->
+        <div class="dpad-cluster">
+          <button class="dpad-btn btn-up" data-dir="up" aria-label="Inclinar Câmera para Cima">▲</button>
+          <div class="dpad-horiz">
+            <button class="dpad-btn btn-left" data-dir="left" aria-label="Girar Câmera para Esquerda">◀</button>
+            <div class="dpad-center">●</div>
+            <button class="dpad-btn btn-right" data-dir="right" aria-label="Girar Câmera para Direita">▶</button>
+          </div>
+          <button class="dpad-btn btn-down" data-dir="down" aria-label="Inclinar Câmera para Baixo">▼</button>
+        </div>
+
+        <!-- Controles de Zoom -->
+        <div class="zoom-cluster">
+          <button id="btn-zoom-in" class="btn-zoom" aria-label="Aproximar Zoom">+</button>
+          <span class="zoom-label">ZOOM</span>
+          <button id="btn-zoom-out" class="btn-zoom" aria-label="Afastar Zoom">−</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Abas de Navegação -->
+    <nav class="mobile-nav-tabs">
+      <button class="tab-control-btn active" data-tab="explorar">
+        <span>Explorar Parque</span>
+      </button>
+      <button class="tab-control-btn" data-tab="missoes">
+        <span>Missões Interativas</span>
+      </button>
+    </nav>
+
+    <!-- ==========================================================================
+         ABA 1: EXPLORAR O PARQUE AO VIVO
+         ========================================================================== -->
+    <section id="pane-explorar" class="tab-pane active">
+      
+      <div class="explore-grid">
+        
+        <!-- 1. Cinco Super-Torres -->
+        <article class="explore-card featured">
+          <div class="explore-card-header">
+            <h2 class="explore-card-title">5 Super-Torres Bioclimáticas</h2>
+            <span class="explore-badge gold">Alívio Térmico</span>
+          </div>
+          <p>Torres metálicas treliçadas (17m, 26m e 47m) com 236 bicos aspersores que vaporizam névoa d'água resfriando o microclima.</p>
+          <button id="btn-explore-torres" class="btn-trigger-action primary">
+            <span>Disparar Névoa Máxima na TV &rarr;</span>
+          </button>
+        </article>
+
+        <!-- 2. Espelho D'água & Drenagem -->
+        <article class="explore-card">
+          <div class="explore-card-header">
+            <h2 class="explore-card-title">Lago & Bacia de Retenção</h2>
+            <span class="explore-badge cyan">1.950 m³</span>
+          </div>
+          <p>Lâmina d'água de 1.300 m² e biovaletas absorventes que retêm enxurradas e suportam chuvas de 65 mm/h sem alagamentos.</p>
+          <button id="btn-explore-agua" class="btn-trigger-action">
+            <span>Simular Chuva no Lago na TV &rarr;</span>
+          </button>
+        </article>
+
+        <!-- 3. Skatepark & Complexo Esportivo -->
+        <article class="explore-card">
+          <div class="explore-card-header">
+            <h2 class="explore-card-title">Skatepark & Esportes</h2>
+            <span class="explore-badge">Bowl 1.200 m²</span>
+          </div>
+          <p>Pista em concreto com bowl oficial e street plaza, campo de futebol sintético e quadras poliesportivas comunitárias.</p>
+          <button id="btn-explore-skate" class="btn-trigger-action">
+            <span>Focar Zona de Esportes na TV &rarr;</span>
+          </button>
+        </article>
+
+        <!-- 4. Nave do Conhecimento -->
+        <article class="explore-card">
+          <div class="explore-card-header">
+            <h2 class="explore-card-title">Nave do Conhecimento</h2>
+            <span class="explore-badge cyan">Inclusão Digital</span>
+          </div>
+          <p>Domo tecnológico futurista com laboratórios de robótica, informática e cursos gratuitos de tecnologia para mais de 1.500 alunos/mês.</p>
+          <button id="btn-explore-nave" class="btn-trigger-action">
+            <span>Visitar Nave Digital na TV &rarr;</span>
+          </button>
+        </article>
+
+        <!-- 5. Bosque da Mata Atlântica -->
+        <article class="explore-card">
+          <div class="explore-card-header">
+            <h2 class="explore-card-title">3.700 Árvores Nativas</h2>
+            <span class="explore-badge emerald">Mata Atlântica</span>
+          </div>
+          <p>Maciços de Ipês, Pau-Brasil, Jacarandás e Oitis reduzindo as ilhas de calor urbano e acolhendo 42 espécies de aves.</p>
+          <button id="btn-explore-vegetacao" class="btn-trigger-action">
+            <span>Ver Cobertura Arbórea na TV &rarr;</span>
+          </button>
+        </article>
+
+        <!-- 6. Anfiteatro Susana Naspolini -->
+        <article class="explore-card">
+          <div class="explore-card-header">
+            <h2 class="explore-card-title">Anfiteatro Susana Naspolini</h2>
+            <span class="explore-badge gold">600 Lugares</span>
+          </div>
+          <p>Concha acústica ao ar livre com arquibancada concêntrica, homenageando a jornalista que cobria as demandas de Realengo.</p>
+          <button id="btn-explore-anfiteatro" class="btn-trigger-action">
+            <span>Ver Homenagem Cultural na TV &rarr;</span>
+          </button>
+        </article>
+
+      </div>
+
+    </section>
+
+    <!-- ==========================================================================
+         ABA 2: QUATRO MISSÕES DE SUSTENTABILIDADE
+         ========================================================================== -->
+    <section id="pane-missoes" class="tab-pane">
+      
+      <!-- MISSÃO 1: Caminho da Água -->
+      <article class="mission-card active-mission">
+        <div class="mission-header">
+          <div>
+            <span class="mission-number">Missão 01</span>
+            <h3>Caminho da Água (Drenagem Urbana)</h3>
+          </div>
+          <span class="mission-badge-tag">H2O</span>
+        </div>
+        <p class="mission-desc">Ajuste o volume do temporal e acione as biovaletas para absorver a água no espelho d'água de 1.950 m³.</p>
+        
+        <div class="mission-interactive-box">
+          <div style="display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 700;">
+            <span>Precipitação Simulada:</span>
+            <span id="mission-rain-display" style="color: var(--cyan-light);">65 mm/h (Severa)</span>
+          </div>
+          <input type="range" id="mission-rain-slider" class="slider-touch" min="20" max="110" value="65" step="5">
+          
+          <button id="btn-action-biovale" class="btn-trigger-action primary">
+            <span>Otimizar Biovaletas e Conter Enxurrada</span>
+          </button>
+        </div>
+      </article>
+
+      <!-- MISSÃO 2: Proteja o Verde -->
+      <article class="mission-card">
+        <div class="mission-header">
+          <div>
+            <span class="mission-number">Missão 02</span>
+            <h3>Proteja o Verde (Reflorestamento)</h3>
+          </div>
+          <span class="mission-badge-tag">FLORA</span>
+        </div>
+        <p class="mission-desc">Selecione espécies nativas da Mata Atlântica para plantar no parque e combater as ilhas de calor.</p>
+        
+        <div class="mission-interactive-box">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+            <span id="planted-count-display" style="font-size: 0.78rem; font-weight: 700; color: var(--emerald-light);">0 de 8 mudas plantadas</span>
+            <span id="cooling-metric-display" style="font-size: 0.75rem; color: var(--gold-light); font-weight: 700;">Alívio: -0,0°C</span>
+          </div>
+
+          <div class="tree-selection-grid">
+            <button class="btn-tree-choice" data-species="Pau-Brasil">Pau-Brasil</button>
+            <button class="btn-tree-choice" data-species="Ipê-Amarelo">Ipê-Amarelo</button>
+            <button class="btn-tree-choice" data-species="Jacarandá">Jacarandá</button>
+            <button class="btn-tree-choice" data-species="Sapucaia">Sapucaia</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- MISSÃO 3: Desafio da Reciclagem -->
+      <article class="mission-card">
+        <div class="mission-header">
+          <div>
+            <span class="mission-number">Missão 03</span>
+            <h3>Desafio da Reciclagem Inteligente</h3>
+          </div>
+          <span class="mission-badge-tag">RECICLA</span>
+        </div>
+        <p class="mission-desc">Classifique os resíduos do parque nas lixeiras corretas e promova a economia circular.</p>
+        
+        <div class="mission-interactive-box">
+          <div class="recycle-item-card">
+            <span class="recycle-icon" id="recycle-item-icon">ITEM</span>
+            <span class="recycle-name" id="recycle-item-name">Garrafa PET de Refrigerante</span>
+          </div>
+
+          <div class="recycle-bins-grid">
+            <button class="btn-bin" data-bin="plastico" style="border-color: #ef4444; color: #ef4444;">Plástico</button>
+            <button class="btn-bin" data-bin="papel" style="border-color: #3b82f6; color: #3b82f6;">Papel</button>
+            <button class="btn-bin" data-bin="metal" style="border-color: #eab308; color: #eab308;">Metal</button>
+            <button class="btn-bin" data-bin="compost" style="border-color: #10b981; color: #10b981;">Orgânico</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- MISSÃO 4: Explorador do Parque (Quiz Oficial) -->
+      <article class="mission-card">
+        <div class="mission-header">
+          <div>
+            <span class="mission-number">Missão 04</span>
+            <h3>Explorador do Parque (Quiz Ecológico)</h3>
+          </div>
+          <span class="mission-badge-tag">QUIZ</span>
+        </div>
+        <p class="mission-desc">Responda a perguntas oficiais sobre a história e sustentabilidade de Realengo.</p>
+        
+        <div class="mission-interactive-box">
+          <div class="trivia-question-box">
+            <span id="trivia-q-num" class="trivia-tag">Pergunta 1 de 4</span>
+            <p id="trivia-q-text" class="trivia-question-text">Qual era a ocupação histórica do terreno de 76 mil m² antes da criação do parque?</p>
+          </div>
+
+          <div id="trivia-options-container" class="trivia-options-grid"></div>
+        </div>
+      </article>
+
+    </section>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/sync-engine.js"></script>
+  <script src="js/mobile-controller.js"></script>
+</body>
+</html>

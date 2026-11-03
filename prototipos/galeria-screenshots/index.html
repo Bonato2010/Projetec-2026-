@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Central de Screenshots & Pré-Visualização — PROJETEC 2026</title>
+  <meta name="description" content="Galeria visual de capturas de tela reais em desktop e mobile dos três protótipos do Parque Realengo Susana Naspolini.">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- ==========================================================================
+       HEADER INSTITUCIONAL
+       ========================================================================== -->
+  <header class="gallery-header">
+    <div class="header-inner">
+      
+      <div class="brand-group">
+        <div class="brand-icon" aria-hidden="true">📸</div>
+        <div class="brand-text">
+          <h1>CENTRAL DE SCREENSHOTS & PRÉ-VISUALIZAÇÃO</h1>
+          <p>Acompanhamento dos Três Protótipos • Parque Realengo Susana Naspolini</p>
+        </div>
+      </div>
+
+      <div class="header-badges">
+        <div class="pill-status-live">
+          <span class="pulse-dot"></span>
+          <span id="manifest-total-display">15 Screenshots Reais</span>
+        </div>
+        <button id="btn-help-modal" class="btn-command-help">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+          <span>Atualizar Capturas</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       CONTEÚDO PRINCIPAL (GALERIA)
+       ========================================================================== -->
+  <main class="gallery-main">
+    
+    <!-- Barra de Filtros e Metadados -->
+    <div class="filter-tabs-row">
+      <div class="filter-pills-list" role="tablist">
+        <button class="tab-btn active" data-filter="todas">Todos os Projetos (4)</button>
+        <button class="tab-btn" data-filter="mapa-parque">01. Mapa do Parque</button>
+        <button class="tab-btn" data-filter="painel-ambiental">02. Painel Ambiental V.I.D.A.</button>
+        <button class="tab-btn" data-filter="simulador-drenagem">03. Simulador de Drenagem</button>
+        <button class="tab-btn" data-filter="multitela-stand">04. Stand Multitela (TV + Celular)</button>
+      </div>
+
+      <div style="font-size: 0.78rem; color: var(--text-muted);">
+        <span id="manifest-date-display">Captura Real Automatizada</span>
+      </div>
+    </div>
+
+    <!-- Container Dinâmico das Seções dos Três Projetos -->
+    <div id="gallery-sections-container" style="display: flex; flex-direction: column; gap: 2rem;">
+      <!-- Injetado dinamicamente por gallery.js com base em manifest-data.js -->
+    </div>
+
+  </main>
+
+  <!-- ==========================================================================
+       MODAL LIGHTBOX (VISUALIZAÇÃO AMPLIADA)
+       ========================================================================== -->
+  <div id="lightbox-backdrop" class="lightbox-backdrop" role="dialog" aria-modal="true" aria-labelledby="lightbox-title">
+    <div class="lightbox-dialog" tabindex="-1">
+      
+      <div class="lightbox-top-bar">
+        <div class="lightbox-title-box">
+          <h3 id="lightbox-title">Nome do Screenshot</h3>
+          <p id="lightbox-project-name">Projeto • Resolução</p>
+        </div>
+
+        <div class="lightbox-actions">
+          <button id="btn-lightbox-prev" class="btn-lightbox-close" title="Anterior (Seta Esquerda)">‹</button>
+          <button id="btn-lightbox-next" class="btn-lightbox-close" title="Próxima (Seta Direita)">›</button>
+          <button id="btn-close-lightbox" class="btn-lightbox-close" title="Fechar (ESC)">&times;</button>
+        </div>
+      </div>
+
+      <div class="lightbox-img-container">
+        <img id="lightbox-img" class="lightbox-img" src="" alt="Captura ampliada">
+      </div>
+
+      <div class="lightbox-footer-info">
+        <p id="lightbox-desc" style="max-width: 65%;">Descrição da tela capturada.</p>
+        <div>
+          <span id="lightbox-meta-dim">1440 × 900 px</span> • 
+          <span id="lightbox-meta-size">0 KB</span> • 
+          <span id="lightbox-meta-date">-</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL DE INSTRUÇÃO DO COMANDO DE ATUALIZAÇÃO
+       ========================================================================== -->
+  <div id="help-modal-backdrop" class="lightbox-backdrop" role="dialog" aria-modal="true">
+    <div class="help-modal-dialog">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+        <h3 style="font-size: 1.1rem; font-weight: 800;">Como Atualizar Todos os Screenshots</h3>
+        <button id="btn-close-help" class="btn-lightbox-close" style="width: 30px; height: 30px; font-size: 1.1rem;">&times;</button>
+      </div>
+
+      <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.45;">
+        A suíte de captura executa automaticamente o Google Chrome / Edge em modo headless, renderiza as 3 aplicações reais em resolução de computador (1440×900) e celular (390×844), aguarda a conclusão das animações e arquiva as versões anteriores na pasta <code>historico/</code>.
+      </p>
+
+      <div class="command-box">
+        <span>node prototipos/galeria-screenshots/capturar.js</span>
+        <button id="btn-copy-command" class="btn-copy-cmd">Copiar</button>
+      </div>
+
+      <p style="font-size: 0.75rem; color: var(--text-subtle);">
+        No PowerShell do Windows, você também pode simplesmente executar: <code>.\capturar.ps1</code> dentro da pasta da galeria.
+      </p>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       RODAPÉ
+       ========================================================================== -->
+  <footer class="gallery-footer">
+    <p>Central de Screenshots — PROJETEC 2026 • Parque Realengo Jornalista Susana Naspolini • Rio de Janeiro</p>
+    <p style="font-size: 0.72rem; color: var(--text-subtle); margin-top: 4px;">Capturas reais executadas diretamente pelo motor do navegador sem mockups ou dados estáticos.</p>
+  </footer>
+
+  <!-- Dados Manifest Offline & Scripts -->
+  <script src="js/manifest-data.js"></script>
+  <script src="js/gallery.js"></script>
+</body>
+</html>

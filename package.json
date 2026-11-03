@@ -1,12 +1,23 @@
 {
-  "name": "eco-city-root",
+  "name": "vida-parque-realengo-multitela",
   "version": "1.0.0",
-  "private": true,
+  "description": "Central Multitela Interativa de Sustentabilidade do Parque Realengo Susana Naspolini para Feira de Ciências",
+  "main": "server.js",
   "scripts": {
-    "install": "npm install --prefix eco-city && npm install --prefix vida-site",
-    "dev:eco-city": "npm run dev --prefix eco-city",
-    "dev:vida": "npm run dev --prefix vida-site",
-    "build:eco-city": "npm run build --prefix eco-city",
-    "build:vida": "npm run build --prefix vida-site"
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "sustentabilidade",
+    "parque-realengo",
+    "multitela",
+    "feira-de-ciencias",
+    "websocket",
+    "rio-de-janeiro"
+  ],
+  "author": "Equipe V.I.D.A.",
+  "license": "ISC",
+  "dependencies": {
+    "ws": "^8.22.1"
   }
 }

@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>V.I.D.A. — Plataforma Educativa de Quiz | Projetec 2026</title>
+  
+  <!-- Favicon e Meta Tags -->
+  <link rel="icon" type="image/png" href="public/assets/logo-vida-simbolo.png">
+  <meta name="description" content="Plataforma de Quiz Interativo e Avaliação Ambiental do Projeto V.I.D.A. — Parque Realengo Jornalista Susana Naspolini • Projetec 2026">
+  <meta name="theme-color" content="#060a12">
+
+  <!-- Fontes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Estilos da Plataforma -->
+  <link rel="stylesheet" href="css/quiz.css">
+</head>
+<body>
+
+  <!-- ========================================================================
+       BARRA SUPERIOR (HEADER)
+       ======================================================================== -->
+  <header class="top-bar">
+    <div class="brand-section" onclick="window.QUIZ_ENGINE && window.QUIZ_ENGINE.showView('hubView')">
+      <div class="brand-logo-wrap">
+        <img src="public/assets/logo-vida-simbolo.png" alt="Logo Oficial V.I.D.A.">
+      </div>
+      <div class="brand-title-wrap">
+        <h1>V.I.D.A. <span class="brand-badge">PROJETEC 2026</span></h1>
+        <div class="brand-subtitle">Plataforma Educativa • Parque Realengo Jornalista Susana Naspolini</div>
+      </div>
+    </div>
+
+    <div class="top-controls">
+      <!-- Badge do Jogador Logado -->
+      <div class="user-pill" id="userPill" style="display: none;" title="Clique para trocar de participante">
+        <span class="user-avatar" id="userAvatar">PARTICIPANTE</span>
+        <span class="user-name" id="userName">Visitante</span>
+        <button type="button" class="user-change-btn" id="btnChangeUser">(Trocar)</button>
+      </div>
+
+      <!-- Ações Rápidas -->
+      <a href="/parque3d" class="nav-action-btn primary-action" title="Abrir Gêmeo Digital 3D do Parque Realengo">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M12 22v-7M7 17a5 5 0 0 1 10 0M5 12a7 7 0 0 1 14 0M8 7a4 4 0 0 1 8 0"/>
+        </svg>
+        <span>Parque Realengo 3D</span>
+      </a>
+
+      <button type="button" class="nav-action-btn" id="btnOpenTvRanking" title="Abrir Modo Telão TV do Stand">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+          <line x1="8" y1="21" x2="16" y2="21"/>
+          <line x1="12" y1="17" x2="12" y2="21"/>
+        </svg>
+        <span>Telão TV</span>
+      </button>
+
+      <button type="button" class="nav-action-btn" id="btnOpenRanking" title="Ver Ranking de Pontuações">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <circle cx="12" cy="8" r="7"/>
+          <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
+        </svg>
+        <span>Ranking</span>
+      </button>
+
+      <button type="button" class="nav-action-btn" id="btnOpenHistory" title="Ver Meu Histórico de Partidas">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="16" y1="13" x2="8" y2="13"/>
+          <line x1="16" y1="17" x2="8" y2="17"/>
+          <polyline points="10 9 9 9 8 9"/>
+        </svg>
+        <span>Histórico</span>
+      </button>
+
+      <button type="button" class="nav-action-btn audio-btn" id="btnToggleAudio" title="Ativar/Desativar Sons">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       CONTEÚDO PRINCIPAL (VIEWS GERENCIADAS PELO MOTOR)
+       ======================================================================== -->
+  <main class="main-content">
+
+    <!-- VIEW 1: BOAS-VINDAS E CADASTRO SIMPLIFICADO -->
+    <section id="welcomeView" class="quiz-view active">
+      <div class="welcome-card">
+        <div class="welcome-logo">
+          <img src="public/assets/logo-vida-simbolo.png" alt="Símbolo V.I.D.A.">
+        </div>
+        <h2>BEM-VINDO AO V.I.D.A. QUIZ</h2>
+        <p class="welcome-tagline">
+          Teste seus conhecimentos em sustentabilidade urbana, infraestrutura verde e tecnologias ambientais aplicadas ao Parque Realengo Jornalista Susana Naspolini.
+        </p>
+
+        <form id="welcomeForm" onsubmit="return false;">
+          <div class="welcome-input-group">
+            <label for="userNameInput" class="welcome-label">Digite seu Nome ou Apelido:</label>
+            <input 
+              type="text" 
+              id="userNameInput" 
+              class="welcome-input" 
+              placeholder="Ex: Profª Helena, Aluno Gabriel, etc." 
+              maxlength="30" 
+              required 
+              autocomplete="name"
+            >
+          </div>
+
+          <div class="avatar-selector">
+            <label class="welcome-label">Escolha seu Avatar:</label>
+            <div class="avatar-grid" id="avatarGrid">
+              <!-- Renderizado dinamicamente via JS -->
+            </div>
+          </div>
+
+          <button type="submit" class="btn-primary-glow" id="btnStartWelcome">
+            <span>ENTRAR NA PLATAFORMA</span>
+            <span>➔</span>
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- VIEW 2: HUB DE SELEÇÃO ("QUAL QUIZ VOCÊ QUER JOGAR?") -->
+    <section id="hubView" class="quiz-view">
+      <div class="hub-header">
+        <h2 class="hub-title">QUAL QUIZ VOCÊ QUER JOGAR?</h2>
+        <p class="hub-desc">
+          Escolha uma das modalidades temáticas abaixo, configure o nível de desafio e mostre sua pontuação na feira de ciências!
+        </p>
+      </div>
+
+      <div class="hub-modes-grid">
+        <!-- CARD 1: QUIZ DE SUSTENTABILIDADE -->
+        <div class="hub-card card-sustentabilidade">
+          <span class="card-badge badge-emerald">MODALIDADE PRINCIPAL</span>
+          <div class="card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M12 22v-7M7 17a5 5 0 0 1 10 0M5 12a7 7 0 0 1 14 0M8 7a4 4 0 0 1 8 0"/>
+            </svg>
+          </div>
+          <h3 class="card-title">Quiz de Sustentabilidade</h3>
+          <p class="card-desc">
+            Desafios focados nas soluções ambientais do Parque Realengo: bacia de retenção de água, super-torres de umidificação, ilhas de calor urbanas, biodiversidade da Mata Atlântica e ODS da ONU.
+          </p>
+
+          <div class="tags-row">
+            <span class="mini-tag">Água & Drenagem</span>
+            <span class="mini-tag">Mata Atlântica</span>
+            <span class="mini-tag">Ilhas de Calor</span>
+            <span class="mini-tag">Reciclagem</span>
+            <span class="mini-tag">ODS ONU</span>
+          </div>
+
+          <div class="hub-config-section">
+            <!-- Quantidade de Questões -->
+            <div class="config-group">
+              <div class="config-label">
+                <span>Número de Perguntas</span>
+                <span style="color: var(--emerald);">Selecione</span>
+              </div>
+              <div class="pill-selector" id="sustCountSelector">
+                <button type="button" class="pill-option" data-count="10">10 Perguntas</button>
+                <button type="button" class="pill-option active-emerald" data-count="20">20 Perguntas</button>
+                <button type="button" class="pill-option" data-count="25">25 Perguntas</button>
+              </div>
+            </div>
+
+            <!-- Dificuldade -->
+            <div class="config-group">
+              <div class="config-label">
+                <span>Nível de Dificuldade</span>
+                <span style="color: var(--emerald);">Graduado</span>
+              </div>
+              <div class="pill-selector" id="sustDiffSelector">
+                <button type="button" class="pill-option" data-diff="facil">Fácil</button>
+                <button type="button" class="pill-option active-emerald" data-diff="medio">Médio</button>
+                <button type="button" class="pill-option" data-diff="dificil">Difícil</button>
+              </div>
+            </div>
+
+            <button type="button" class="btn-card-launch btn-launch-emerald" id="btnLaunchSustentabilidade">
+              <span>INICIAR QUIZ DE SUSTENTABILIDADE</span>
+              <span>➔</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- CARD 2: MODO PROFESSOR / PROFISSIONAL -->
+        <div class="hub-card card-profissional">
+          <span class="card-badge badge-cyan">MODO AVANÇADO</span>
+          <div class="card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+              <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+            </svg>
+          </div>
+          <h3 class="card-title">Modo Professor / Profissional</h3>
+          <p class="card-desc">
+            Para professores, universitários e estudantes de cursos técnicos. Casos práticos e legislação nas áreas de Enfermagem, Informática, Administração e Gestão ESG.
+          </p>
+
+          <!-- Seletor de Áreas -->
+          <div class="config-group">
+            <div class="config-label">
+              <span>Área Temática</span>
+              <span style="color: var(--cyan);">Selecione</span>
+            </div>
+            <div class="area-selector-grid" id="profAreaSelector">
+              <button type="button" class="area-option full-width active" data-area="todas">
+                Modo Interdisciplinar (Recomendado)
+              </button>
+              <button type="button" class="area-option" data-area="Enfermagem">
+                Enfermagem & Saúde
+              </button>
+              <button type="button" class="area-option" data-area="Informática">
+                Informática & IoT
+              </button>
+              <button type="button" class="area-option" data-area="Administração">
+                Administração & ESG
+              </button>
+              <button type="button" class="area-option" data-area="Conhecimentos Gerais">
+                Conhecimentos Gerais
+              </button>
+            </div>
+          </div>
+
+          <div class="hub-config-section">
+            <!-- Quantidade de Questões -->
+            <div class="config-group">
+              <div class="config-label">
+                <span>Número de Perguntas</span>
+                <span style="color: var(--cyan);">Selecione</span>
+              </div>
+              <div class="pill-selector" id="profCountSelector">
+                <button type="button" class="pill-option" data-count="10">10 Perguntas</button>
+                <button type="button" class="pill-option active" data-count="20">20 Perguntas</button>
+                <button type="button" class="pill-option" data-count="25">25 Perguntas</button>
+              </div>
+            </div>
+
+            <!-- Dificuldade -->
+            <div class="config-group">
+              <div class="config-label">
+                <span>Nível de Dificuldade</span>
+                <span style="color: var(--cyan);">Graduado</span>
+              </div>
+              <div class="pill-selector" id="profDiffSelector">
+                <button type="button" class="pill-option" data-diff="facil">Fácil</button>
+                <button type="button" class="pill-option active" data-diff="medio">Médio</button>
+                <button type="button" class="pill-option" data-diff="dificil">Difícil</button>
+              </div>
+            </div>
+
+            <button type="button" class="btn-card-launch btn-launch-cyan" id="btnLaunchProfissional">
+              <span>INICIAR MODO PROFISSIONAL</span>
+              <span>➔</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 3: GAMEPLAY DO QUIZ -->
+    <section id="gameView" class="quiz-view">
+      <div class="quiz-game-container">
+        <!-- HUD do Jogo -->
+        <div class="quiz-hud">
+          <div class="hud-top-row">
+            <div class="hud-left">
+              <span class="hud-category-badge" id="gameCategory">Sustentabilidade</span>
+              <span class="hud-counter" id="gameCounter">Questão 01 de 20</span>
+            </div>
+            <div class="hud-right">
+              <div class="hud-timer" title="Tempo decorrido">
+                <span>⏱️</span>
+                <span id="gameTimer">00:00</span>
+              </div>
+              <div class="hud-score" title="Pontuação">
+                <span>🏆</span>
+                <span id="gameCurrentScore">0 pts</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Barra de Progresso Fluida -->
+          <div class="progress-bar-wrap">
+            <div class="progress-bar-fill" id="progressBarFill" style="width: 0%;"></div>
+          </div>
+        </div>
+
+        <!-- Card da Pergunta -->
+        <div class="question-card">
+          <h2 class="question-text" id="questionText">Carregando pergunta...</h2>
+          <div class="options-list" id="optionsContainer">
+            <!-- Alternativas renderizadas dinamicamente via JS -->
+          </div>
+
+          <!-- Feedback Pedagógico Imediato -->
+          <div class="feedback-box" id="feedbackBox" style="display: none;">
+            <div class="feedback-header" id="feedbackHeader">
+              <span>✓</span> Resposta Correta!
+            </div>
+            <div class="feedback-explanation" id="feedbackExplanation">
+              Conceito pedagógico explicativo aqui.
+            </div>
+          </div>
+
+          <!-- Barra de Ação -->
+          <div class="quiz-action-bar">
+            <button type="button" class="btn-next-question" id="btnNextQuestion" style="display: none;">
+              <span>Próxima Questão</span>
+              <span>➔</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 4: RESULTADOS, AVALIAÇÃO E NOTA DE 0 A 10 -->
+    <section id="resultsView" class="quiz-view">
+      <div class="results-container">
+        <div class="results-hero-card">
+          <h2 class="results-title">BOLETIM DE DESEMPENHO</h2>
+          <p class="results-subtitle">Confira sua avaliação técnica e nota final oficial do V.I.D.A.</p>
+
+          <!-- Anel de Nota 0 a 10 -->
+          <div class="score-circle-wrap">
+            <svg class="score-svg" viewBox="0 0 160 160">
+              <circle class="score-svg-bg" cx="80" cy="80" r="70"></circle>
+              <circle class="score-svg-progress" id="resultsCircleProgress" cx="80" cy="80" r="70"></circle>
+            </svg>
+            <div class="score-text-inner">
+              <div class="score-number" id="resultsScoreNumber">10.0</div>
+              <div class="score-scale">de 10.0</div>
+            </div>
+          </div>
+
+          <!-- Selo de Classificação -->
+          <div>
+            <div class="performance-badge badge-mestre" id="resultsBadge">
+              Mestre da Sustentabilidade — Excelência Máxima
+            </div>
+          </div>
+
+          <!-- Métricas -->
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <div class="metric-value" id="metricHits" style="color: var(--emerald);">20 / 20</div>
+              <div class="metric-label">Total de Acertos</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-value" id="metricErrors" style="color: var(--coral);">0</div>
+              <div class="metric-label">Total de Erros</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-value" id="metricAccuracy" style="color: var(--cyan);">100%</div>
+              <div class="metric-label">Aproveitamento</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-value" id="metricTime" style="color: var(--amber);">03m 12s</div>
+              <div class="metric-label">Tempo Total</div>
+            </div>
+          </div>
+
+          <!-- GRANDE GRÁFICO DE DESEMPENHO VISUAL MULTIDIMENSIONAL (SVG INTERATIVO) -->
+          <div class="big-chart-card">
+            <div class="big-chart-header">
+              <div class="big-chart-title-wrap">
+                <span class="big-chart-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <line x1="18" y1="20" x2="18" y2="10"/>
+                    <line x1="12" y1="20" x2="12" y2="4"/>
+                    <line x1="6" y1="20" x2="6" y2="14"/>
+                  </svg>
+                </span>
+                <div>
+                  <h3 class="big-chart-title">PAINEL GRÁFICO DE DESEMPENHO</h3>
+                  <div class="big-chart-subtitle">Diagnóstico multidimensional de competências ambientais e ritmo de resposta</div>
+                </div>
+              </div>
+              <div class="chart-tab-pills" id="chartTabPills">
+                <button type="button" class="chart-tab-pill active" data-chart="radar">Radar de Competências</button>
+                <button type="button" class="chart-tab-pill" data-chart="evolution">Curva de Evolução</button>
+                <button type="button" class="chart-tab-pill" data-chart="benchmark">Comparativo Geral</button>
+              </div>
+            </div>
+
+            <!-- Container dos Gráficos SVG Dinâmicos -->
+            <div class="big-chart-viewport" id="bigChartViewport">
+              <!-- Renderizado dinamicamente via JS com SVG de alta fidelidade -->
+            </div>
+          </div>
+
+          <!-- Breakdown por Assunto -->
+          <div class="breakdown-card">
+            <h3 class="breakdown-title">
+              <span>📊</span> Desempenho por Área de Conhecimento
+            </h3>
+            <div class="breakdown-list" id="breakdownList">
+              <!-- Renderizado dinamicamente -->
+            </div>
+          </div>
+
+          <!-- Ações Finais -->
+          <div class="results-actions-grid">
+            <button type="button" class="btn-card-launch btn-launch-emerald" id="btnPlayAgain">
+              <span>🔄</span> Jogar Novamente
+            </button>
+            <button type="button" class="nav-action-btn" id="btnResultsRanking" style="justify-content: center; padding: 16px;">
+              <span>🏆</span> Ver Ranking
+            </button>
+            <button type="button" class="nav-action-btn" id="btnResultsHistory" style="justify-content: center; padding: 16px;">
+              <span>📜</span> Meu Histórico
+            </button>
+            <a href="/parque3d" class="nav-action-btn primary-action" style="justify-content: center; padding: 16px;">
+              <span>🌿</span> Explorar Parque 3D
+            </a>
+          </div>
+        </div>
+      </div>
+    <!-- VIEW 5: MODO TELÃO TV — RANKING GERAL OFICIAL EM TEMPO REAL -->
+    <section id="tvRankingView" class="quiz-view">
+      <div class="tv-ranking-container">
+        <!-- Cabeçalho do Telão -->
+        <div class="tv-ranking-header">
+          <div class="tv-ranking-brand">
+            <img src="public/assets/logo-vida-simbolo.png" class="tv-ranking-logo" alt="V.I.D.A.">
+            <div>
+              <h2 class="tv-ranking-title">PLACAR OFICIAL AO VIVO • PROJETEC 2026</h2>
+              <p class="tv-ranking-subtitle">V.I.D.A. — Parque Realengo Jornalista Susana Naspolini · Atualização em Tempo Real</p>
+            </div>
+          </div>
+          <div class="tv-ranking-live-badge">
+            <span class="live-dot-pulse"></span>
+            <span>TRANSMISSÃO AO VIVO NO STAND</span>
+          </div>
+        </div>
+
+        <!-- Filtros Rápidos do Telão -->
+        <div class="tv-ranking-filters-row">
+          <div class="ranking-filters">
+            <button type="button" class="filter-btn active" data-filter="todos">🏆 Todos os Modos</button>
+            <button type="button" class="filter-btn" data-filter="sustentabilidade">🌿 Sustentabilidade</button>
+            <button type="button" class="filter-btn" data-filter="profissional">🎓 Professor / Profissional</button>
+          </div>
+          <button type="button" class="nav-action-btn" id="btnTvExit" style="padding: 10px 18px;">
+            <span>↩</span>
+            <span>Voltar ao Quiz</span>
+          </button>
+        </div>
+
+        <!-- Pódio Triplo Monumental do Telão TV -->
+        <div class="tv-podium-monumental" id="tvPodiumMonumental">
+          <!-- 2º Lugar -->
+          <div class="tv-podium-card tv-podium-2nd">
+            <div class="tv-podium-crown">2º</div>
+            <div class="tv-podium-avatar" id="tvPodium2ndAvatar">02</div>
+            <div class="tv-podium-name" id="tvPodium2ndName">Lucas Moreira</div>
+            <div class="tv-podium-mode" id="tvPodium2ndMode">Sustentabilidade</div>
+            <div class="tv-podium-score" id="tvPodium2ndScore">10.0</div>
+            <div class="tv-podium-pillar">2º LUGAR</div>
+          </div>
+
+          <!-- 1º Lugar (Campeão Destaque) -->
+          <div class="tv-podium-card tv-podium-1st">
+            <div class="tv-podium-crown">1º</div>
+            <div class="tv-podium-avatar" id="tvPodium1stAvatar">01</div>
+            <div class="tv-podium-name" id="tvPodium1stName">Profª Helena Soares</div>
+            <div class="tv-podium-mode" id="tvPodium1stMode">Modo Interdisciplinar</div>
+            <div class="tv-podium-score" id="tvPodium1stScore">10.0</div>
+            <div class="tv-podium-pillar">1º LUGAR — CAMPEÃO</div>
+          </div>
+
+          <!-- 3º Lugar -->
+          <div class="tv-podium-card tv-podium-3rd">
+            <div class="tv-podium-crown">3º</div>
+            <div class="tv-podium-avatar" id="tvPodium3rdAvatar">03</div>
+            <div class="tv-podium-name" id="tvPodium3rdName">Dra. Camila Nogueira</div>
+            <div class="tv-podium-mode" id="tvPodium3rdMode">Enfermagem & Saúde</div>
+            <div class="tv-podium-score" id="tvPodium3rdScore">9.5</div>
+            <div class="tv-podium-pillar">3º LUGAR</div>
+          </div>
+        </div>
+
+        <!-- Tabela Leaderboard de Alta Visibilidade (Legível a Distância) -->
+        <div class="tv-leaderboard-card">
+          <div class="tv-leaderboard-header">
+            <span>TOP 10 PARTICIPANTES EM DESTAQUE</span>
+            <span id="tvOnlineBadge" style="font-size: 0.85rem; color: var(--emerald);">● Servidor Local Sincronizado</span>
+          </div>
+          <table class="tv-table">
+            <thead>
+              <tr>
+                <th style="width: 80px;">Posição</th>
+                <th>Participante</th>
+                <th>Modalidade / Área</th>
+                <th>Nível</th>
+                <th>Acertos</th>
+                <th>Nota Final</th>
+                <th>Tempo</th>
+              </tr>
+            </thead>
+            <tbody id="tvRankingTableBody">
+              <!-- Renderizado dinamicamente -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Ticker de Últimas Partidas no Rodapé do Telão -->
+        <div class="tv-ticker-bar">
+          <div class="tv-ticker-tag">ÚLTIMOS RESULTADOS:</div>
+          <div class="tv-ticker-scroll" id="tvTickerScroll">
+            <span>Carregando transmissões ao vivo...</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================================================
+       MODAL DE RANKING GERAL COM PÓDIO E FILTROS
+       ======================================================================== -->
+  <div class="modal-overlay" id="rankingModal">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3 class="modal-title">
+          <span>🏆</span> RANKING OFICIAL DA FEIRA • PROJETEC 2026
+        </h3>
+        <button type="button" class="modal-close-btn" id="btnCloseRanking" title="Fechar">&times;</button>
+      </div>
+      <div class="modal-body">
+        <!-- Filtros Rápidos -->
+        <div class="ranking-filters">
+          <button type="button" class="filter-btn active" data-filter="todos">🏆 Todos os Modos</button>
+          <button type="button" class="filter-btn" data-filter="sustentabilidade">🌿 Sustentabilidade</button>
+          <button type="button" class="filter-btn" data-filter="profissional">🎓 Professor / Profissional</button>
+        </div>
+
+        <!-- Pódio Triplo dos 3 Primeiros -->
+        <div class="podium-section" id="podiumContainer">
+          <!-- 2º Lugar -->
+          <div class="podium-place podium-2nd">
+            <div class="podium-crown">🥈</div>
+            <div class="podium-avatar" id="podium2ndAvatar">⚡</div>
+            <div class="podium-name" id="podium2ndName">Lucas Moreira</div>
+            <div class="podium-score" id="podium2ndScore">Nota 9.5</div>
+            <div class="podium-bar">2º</div>
+          </div>
+
+          <!-- 1º Lugar -->
+          <div class="podium-place podium-1st">
+            <div class="podium-crown">🥇</div>
+            <div class="podium-avatar" id="podium1stAvatar">🔬</div>
+            <div class="podium-name" id="podium1stName">Profª Helena</div>
+            <div class="podium-score" id="podium1stScore">Nota 10.0</div>
+            <div class="podium-bar">1º</div>
+          </div>
+
+          <!-- 3º Lugar -->
+          <div class="podium-place podium-3rd">
+            <div class="podium-crown">🥉</div>
+            <div class="podium-avatar" id="podium3rdAvatar">🩺</div>
+            <div class="podium-name" id="podium3rdName">Dra. Camila</div>
+            <div class="podium-score" id="podium3rdScore">Nota 9.0</div>
+            <div class="podium-bar">3º</div>
+          </div>
+        </div>
+
+        <!-- Tabela Completa de Classificação -->
+        <div class="ranking-table-wrap">
+          <table class="ranking-table">
+            <thead>
+              <tr>
+                <th>Posição</th>
+                <th>Participante</th>
+                <th>Modalidade</th>
+                <th>Nível</th>
+                <th>Acertos</th>
+                <th>Nota</th>
+                <th>Tempo</th>
+              </tr>
+            </thead>
+            <tbody id="rankingTableBody">
+              <!-- Renderizado dinamicamente -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL DE HISTÓRICO DE PARTIDAS DO USUÁRIO
+       ======================================================================== -->
+  <div class="modal-overlay" id="historyModal">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3 class="modal-title">
+          <span>📜</span> MEU HISTÓRICO DE PARTIDAS
+        </h3>
+        <button type="button" class="modal-close-btn" id="btnCloseHistory" title="Fechar">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="historyItemsList">
+          <!-- Renderizado dinamicamente -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       RODAPÉ (FOOTER)
+       ======================================================================== -->
+  <footer class="footer-wrap">
+    <div class="footer-inner">
+      <div>
+        <strong>V.I.D.A.</strong> — Vigilância e Indicadores Digitais Ambientais • Stand Projetec 2026
+      </div>
+      <div>
+        Gêmeo Digital do Parque Realengo Jornalista Susana Naspolini
+      </div>
+      <div style="display: flex; gap: 14px;">
+        <a href="/parque3d" style="color: var(--cyan); text-decoration: none;">🌿 Parque 3D</a>
+        <a href="/controle.html" style="color: var(--emerald); text-decoration: none;">📱 Controle Mobile</a>
+        <a href="/galeria" style="color: var(--amber); text-decoration: none;">🖼️ Galeria</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts da Plataforma de Quiz -->
+  <script src="js/quiz-questions.js"></script>
+  <script src="js/quiz-engine.js"></script>
+</body>
+</html>

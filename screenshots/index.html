@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Acervo Visual de Screenshots — V.I.D.A. | Projetec 2026</title>
+  <link rel="icon" type="image/png" href="../public/assets/logo-vida-simbolo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #060a12;
+      --card-bg: rgba(14, 23, 42, 0.8);
+      --border: rgba(0, 240, 255, 0.2);
+      --cyan: #00f0ff;
+      --emerald: #00ff88;
+      --amber: #fbbf24;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 24px;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(0, 240, 255, 0.08), transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(0, 255, 136, 0.06), transparent 40%);
+    }
+    header {
+      max-width: 1400px;
+      margin: 0 auto 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 20px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .brand img {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      box-shadow: 0 0 16px rgba(0, 240, 255, 0.3);
+    }
+    .brand h1 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      background: linear-gradient(90deg, #ffffff, var(--cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .brand p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+    .nav-links {
+      display: flex;
+      gap: 10px;
+    }
+    .nav-btn {
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(15, 23, 42, 0.8);
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .nav-btn:hover {
+      border-color: var(--cyan);
+      background: rgba(0, 240, 255, 0.15);
+      color: #fff;
+    }
+    .filter-bar {
+      max-width: 1400px;
+      margin: 0 auto 24px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .filter-pill {
+      padding: 8px 18px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(15, 23, 42, 0.8);
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 0.86rem;
+      font-weight: 700;
+      transition: all 0.2s;
+    }
+    .filter-pill.active {
+      background: var(--cyan);
+      color: #030712;
+      border-color: var(--cyan);
+      box-shadow: 0 0 16px rgba(0, 240, 255, 0.3);
+    }
+    .grid {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s, border-color 0.2s;
+      cursor: pointer;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--cyan);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+    }
+    .thumb-wrap {
+      width: 100%;
+      height: 200px;
+      background: #020617;
+      overflow: hidden;
+      position: relative;
+    }
+    .thumb-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+    .card:hover .thumb-wrap img {
+      transform: scale(1.05);
+    }
+    .badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(4, 8, 16, 0.85);
+      border: 1px solid var(--border);
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--cyan);
+    }
+    .card-body {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .card-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: #fff;
+    }
+    .card-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+      margin-top: auto;
+    }
+    /* Lightbox Modal */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.92);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 24px;
+    }
+    .lightbox.active { display: flex; }
+    .lightbox img {
+      max-width: 95vw;
+      max-height: 85vh;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      box-shadow: 0 0 40px rgba(0, 240, 255, 0.2);
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 2rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <img src="../public/assets/logo-vida-simbolo.png" alt="Logo V.I.D.A.">
+      <div>
+        <h1>CENTRAL DE SCREENSHOTS REAIS</h1>
+        <p>Gêmeo Digital 3D & Plataforma Educativa de Quiz • Parque Realengo Susana Naspolini • Projetec 2026</p>
+      </div>
+    </div>
+    <div class="nav-links">
+      <a href="/" class="nav-btn">🎯 Quiz Educativo</a>
+      <a href="/parque3d" class="nav-btn" style="border-color: var(--emerald); color: var(--emerald);">🌿 Parque 3D</a>
+      <a href="/controle.html" class="nav-btn">📱 Controle Mobile</a>
+    </div>
+  </header>
+
+  <div class="filter-bar">
+    <button class="filter-pill active" data-filter="all">Todas as Imagens (40)</button>
+    <button class="filter-pill" data-filter="3d">🌿 Gêmeo 3D Realengo (14)</button>
+    <button class="filter-pill" data-filter="interfaces">🖥️ Interfaces & HUD (12)</button>
+    <button class="filter-pill" data-filter="apresentacao">🎓 Plataforma de Quiz (9)</button>
+    <button class="filter-pill" data-filter="detalhes">🔍 Microestruturas (5)</button>
+  </div>
+
+  <div class="grid" id="shotsGrid">
+    <!-- Renderizado dinamicamente via JS -->
+  </div>
+
+  <div class="lightbox" id="lightboxModal">
+    <button class="lightbox-close" id="lightboxClose">&times;</button>
+    <img id="lightboxImg" src="" alt="Screenshot ampliada">
+  </div>
+
+  <script>
+    const SHOTS = [
+      // 3D
+      { cat: '3d', file: '3d/01-vista-aerea-geral.png', title: 'Vista Aérea Geral', desc: '78.129 m² implantados com 25 vértices cadastrais reais do Parque Realengo' },
+      { cat: '3d', file: '3d/02-perspectiva-obliqua.png', title: 'Perspectiva Panorâmica Obliqua', desc: 'Visão das 5 super-torres, passarelas e bacia de contenção pluvial' },
+      { cat: '3d', file: '3d/03-super-torres-nebulizacao.png', title: 'Super-Torres de Nebulização', desc: 'Estruturas de 17m a 47m com anéis de microclima e atomização' },
+      { cat: '3d', file: '3d/04-passarelas-e-mirantes.png', title: 'Passarelas Elevadas Acessíveis', desc: 'Interligação aérea entre torres com rampas de acessibilidade universal' },
+      { cat: '3d', file: '3d/05-lago-espelho-dagua.png', title: 'Espelho d\'Água e Bacia', desc: '1.300 m² de lago e 1.950 m³ de bacia de retenção de enchentes' },
+      { cat: '3d', file: '3d/06-nave-do-conhecimento.png', title: 'Nave do Conhecimento', desc: 'Pavilhão tecnológico comunitário de 830 m² para capacitação digital' },
+      { cat: '3d', file: '3d/07-praca-do-mercado.png', title: 'Praça do Mercado (Messina | Rivas)', desc: '11 lojas comunitárias para economia circular e comércio local' },
+      { cat: '3d', file: '3d/08-anfiteatro-susana-naspolini.png', title: 'Anfiteatro Susana Naspolini', desc: 'Arquibancadas ao ar livre para eventos culturais e palestras' },
+      { cat: '3d', file: '3d/09-skatepark-bowls.png', title: 'Skatepark com Dois Bowls', desc: 'Pista de street e bowls olímpicos de concreto polido' },
+      { cat: '3d', file: '3d/10-campo-e-quadras.png', title: 'Complexo Poliesportivo', desc: 'Campo sintético society e quadras poliesportivas' },
+      { cat: '3d', file: '3d/11-bosque-mata-atlantica.png', title: 'Bosque Nativo da Mata Atlântica', desc: 'Arborização com ipês, pau-brasil, palmeiras e gramados' },
+      { cat: '3d', file: '3d/12-acesso-norte-portal.png', title: 'Portal de Acesso Norte', desc: 'Acesso principal integrado à malha urbana pela Rua Carlos Wenceslau' },
+      { cat: '3d', file: '3d/13-planta-geral-sem-vegetacao.png', title: 'Planta Técnica de Implantação', desc: 'Geometria cadastral e gabaritos dos equipamentos do parque' },
+      { cat: '3d', file: '3d/14-zona-expansao-fase2.png', title: 'Zona de Expansão (Fase 2)', desc: 'Área reservada para ampliação futura de até 150 mil m²' },
+
+      // Interfaces
+      { cat: 'interfaces', file: 'interfaces/01-central-monitoramento-vida.png', title: 'Central V.I.D.A. Dashboard', desc: 'Painel profissional de indicadores ambientais em 1920×1080' },
+      { cat: 'interfaces', file: 'interfaces/02-controle-mobile-390x844.png', title: 'Controle Remoto Touch', desc: 'Interface para smartphones sincronizada com a TV do stand' },
+      { cat: 'interfaces', file: 'interfaces/03-painel-gemeo-digital-3d.png', title: 'Gêmeo Digital 3D — Painel Lateral', desc: 'Navegação por POIs, camadas temáticas e telemetria' },
+      { cat: 'interfaces', file: 'interfaces/04-mapa-interativo-2d.png', title: 'Mapa Interativo 2D', desc: 'Cartografia com POIs filtráveis e rotas no parque' },
+      { cat: 'interfaces', file: 'interfaces/05-simulador-drenagem-interativo.png', title: 'Simulador Hidrológico de Drenagem', desc: 'Simulação interativa de chuvas torrenciais e retenção' },
+      { cat: 'interfaces', file: 'interfaces/06-galeria-screenshots-hub.png', title: 'Galeria Visual dos Protótipos', desc: 'Central de acompanhamento e pré-visualização' },
+      { cat: 'interfaces', file: 'interfaces/07-card-poi-torres.png', title: 'Card Técnico — Super-Torres', desc: 'Especificação dos bicos aspersores e redução de ilha de calor' },
+      { cat: 'interfaces', file: 'interfaces/08-card-poi-mercado.png', title: 'Card Técnico — Praça do Mercado', desc: 'Lojas e diretrizes de sustentabilidade comunitária' },
+      { cat: 'interfaces', file: 'interfaces/09-card-poi-nave.png', title: 'Card Técnico — Nave do Conhecimento', desc: 'Infraestrutura tecnológica e cursos ambientais' },
+      { cat: 'interfaces', file: 'interfaces/10-rota-dijkstra-overlay.png', title: 'Cálculo de Rota Acessível Dijkstra', desc: 'Caminhamento com rampas suaves ≤ 8% no modelo 3D' },
+      { cat: 'interfaces', file: 'interfaces/11-gemeo-3d-hud-missoes.png', title: 'HUD das 5 Missões Oficiais 3D', desc: 'Água Inteligente, Floresta Viva, Destino Certo, Calor e Acessibilidade' },
+      { cat: 'interfaces', file: 'interfaces/12-gemeo-3d-personagem-halo.png', title: 'Personagem 3D & Câmera em 3ª Pessoa', desc: 'Jogador com halo neon no solo, movimentação suave e NPCs companheiros' },
+
+      // Apresentação & Quiz
+      { cat: 'apresentacao', file: 'apresentacao/01-video-oficial-intro-mobile.png', title: 'Vídeo Oficial em Tela Cheia', desc: 'Introdução imersiva exibida no celular antes da experiência' },
+      { cat: 'apresentacao', file: 'apresentacao/02-stand-tv-quiz-boas-vindas.png', title: 'Quiz — Boas-Vindas & Cadastro', desc: 'Entrada simplificada de nome/avatar sem formulários burocráticos' },
+      { cat: 'apresentacao', file: 'apresentacao/03-fila-espera-visitante.png', title: 'Bloqueio de Fila de Espera', desc: 'Single Active Visitor Lock para sincronização no stand' },
+      { cat: 'apresentacao', file: 'apresentacao/04-quiz-hub-selecao.png', title: 'Quiz — Hub de Modalidades', desc: 'Quiz de Sustentabilidade vs Modo Professor/Profissional (10, 20 ou 25 perguntas)' },
+      { cat: 'apresentacao', file: 'apresentacao/05-quiz-gameplay-pergunta.png', title: 'Quiz — HUD & Gameplay', desc: 'Temporizador, barra fluida neon, enunciado e alternativas A, B, C, D' },
+      { cat: 'apresentacao', file: 'apresentacao/06-quiz-feedback-pedagogico.png', title: 'Quiz — Feedback Pedagógico', desc: 'Explicação científica detalhada e fundamentada após a resposta' },
+      { cat: 'apresentacao', file: 'apresentacao/07-quiz-boletim-resultados.png', title: 'Quiz — Boletim com Nota 0 a 10', desc: 'Nota oficial, selo de desempenho, acertos/erros, tempo e breakdown' },
+      { cat: 'apresentacao', file: 'apresentacao/08-quiz-ranking-geral.png', title: 'Quiz — Ranking Oficial & Pódio', desc: 'Pódio 🥇🥈🥉 com classificação da feira Projetec 2026' },
+      { cat: 'apresentacao', file: 'apresentacao/09-quiz-historico-partidas.png', title: 'Quiz — Histórico do Participante', desc: 'Registro de todas as partidas disputadas no localStorage' },
+
+      // Detalhes
+      { cat: 'detalhes', file: 'detalhes/01-detalhe-splash-pad.png', title: 'Microdetalhe — Splash Pad', desc: 'Jatos d\'água interativos para alívio térmico das crianças' },
+      { cat: 'detalhes', file: 'detalhes/02-detalhe-volei-areia-redes.png', title: 'Microdetalhe — Vôlei de Areia', desc: 'Postes, redes e textura de areia para esportes de praia' },
+      { cat: 'detalhes', file: 'detalhes/03-detalhe-tabelas-basquete.png', title: 'Microdetalhe — Tabelas de Basquete', desc: 'Pintura técnica de quadra, aros e redes' },
+      { cat: 'detalhes', file: 'detalhes/04-detalhe-quiosques-churrasqueira.png', title: 'Microdetalhe — Quiosques Comunitários', desc: 'Mesas e estruturas de convivência social sustentável' },
+      { cat: 'detalhes', file: 'detalhes/05-detalhe-bicos-aspersores-torre.png', title: 'Microdetalhe — Aspersores de Microclima', desc: 'Bicos de alta pressão da Super-Torre 03' }
+    ];
+
+    const grid = document.getElementById('shotsGrid');
+    const lightbox = document.getElementById('lightboxModal');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxClose = document.getElementById('lightboxClose');
+
+    function renderShots(filter) {
+      grid.innerHTML = '';
+      const list = filter === 'all' ? SHOTS : SHOTS.filter(s => s.cat === filter);
+      list.forEach(s => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <div class="thumb-wrap">
+            <span class="badge">${s.cat.toUpperCase()}</span>
+            <img src="${s.file}" alt="${s.title}" loading="lazy">
+          </div>
+          <div class="card-body">
+            <div class="card-title">${s.title}</div>
+            <div class="card-desc">${s.desc}</div>
+          </div>
+        `;
+        card.addEventListener('click', () => {
+          lightboxImg.src = s.file;
+          lightbox.classList.add('active');
+        });
+        grid.appendChild(card);
+      });
+    }
+
+    document.querySelectorAll('.filter-pill').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-pill').forEach(el => el.classList.remove('active'));
+        btn.classList.add('active');
+        renderShots(btn.dataset.filter);
+      });
+    });
+
+    lightboxClose.addEventListener('click', () => lightbox.classList.remove('active'));
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) lightbox.classList.remove('active');
+    });
+
+    renderShots('all');
+  </script>
+</body>
+</html>
