@@ -96,7 +96,7 @@ const server = http.createServer((req, res) => {
   }
 
   // 1.1 Endpoint de API: Ranking Global Compartilhado (GET & POST)
-  const RANKING_FILE = path.join(ROOT_DIR, 'data', 'ranking.json');
+  const RANKING_FILE = fs.existsSync(path.join(ROOT_DIR, 'site', 'data', 'ranking.json')) ? path.join(ROOT_DIR, 'site', 'data', 'ranking.json') : path.join(ROOT_DIR, 'data', 'ranking.json');
 
   if (pathname === '/api/ranking') {
     if (req.method === 'GET') {
@@ -187,11 +187,11 @@ const server = http.createServer((req, res) => {
 
   // 2. Atalhos amigáveis
   if (pathname === '/' || pathname === '/tv') {
-    pathname = '/index.html';
+    pathname = '/site/index.html';
   } else if (pathname === '/ranking-tv' || pathname === '/ranking') {
-    pathname = '/index.html';
+    pathname = '/site/index.html';
   } else if (pathname === '/controle' || pathname === '/mobile') {
-    pathname = '/controle.html';
+    pathname = '/site/controle.html';
   } else if (pathname === '/galeria') {
     pathname = '/prototipos/galeria-screenshots/index.html';
   } else if (pathname === '/screenshots' || pathname === '/screenshots/') {
@@ -208,7 +208,13 @@ const server = http.createServer((req, res) => {
   }
 
   // Normalização do caminho seguro no disco
-  let safePath = path.normalize(path.join(ROOT_DIR, pathname));
+  let candidateSitePath = path.normalize(path.join(ROOT_DIR, 'site', pathname));
+  let safePath = ROOT_DIR;
+  if (fs.existsSync(candidateSitePath) && !candidateSitePath.startsWith(path.join(ROOT_DIR, 'parque-realengo-3d')) && !candidateSitePath.startsWith(path.join(ROOT_DIR, 'prototipos')) && !candidateSitePath.startsWith(path.join(ROOT_DIR, 'screenshots'))) {
+    safePath = candidateSitePath;
+  } else {
+    safePath = path.normalize(path.join(ROOT_DIR, pathname));
+  }
 
   // Proteção contra path traversal
   if (!safePath.startsWith(ROOT_DIR)) {

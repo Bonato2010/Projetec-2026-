@@ -137,42 +137,37 @@ npm start
 
 ---
 
-## 📁 7. ESTRUTURA GERAL DOS ARQUIVOS
+## 📁 7. ESTRUTURA GERAL DOS ARQUIVOS E DIRETÓRIOS
+
+O projeto foi totalmente organizado em módulos especializados, facilitando manutenção, clareza e publicação contínua:
 
 ```
-c:\Users\Daniz\Downloads\Projetec 3\
-├── index.html                   # Tela 1: Apresentação da TV do Stand (1920 × 1080)
-├── controle.html                # Tela 2: Controle Remoto Touch do Celular (390 × 844)
-├── server.js                    # Servidor HTTP estático + Range 206 + WebSocket Relay
-├── package.json                 # Dependências e scripts de execução
-├── iniciar-stand.bat            # Script de inicialização automática em 1 clique
-├── iniciar-stand.ps1            # Script de inicialização em PowerShell
-├── capturar-multitela.js        # Utilitário automatizado de screenshots
-├── README.md                    # Documentação completa do projeto
+Projetec 3/
+├── site/                        # 🌐 Pasta do Site Oficial (Plataforma Educativa & Quiz)
+│   ├── index.html               # Aplicação principal: quiz, ranking, telão e boletim
+│   ├── controle.html            # Controle touch do visitante para smartphones
+│   ├── css/                     # Estilos visuais (quiz.css, mobile-controller.css, tv-stand.css)
+│   ├── js/                      # Motores interativos (quiz-engine.js, quiz-questions.js, etc.)
+│   ├── public/                  # Logos oficiais (512×512 1:1) e vídeo em alta definição
+│   ├── data/                    # Placar oficial dos participantes da feira
+│   └── README.md                # Documentação detalhada dos componentes do site
 │
-├── js/
-│   ├── qrcode.js                # Gerador vetorial de QR Code em Canvas
-│   ├── sync-engine.js           # Motor de sincronização híbrido multitela
-│   ├── parque-vivo.js           # Motor Canvas 2.5D do Parque Vivo (60 FPS + Attract Mode)
-│   ├── tv-stand.js              # Controlador principal da Tela 1 (áudio + HUD)
-│   └── mobile-controller.js     # Controlador da Tela 2 (vídeo obrigatório + missões + fila)
+├── parque-realengo-3d/          # 🌿 Gêmeo Digital 3D do Parque (React Three Fiber + Vite)
+│   ├── src/                     # Modelagem paramétrica (5 super-torres, lago, relevo, flora)
+│   └── dist/                    # Bundle web compilado de alta performance (rota /parque3d)
 │
-├── css/
-│   ├── tv-stand.css             # Estilos da TV (1920 × 1080, cores oficiais)
-│   └── mobile-controller.css    # Estilos touch responsivos do celular (Dark Theme)
-│
-├── public/
-│   ├── assets/
-│   │   ├── logo-vida-original.png   # Cópia original da logo oficial (Google Drive)
-│   │   └── logo-vida-simbolo.png    # Símbolo oficial isolado e otimizado
-│   └── media/
-│       └── intro-vida.mp4           # Cópia local de alta fidelidade do vídeo oficial
-│
-└── prototipos/
-    ├── 01-mapa-parque/          # Projeto 01: Mapa Interativo Vetorial
-    ├── 02-painel-ambiental/     # Projeto 02: Central de Monitoramento V.I.D.A.
-    ├── 03-simulador-drenagem/   # Projeto 03: Simulador Hidrodinâmico de Alagamentos
-    └── galeria-screenshots/     # Galeria central de capturas dos 4 projetos
+├── prototipos/                  # 📊 Simulador de Drenagem Pluvial e Painel de Indicadores SbN
+├── screenshots/                 # 📸 Catálogo de 54 capturas em alta fidelidade (3D e interfaces)
+├── scripts/                     # 🛠️ Scripts de automação, testes de integridade e renderização
+├── reports/                     # 📋 Relatórios técnicos e evidências de auditoria
+├── api/                         # ⚡ Funções serverless para publicação na Vercel
+├── server.js                    # 📡 Servidor local multitela HTTP + Range 206 + WebSocket
+├── vercel.json                  # 🚀 Configuração de publicação e roteamento na nuvem Vercel
+├── index.html                   # 🚪 Portal de entrada com redirecionamento para site/
+├── controle.html                # 📱 Portal de entrada mobile com redirecionamento para site/
+├── iniciar-stand.bat            # ⚡ Inicializador automático em 1 clique para o stand da feira
+├── iniciar-stand.ps1            # ⚡ Inicializador em PowerShell
+└── package.json                 # 📦 Dependências e scripts de compilação
 ```
 
 ---

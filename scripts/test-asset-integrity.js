@@ -2,14 +2,18 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
-const filesToCheck = ['index.html', 'controle.html'];
+const siteFiles = [
+  { dir: path.join(ROOT, 'site'), file: 'index.html' },
+  { dir: path.join(ROOT, 'site'), file: 'controle.html' }
+];
+
 const missingAssets = [];
 const foundAssets = [];
 
-filesToCheck.forEach(file => {
-  const filePath = path.join(ROOT, file);
+siteFiles.forEach(({ dir, file }) => {
+  const filePath = path.join(dir, file);
   if (!fs.existsSync(filePath)) {
-    console.error(`Arquivo não encontrado: ${file}`);
+    missingAssets.push({ file, asset: filePath, reason: 'Arquivo HTML não encontrado' });
     return;
   }
   const content = fs.readFileSync(filePath, 'utf8');
@@ -19,20 +23,20 @@ filesToCheck.forEach(file => {
     const rawPath = match[1].split('?')[0];
     if (rawPath.startsWith('http') || rawPath.startsWith('//')) continue;
     const cleanPath = rawPath.startsWith('/') ? rawPath.slice(1) : rawPath;
-    const fullPath = path.join(ROOT, cleanPath);
+    const fullPath = path.join(dir, cleanPath);
     if (!fs.existsSync(fullPath)) {
-      missingAssets.push({ file, asset: rawPath });
+      missingAssets.push({ file, asset: rawPath, fullPath });
     } else {
       foundAssets.push({ file, asset: rawPath });
     }
   }
 });
 
-console.log(`Assets verificados com sucesso: ${foundAssets.length}`);
+console.log(`Assets verificados com sucesso dentro de site/: ${foundAssets.length}`);
 if (missingAssets.length > 0) {
   console.error(`ERRO: ${missingAssets.length} assets ausentes:`, missingAssets);
   process.exit(1);
 } else {
-  console.log('TODOS os caminhos de assets estáticos estão 100% íntegros!');
+  console.log('TODOS os caminhos de assets em site/ estão 100% íntegros!');
   process.exit(0);
 }

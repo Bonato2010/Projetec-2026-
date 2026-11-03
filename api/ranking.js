@@ -10,7 +10,9 @@ module.exports = function handler(req, res) {
     return res.status(200).end();
   }
 
-  const rankingFile = path.join(process.cwd(), 'data', 'ranking.json');
+  const rankingFile = fs.existsSync(path.join(process.cwd(), 'site', 'data', 'ranking.json'))
+    ? path.join(process.cwd(), 'site', 'data', 'ranking.json')
+    : path.join(process.cwd(), 'data', 'ranking.json');
   let ranking = [];
   if (fs.existsSync(rankingFile)) {
     try {
