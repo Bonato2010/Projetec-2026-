@@ -43,10 +43,10 @@ export const ParkWater = memo(function ParkWater({ animate }: { animate: boolean
 
     // 3. Splash Pad Circular (diâmetro 18m)
     const splashOuterPoly = circlePoly(SPLASH_PAD.cx, SPLASH_PAD.cz, SPLASH_PAD.r, 36);
-    const splashPadFloor = polygonGeometry(splashOuterPoly, 0.05);
+    const splashPadFloor = polygonGeometry(splashOuterPoly, 0.08);
     const splashInnerPoly = circlePoly(SPLASH_PAD.cx, SPLASH_PAD.cz, SPLASH_PAD.r * 0.65, 32);
-    const splashInnerFloor = polygonGeometry(splashInnerPoly, 0.06);
-    const splashCurb = extrudePolygon(offsetPolygon(splashOuterPoly, 0.6), 0, 0.18, [splashOuterPoly]);
+    const splashInnerFloor = polygonGeometry(splashInnerPoly, 0.09);
+    const splashCurb = extrudePolygon(offsetPolygon(splashOuterPoly, 0.5), 0, 0.14, [splashOuterPoly]);
 
     // Jatos do Splash Pad em anéis concêntricos
     const splashJets: { x: number; z: number; h: number; ph: number }[] = [];
@@ -91,7 +91,7 @@ export const ParkWater = memo(function ParkWater({ animate }: { animate: boolean
     if (splashJetsRef.current) {
       data.splashJets.forEach((j, i) => {
         const s = animate ? 0.50 + 0.50 * Math.sin(t * 3.2 + j.ph) : 0.75;
-        splashJetsRef.current.setMatrixAt(i, matrixAt(j.x, 0.08, j.z, 0, 0.8, j.h * s, 0.8));
+        splashJetsRef.current.setMatrixAt(i, matrixAt(j.x, 0.09, j.z, 0, 0.8, j.h * s, 0.8));
       });
       splashJetsRef.current.instanceMatrix.needsUpdate = true;
     }
@@ -120,7 +120,7 @@ export const ParkWater = memo(function ParkWater({ animate }: { animate: boolean
       <mesh geometry={data.splashInnerFloor} material={M.splashPadYellow} receiveShadow />
       <instancedMesh ref={splashJetsRef} args={[data.jetGeo, M.jet, data.splashJets.length]} frustumCulled={false} />
       {data.splashJets.map((j, i) => (
-        <mesh key={`nozzle-${i}`} geometry={data.nozzleGeo} material={M.metalDark} position={[j.x, 0.07, j.z]} />
+        <mesh key={`nozzle-${i}`} geometry={data.nozzleGeo} material={M.metalDark} position={[j.x, 0.09, j.z]} />
       ))}
     </group>
   );

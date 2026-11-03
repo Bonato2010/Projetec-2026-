@@ -138,7 +138,7 @@ export const FOOTPRINTS: Footprint[] = [
     id: t.id, name: t.name, poly: circlePoly(t.x, t.z, t.baseRadius * 1.05, 16), kind: 'tower' as const, blocksPath: true, blocksTrees: true,
   })),
   { id: 'water-basin', name: 'Bacia de Amortecimento / Espelho d\'Água', poly: WATER_POLY, kind: 'water', blocksPath: true, blocksTrees: true },
-  { id: 'splash-pad', name: 'Splash Pad Infantil', poly: circlePoly(SPLASH_PAD.cx, SPLASH_PAD.cz, SPLASH_PAD.r, 20), kind: 'play', blocksPath: false, blocksTrees: true },
+  { id: 'splash-pad', name: 'Splash Pad Infantil', poly: circlePoly(SPLASH_PAD.cx, SPLASH_PAD.cz, SPLASH_PAD.r * 1.15, 24), kind: 'play', blocksPath: true, blocksTrees: true },
   rf('skatepark', 'Pista de Skate', SKATE, 'sport'),
   rf('campo-society', 'Campo Society Sintético', FIELD, 'sport', 0.5),
   ...COURTS.map((c) => rf(c.id, c.name, c, 'sport')),
