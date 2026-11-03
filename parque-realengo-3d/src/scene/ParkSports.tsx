@@ -65,17 +65,17 @@ function BeachVolleyballNet({ d }: { d: number }) {
   );
 }
 
-function Floodlight({ x, z, h = 16 }: { x: number; z: number; h?: number }) {
+function Floodlight({ x, z, h = 14 }: { x: number; z: number; h?: number }) {
   const M = getMaterials();
   return (
     <group>
-      <Cyl a={[x, 0, z]} b={[x, h, z]} r={0.18} material={M.metalDark} segments={10} />
-      <Box p={[x, h + 0.3, z]} s={[2.2, 0.4, 1.0]} material={M.lampHead} cast={false} />
+      <Cyl a={[x, 0, z]} b={[x, h, z]} r={0.16} material={M.metalDark} segments={10} />
+      <Box p={[x, h + 0.3, z]} s={[2.0, 0.35, 0.8]} material={M.lampHead} cast={false} />
     </group>
   );
 }
 
-/** Complexo esportivo: campo society sintético, quadras poliesportivas com tabelas de basquete e quadras de vôlei de areia. */
+/** Complexo esportivo: Campo society sintético e quadras de basquete/futsal em azul e laranja (Fiel à foto aérea real) */
 export const ParkSports = memo(function ParkSports() {
   const M = getMaterials();
 
@@ -99,32 +99,57 @@ export const ParkSports = memo(function ParkSports() {
     };
   }, []);
 
-  const courts = useMemo(() => COURTS.map((c, i) => {
+  const courts = useMemo(() => COURTS.map((c) => {
     const isSand = c.id.includes('areia');
-    const f = isSand ? null : rectFence(0, 0, c.w, c.d, 0, 3, 3);
+    const isHalf = c.id.includes('meia');
+    const f = isSand ? null : rectFence(0, 0, c.w, c.d, 0, 3.2, 3);
     const lines = emptyMesh();
-    const add = (pts: V2[], closed = false) => appendMesh(lines, ribbonMesh(polylineSegs(pts, 0.08, closed), 0.07, false));
+    const add = (pts: V2[], closed = false) => appendMesh(lines, ribbonMesh(polylineSegs(pts, 0.08, closed), 0.06, false));
+
+    const playW = c.w - (isSand ? 1.5 : 2.5);
+    const playD = c.d - (isSand ? 1.5 : 2.5);
 
     if (isSand) {
       add(rectLine(16, 8), true);
       add([[0, -4], [0, 4]]);
+    } else if (isHalf) {
+      add(rectLine(playW, playD), true);
+      add(circle(-playW / 2 + 1.8, 0, 5.8, 24, -Math.PI / 2, Math.PI / 2));
     } else {
-      add(rectLine(c.w - 3, c.d - 3), true);
-      add([[0, -(c.d - 3) / 2], [0, (c.d - 3) / 2]]);
-      add(circle(0, 0, 2.6, 28));
+      // Quadra inteira oficial
+      add(rectLine(playW, playD), true);
+      add([[0, -playD / 2], [0, playD / 2]]);
+      add(circle(0, 0, 2.2, 28));
+      for (const s of [-1, 1]) {
+        // Linhas de 3 pontos
+        add(circle(s * (playW / 2 - 1.6), 0, 6.2, 24, s > 0 ? Math.PI - 1.2 : -1.2, s > 0 ? Math.PI + 1.2 : 1.2));
+      }
+    }
+
+    // Geometrias das áreas em laranja (garrafão e círculo central)
+    const orangeKeys: THREE.BufferGeometry[] = [];
+    if (!isSand) {
+      if (isHalf) {
+        orangeKeys.push(polygonGeometry(rectLine(4.8, 5.0, -playW / 2 + 2.5, 0), 0.045));
+      } else {
+        orangeKeys.push(polygonGeometry(rectLine(4.8, 5.0, -playW / 2 + 2.5, 0), 0.045));
+        orangeKeys.push(polygonGeometry(rectLine(4.8, 5.0, playW / 2 - 2.5, 0), 0.045));
+        orangeKeys.push(polygonGeometry(circle(0, 0, 2.0), 0.045));
+      }
     }
 
     return {
       c,
       isSand,
-      mat: isSand ? M.sand : (i % 2 === 0 ? M.courtBlue : M.courtGreen),
+      isHalf,
       apron: polygonGeometry(rectLine(c.w, c.d), 0.03),
-      surface: polygonGeometry(rectLine(c.w - (isSand ? 1.5 : 2), c.d - (isSand ? 1.5 : 2)), 0.04),
+      surface: polygonGeometry(rectLine(playW, playD), 0.04),
+      orangeKeys,
       lines: toGeometry(lines, { uv: 'planar' }),
       frame: f ? toGeometry(f.frame) : null,
       panel: f ? toGeometry(f.panel) : null,
     };
-  }), [M]);
+  }), []);
 
   return (
     <group>
@@ -141,25 +166,33 @@ export const ParkSports = memo(function ParkSports() {
         ))}
       </group>
 
-      {/* Quadras Poliesportivas e de Areia */}
-      {courts.map(({ c, isSand, mat, apron, surface, lines, frame, panel }) => (
-        <group key={c.id} position={[c.cx, 0, c.cz]}>
-          <mesh geometry={apron} material={isSand ? M.wood : M.concrete} receiveShadow />
-          <mesh geometry={surface} material={mat} receiveShadow />
+      {/* Quadras Poliesportivas e de Areia com pintura em Azul Royal, Celeste e Laranja */}
+      {courts.map(({ c, isSand, isHalf, apron, surface, orangeKeys, lines, frame, panel }) => (
+        <group key={c.id} position={[c.cx, 0, c.cz]} rotation-y={c.rot}>
+          {/* Borda / Recuo (Celeste) */}
+          <mesh geometry={apron} material={isSand ? M.wood : M.courtSkyBlue} receiveShadow />
+
+          {/* Campo principal (Azul Royal) */}
+          <mesh geometry={surface} material={isSand ? M.sand : M.courtRoyalBlue} receiveShadow />
+
+          {/* Garrafões e círculo em Laranja */}
+          {orangeKeys.map((kGeo, kIdx) => (
+            <mesh key={kIdx} geometry={kGeo} material={M.courtOrange} receiveShadow />
+          ))}
+
+          {/* Linhas demarcatórias brancas */}
           <mesh geometry={lines} material={isSand ? M.ring : M.line} receiveShadow />
 
           {isSand ? (
             <BeachVolleyballNet d={c.d} />
           ) : (
             <>
-              <Goal x={-(c.w - 3) / 2} dir={-1} width={3} height={2} depth={1} />
-              <Goal x={(c.w - 3) / 2} dir={1} width={3} height={2} depth={1} />
-              <BasketballHoop x={-(c.w - 3) / 2} dir={-1} />
-              <BasketballHoop x={(c.w - 3) / 2} dir={1} />
+              <BasketballHoop x={-(c.w - 2.5) / 2} dir={-1} />
+              {!isHalf && <BasketballHoop x={(c.w - 2.5) / 2} dir={1} />}
               {frame && <mesh geometry={frame} material={M.metalDark} castShadow />}
               {panel && <mesh geometry={panel} material={M.fencePanel} />}
-              <Floodlight x={-c.w / 2 - 1} z={0} h={9} />
-              <Floodlight x={c.w / 2 + 1} z={0} h={9} />
+              <Floodlight x={-c.w / 2 - 1} z={0} h={10} />
+              <Floodlight x={c.w / 2 + 1} z={0} h={10} />
             </>
           )}
         </group>

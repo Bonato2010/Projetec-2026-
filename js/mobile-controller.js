@@ -129,6 +129,7 @@ class MobileController {
   // --- ETAPA 1: VÍDEO OFICIAL EM TELA CHEIA IMEDIATO (SEM HUB) ---
   setupVideoStage() {
     const video = document.getElementById('mobile-video');
+    const backdrop = document.getElementById('mobile-video-backdrop');
     const btnUnmute = document.getElementById('btn-unmute-floating');
     const progressBar = document.getElementById('video-progress-bar');
 
@@ -138,6 +139,18 @@ class MobileController {
     video.play().catch(err => {
       console.log("Autoplay bloqueado pelo navegador mobile:", err);
     });
+
+    // Sincronização do fundo ambiente contínuo
+    if (backdrop) {
+      backdrop.play().catch(() => {});
+      video.addEventListener('play', () => backdrop.play().catch(() => {}));
+      video.addEventListener('pause', () => backdrop.pause());
+      video.addEventListener('timeupdate', () => {
+        if (Math.abs(backdrop.currentTime - video.currentTime) > 0.4) {
+          backdrop.currentTime = video.currentTime;
+        }
+      });
+    }
 
     // Botão flutuante para desmutar
     if (btnUnmute) {
@@ -525,7 +538,7 @@ class MobileController {
   flashButtonSuccess(btn, text) {
     const orig = btn.innerHTML;
     btn.innerHTML = `<span>${text}</span>`;
-    setTimeout(() => { btn.innerHTML = orig; }, 1800);
+    setTimeout(() => { btn.innerHTML = orig; }, 3200);
   }
 
   // --- CONTROLE DE SESSÃO (ENCERRAR / SAIR) ---

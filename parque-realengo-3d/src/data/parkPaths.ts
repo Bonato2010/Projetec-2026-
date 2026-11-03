@@ -10,157 +10,113 @@ export const PATH_NODES: { id: string; pos: V2 }[] = [
   { id: 'E2', pos: ent('E2') },
   { id: 'E3', pos: ent('E3') },
 
-  // Setor Norte (Administração, Sanitários 1, Anfiteatro Susana Naspolini)
-  { id: 'n_e1_hub', pos: [52, -155] },
-  { id: 'n_adm_front', pos: [62, -155] },
-  { id: 'n_toilets1', pos: [82, -150] },
-  { id: 'n_amphi_leste', pos: [56, -135] },
-  { id: 'n_amphi_front', pos: [35, -125] },
-  { id: 'n_norte_hub', pos: [48, -112] },
+  // Setor Norte (Carlos Wenceslau, Anfiteatro Susana Naspolini)
+  { id: 'n_e1_hub', pos: [48, -165] },
+  { id: 'n_adm_front', pos: [72, -180] },
+  { id: 'n_amphi', pos: [32, -160] },
+  { id: 'n_norte_hub', pos: [48, -135] },
 
-  // Setor das 5 Super-Torres e Acesso às Rampas
-  { id: 'n_torres_norte', pos: [48, -100] },
-  { id: 'n_torres_ne', pos: [85, -96] },
-  { id: 'n_torres_leste', pos: [85, -42] },
-  { id: 'n_torres_oeste', pos: [5, -55] },
-  { id: 'n_torres_sw', pos: [5, -42] },
-  { id: 'n_torres_sul', pos: [48, -42] },
-  { id: 'rw', pos: [-75, -95] },   // Pé da Rampa Oeste
-  { id: 'rv', pos: [135, -32] },   // Pé da Rampa Leste
+  // Setor das 5 Super-Torres e Espelho d'Água
+  { id: 'n_torres_norte', pos: [48, -112] },
+  { id: 'n_torres_central', pos: [48, -78] },
+  { id: 'n_torres_oeste', pos: [8, -80] },
+  { id: 'n_torres_leste', pos: [88, -78] },
+  { id: 'n_torres_sul', pos: [48, -36] },
+  { id: 'rs', pos: [48, -36] },      // Pé da Rampa Sul
+  { id: 're', pos: [80, -104] },     // Pé da Rampa Leste
 
-  // Margens do Lago e Deck Contemplativo
-  { id: 'n_lago_norte', pos: [15, -36] },
-  { id: 'n_lago_nordeste', pos: [45, -36] },
-  { id: 'n_lago_leste', pos: [71, -26] },
-  { id: 'n_quadras_hub', pos: [71, -2] },
-  { id: 'n_lago_sudeste', pos: [71, 22] },
-  { id: 'n_lago_sul', pos: [40, 24] },
-  { id: 'n_lago_sudoeste', pos: [15, 22] },
-  { id: 'n_lago_deck_sul', pos: [8, 12] },
-  { id: 'n_lago_deck_norte', pos: [8, -25] },
+  // Splash Pad Infantil
+  { id: 'n_splash', pos: [80, -100] },
 
-  // Nave do Conhecimento (Circulação perimetral)
-  { id: 'n_nave_norte', pos: [-8, -24] },
-  { id: 'n_nave_nw', pos: [-24, -24] },
-  { id: 'n_nave_oeste', pos: [-24, -8] },
-  { id: 'n_nave_sw', pos: [-24, 8] },
-  { id: 'n_nave_sul', pos: [-8, 8] },
+  // Complexo Poliesportivo Azul
+  { id: 'n_quadras_centro', pos: [88, -26] },
+  { id: 'n_quadras_leste', pos: [112, -26] },
+  { id: 'n_quadras_sul', pos: [88, 5] },
+  { id: 'n_quadra_areia', pos: [45, 10] },
 
-  // Alameda Oeste, Bosque Atlântico e Vôlei de Areia
-  { id: 'n_oeste_1', pos: [-55, -20] },
-  { id: 'n_bosque_1', pos: [-100, -35] },
-  { id: 'n_bosque_areia', pos: [-150, -46] },
-  { id: 'n_areia_sul', pos: [-192, -46] },
-  { id: 'n_areia_oeste', pos: [-222, -46] },
-  { id: 'n_areia_nw', pos: [-222, -75] },
+  // Pavilhões Orientais (Nave do Conhecimento e Centro Cultural)
+  { id: 'n_nave_norte', pos: [98, -175] },
+  { id: 'n_nave_centro', pos: [98, -155] },
+  { id: 'n_nave_sul', pos: [98, -135] },
+  { id: 'n_pavilhao_cultura', pos: [92, -215] },
 
-  // Polo Esportivo Leste (Quadras Poliesportivas e Campo Society)
-  { id: 'n_campo_noroeste', pos: [36, 32] },
-  { id: 'n_campo_oeste', pos: [36, 55] },
-  { id: 'n_campo_sudoeste', pos: [36, 78] },
-  { id: 'n_campo_sul', pos: [66, 78] },
+  // Bosque Central da Mata Atlântica e Alameda Oeste
+  { id: 'n_bosque_norte', pos: [-40, -120] },
+  { id: 'n_bosque_centro', pos: [-60, -40] },
+  { id: 'n_bosque_sul', pos: [-40, 20] },
+  { id: 'n_bosque_ifrj', pos: [-180, -60] },
 
-  // Polo Skatepark
-  { id: 'n_skate_noroeste', pos: [34, 90] },
-  { id: 'n_skate_oeste', pos: [34, 105] },
-  { id: 'n_skate_sudoeste', pos: [34, 122] },
-  { id: 'n_skate_sul', pos: [58, 122] },
+  // Skatepark (Bowls e Street)
+  { id: 'n_skate_leste', pos: [12, 55] },
+  { id: 'n_skate_centro', pos: [-15, 55] },
+  { id: 'n_skate_oeste', pos: [-42, 55] },
 
-  // Setor Infantil e Fitness (Playground, Splash Pad, Academia, Sanitários 2)
-  { id: 'n_play_corner', pos: [20, 122] },
-  { id: 'n_play_hub', pos: [20, 145] },
-  { id: 'n_fitness_walkway', pos: [20, 160] },
-  { id: 'n_gym_hub', pos: [20, 172] },
-  { id: 'n_east_fitness', pos: [50, 160] },
-  { id: 'n_toilets2', pos: [58, 165] },
+  // Campo Society e Playground
+  { id: 'n_campo_hub', pos: [20, 42] },
+  { id: 'n_play_hub', pos: [38, 115] },
+  { id: 'n_gym_hub', pos: [36, 142] },
 
-  // Setor Convivência e Praça do Mercado (Quiosques, Lojas, Ecoponto)
-  { id: 'n_bbq_hub', pos: [10, 188] },
-  { id: 'n_bbq_sul', pos: [10, 210] },
-  { id: 'n_mercado_hub', pos: [38, 210] },
-  { id: 'k1', pos: [38, 235] },
-  { id: 'n_mercado_se', pos: [38, 260] },
+  // Praça do Mercado e Entrada Sul
+  { id: 'n_mercado', pos: [-85, 180] },
+  { id: 'n_mercado_hub', pos: [-65, 195] },
+  { id: 'n_bbq_hub', pos: [20, 175] },
 ];
+
+export const DEFAULT_PATH_WIDTH = 3.2;
 
 export const PATH_EDGES: [string, string, number?][] = [
-  // E1 -> Polo Norte
-  ['E1', 'n_e1_hub', 4],
-  ['n_e1_hub', 'n_adm_front', 3],
-  ['n_adm_front', 'n_toilets1', 3],
-  ['n_e1_hub', 'n_amphi_leste', 4],
-  ['n_amphi_leste', 'n_amphi_front', 4],
-  ['n_amphi_front', 'n_norte_hub', 4],
-  ['n_norte_hub', 'n_torres_norte', 4],
+  // E1 (Acesso Norte) para Hub Norte e Anfiteatro
+  ['E1', 'n_e1_hub', 4.5],
+  ['n_e1_hub', 'n_adm_front', 3.5],
+  ['n_e1_hub', 'n_amphi', 4.0],
+  ['n_e1_hub', 'n_norte_hub', 4.5],
+  ['n_norte_hub', 'n_torres_norte', 4.5],
 
-  // Rampa Oeste e Leste a partir do hub norte e praça
-  ['n_torres_norte', 'rw', 3.5],
-  ['n_torres_norte', 'n_torres_oeste', 4],
-  ['n_torres_norte', 'n_torres_ne', 4],
-  ['n_torres_ne', 'n_torres_leste', 4],
-  ['n_torres_oeste', 'n_torres_sw', 4],
-  ['n_torres_sw', 'n_torres_sul', 4],
-  ['n_torres_leste', 'n_torres_sul', 4],
-  ['n_torres_leste', 'rv', 3.5],
+  // Circulação ao redor das Torres e Espelho d'Água
+  ['n_torres_norte', 'n_splash', 4.0],
+  ['n_splash', 're', 3.5],
+  ['n_torres_norte', 'n_torres_oeste', 4.0],
+  ['n_torres_oeste', 'n_torres_sul', 4.0],
+  ['n_torres_sul', 'rs', 4.0],
+  ['n_splash', 'n_torres_leste', 4.0],
+  ['n_torres_leste', 'n_quadras_centro', 4.0],
+  ['n_torres_sul', 'n_quadras_centro', 4.0],
 
-  // Praça das Torres para Margens do Lago
-  ['n_torres_sul', 'n_lago_nordeste', 4],
-  ['n_torres_oeste', 'n_lago_norte', 4],
+  // Complexo Poliesportivo
+  ['n_quadras_centro', 'n_quadras_leste', 3.5],
+  ['n_quadras_centro', 'n_quadras_sul', 3.5],
+  ['n_quadras_sul', 'n_quadra_areia', 3.5],
+  ['n_quadra_areia', 'n_campo_hub', 3.5],
 
-  // Circuito do Lago (Promenade)
-  ['n_lago_norte', 'n_lago_nordeste', 3.5],
-  ['n_lago_nordeste', 'n_lago_leste', 3.5],
-  ['n_lago_leste', 'n_quadras_hub', 3.5],
-  ['n_quadras_hub', 'n_lago_sudeste', 3.5],
-  ['n_lago_sudeste', 'n_lago_sul', 3.5],
-  ['n_lago_sul', 'n_lago_sudoeste', 3.5],
-  ['n_lago_sudoeste', 'n_lago_deck_sul', 3.5],
-  ['n_lago_deck_sul', 'n_lago_deck_norte', 3.5],
-  ['n_lago_deck_norte', 'n_lago_norte', 3.5],
+  // Nave do Conhecimento e Pavilhões Orientais
+  ['n_torres_leste', 'n_nave_sul', 4.0],
+  ['n_splash', 'n_nave_centro', 4.0],
+  ['n_nave_norte', 'n_nave_centro', 4.0],
+  ['n_nave_centro', 'n_nave_sul', 4.0],
+  ['n_nave_norte', 'n_pavilhao_cultura', 3.5],
+  ['n_pavilhao_cultura', 'n_adm_front', 3.5],
 
-  // Lago para Nave do Conhecimento
-  ['n_lago_deck_norte', 'n_nave_norte', 3.5],
-  ['n_nave_norte', 'n_nave_nw', 3.5],
-  ['n_nave_nw', 'n_nave_oeste', 3.5],
-  ['n_nave_oeste', 'n_nave_sw', 3.5],
-  ['n_nave_sw', 'n_nave_sul', 3.5],
-  ['n_nave_sul', 'n_lago_deck_sul', 3.5],
+  // Conexão com o Bosque Central da Mata Atlântica
+  ['n_norte_hub', 'n_bosque_norte', 4.5],
+  ['n_torres_oeste', 'n_bosque_centro', 4.5],
+  ['n_bosque_norte', 'n_bosque_centro', 4.0],
+  ['n_bosque_centro', 'n_bosque_sul', 4.0],
+  ['n_bosque_centro', 'n_bosque_ifrj', 4.0],
+  ['n_bosque_ifrj', 'E3', 4.5],
 
-  // Nave para Alameda Oeste / Bosque Atlântico / Vôlei de Areia / E3
-  ['n_nave_oeste', 'n_oeste_1', 4],
-  ['n_oeste_1', 'n_bosque_1', 4],
-  ['n_bosque_1', 'n_bosque_areia', 4],
-  ['n_bosque_areia', 'n_areia_sul', 4],
-  ['n_areia_sul', 'n_areia_oeste', 4],
-  ['n_areia_oeste', 'n_areia_nw', 4],
-  ['n_areia_nw', 'E3', 4],
+  // Conexão com Skatepark e Campo
+  ['n_bosque_sul', 'n_skate_oeste', 4.0],
+  ['n_skate_oeste', 'n_skate_centro', 4.0],
+  ['n_skate_centro', 'n_skate_leste', 4.0],
+  ['n_skate_leste', 'n_campo_hub', 4.0],
+  ['n_torres_sul', 'n_campo_hub', 4.0],
 
-  // Quadras Poliesportivas e Campo Society
-  ['n_lago_sudeste', 'n_campo_noroeste', 4],
-  ['n_campo_noroeste', 'n_campo_oeste', 4],
-  ['n_campo_oeste', 'n_campo_sudoeste', 4],
-  ['n_campo_sudoeste', 'n_campo_sul', 4],
-
-  // Campo Society para Skatepark
-  ['n_campo_sudoeste', 'n_skate_noroeste', 4],
-  ['n_skate_noroeste', 'n_skate_oeste', 4],
-  ['n_skate_oeste', 'n_skate_sudoeste', 4],
-  ['n_skate_sudoeste', 'n_skate_sul', 4],
-
-  // Skate para Playground Infantil e Fitness
-  ['n_skate_sudoeste', 'n_play_corner', 4],
-  ['n_play_corner', 'n_play_hub', 4],
-  ['n_play_hub', 'n_fitness_walkway', 4],
-  ['n_fitness_walkway', 'n_gym_hub', 4],
-  ['n_fitness_walkway', 'n_east_fitness', 4],
-  ['n_east_fitness', 'n_toilets2', 3],
-
-  // Fitness para Churrasqueiras e Praça do Mercado
-  ['n_gym_hub', 'n_bbq_hub', 4],
-  ['n_bbq_hub', 'n_bbq_sul', 4],
-  ['n_bbq_sul', 'n_mercado_hub', 4],
-  ['n_mercado_hub', 'k1', 4],
-  ['k1', 'n_mercado_se', 4],
-  ['n_mercado_se', 'E2', 4],
+  // Setor Sul: Playground, Churrasqueiras e Mercado
+  ['n_campo_hub', 'n_play_hub', 3.5],
+  ['n_play_hub', 'n_gym_hub', 3.5],
+  ['n_gym_hub', 'n_bbq_hub', 3.5],
+  ['n_skate_oeste', 'n_mercado', 4.0],
+  ['n_mercado', 'n_mercado_hub', 4.5],
+  ['n_mercado_hub', 'E2', 4.5],
+  ['n_mercado_hub', 'n_bbq_hub', 3.5],
 ];
-
-export const DEFAULT_PATH_WIDTH = 3.5;

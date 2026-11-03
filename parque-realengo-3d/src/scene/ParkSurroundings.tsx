@@ -13,7 +13,65 @@ import { getPlantGeoms, plantColors, plantMatrices } from './ParkVegetation';
 
 const PALETTE = ['#d9ccb8', '#c9b9a6', '#cfd2cf', '#d8c3a5', '#bfc5c9'].map((c) => new THREE.Color(c));
 
-/** Contexto urbano GENÉRICO de baixo gabarito (provisório; não são edifícios reais). Ruas, calçadas, volumes e arborização viária. */
+/** Relevo montanhoso característico do vale de Realengo (Maciço da Pedra Branca ao sul e Serra do Mendanha ao norte) */
+function computeMountainHeight(rad: number, angle: number): number {
+  const t = (rad - 850) / (2700 - 850);
+  const profile = Math.sin(t * Math.PI);
+
+  const southFactor = 0.5 + 0.5 * Math.sin(angle);
+  const northFactor = 0.5 - 0.5 * Math.sin(angle);
+
+  const h1 = Math.sin(angle * 4 + 1.2) * 65;
+  const h2 = Math.cos(angle * 7 - 0.5) * 38;
+  const h3 = Math.sin(angle * 13 + rad * 0.005) * 20;
+  const baseH = 150 + southFactor * 140 + northFactor * 95;
+
+  return Math.max(0, (baseH + h1 + h2 + h3) * Math.pow(profile, 0.72));
+}
+
+function createMountainsGeometry(): THREE.BufferGeometry {
+  const mesh = emptyMesh();
+  mesh.colors = [];
+  const rings = 14;
+  const sectors = 96;
+  const rMin = 850;
+  const rMax = 2700;
+
+  for (let i = 0; i <= rings; i++) {
+    const t = i / rings;
+    const r = rMin + t * (rMax - rMin);
+    for (let j = 0; j < sectors; j++) {
+      const angle = (j / sectors) * Math.PI * 2;
+      const x = Math.cos(angle) * r;
+      const z = Math.sin(angle) * r;
+      const y = computeMountainHeight(r, angle);
+      mesh.positions.push(x, y, z);
+
+      const altNorm = Math.min(1, y / 280);
+      const rCol = 0.16 + altNorm * 0.18;
+      const gCol = 0.28 + altNorm * 0.12;
+      const bCol = 0.20 + altNorm * 0.18;
+      mesh.colors.push(rCol, gCol, bCol);
+    }
+  }
+
+  for (let i = 0; i < rings; i++) {
+    for (let j = 0; j < sectors; j++) {
+      const nextJ = (j + 1) % sectors;
+      const i0 = i * sectors + j;
+      const i1 = i * sectors + nextJ;
+      const i2 = (i + 1) * sectors + j;
+      const i3 = (i + 1) * sectors + nextJ;
+
+      mesh.indices.push(i0, i2, i1);
+      mesh.indices.push(i1, i2, i3);
+    }
+  }
+
+  return toGeometry(mesh, { uv: 'planar', tile: 120 });
+}
+
+/** Contexto urbano de Realengo com ruas, calçadas, edifícios e horizonte montanhoso. */
 export const ParkSurroundings = memo(function ParkSurroundings({ quality }: { quality: Quality }) {
   const M = getMaterials();
   const d = useMemo(() => {
@@ -40,6 +98,8 @@ export const ParkSurroundings = memo(function ParkSurroundings({ quality }: { qu
     }
     const geoms = getPlantGeoms(1);
     const trees: PlantInstance[] = sur.trees.map(([x, z], i) => ({ arch: 3, x, z, rot: i * 1.7, scale: 0.6 + (i % 5) * 0.06, tint: 0.9 + (i % 4) * 0.04 }));
+    const mountains = createMountainsGeometry();
+
     return {
       sidewalk: polygonGeometry(sur.sidewalkOuter, 0.1, [PARK_PERIMETER]),
       street: polygonGeometry(sur.streetOuter, 0.02, [sur.sidewalkOuter]),
@@ -47,11 +107,17 @@ export const ParkSurroundings = memo(function ParkSurroundings({ quality }: { qu
       dashes: toGeometry(dashes, { uv: 'planar' }),
       unit, walls, roofs, wins, colors,
       treeGeom: geoms.trees[3], treeM: plantMatrices(trees), treeC: plantColors(trees),
+      mountains,
     };
   }, []);
   void quality;
+
   return (
     <group>
+      {/* Montanhas do vale de Realengo no horizonte distante */}
+      <mesh geometry={d.mountains} material={M.groundFar} receiveShadow />
+
+      {/* Tecido urbano lindeiro */}
       <mesh geometry={d.sidewalk} material={M.path} receiveShadow />
       <mesh geometry={d.street} material={M.asphalt} receiveShadow />
       <mesh geometry={d.dashes} material={M.line} receiveShadow />

@@ -420,9 +420,9 @@ class TvStandApp {
     setTimeout(() => {
       toast.style.opacity = '0';
       toast.style.transform = 'translateY(-10px)';
-      toast.style.transition = 'all 0.3s ease';
-      setTimeout(() => toast.remove(), 300);
-    }, 4500);
+      toast.style.transition = 'all 0.5s ease';
+      setTimeout(() => toast.remove(), 500);
+    }, 7000);
   }
 
   showCelebration(data) {
@@ -442,7 +442,7 @@ class TvStandApp {
 
     setTimeout(() => {
       overlay.classList.remove('visible');
-    }, 5500);
+    }, 8500);
   }
 }
 

@@ -196,7 +196,11 @@ const server = http.createServer((req, res) => {
     pathname = '/prototipos/galeria-screenshots/index.html';
   } else if (pathname === '/screenshots' || pathname === '/screenshots/') {
     pathname = '/screenshots/index.html';
-  } else if (pathname === '/parque3d' || pathname.startsWith('/parque3d/')) {
+  } else if (pathname === '/parque3d') {
+    res.writeHead(301, { 'Location': '/parque3d/' });
+    res.end();
+    return;
+  } else if (pathname.startsWith('/parque3d/')) {
     pathname = pathname.replace('/parque3d', '/parque-realengo-3d/dist');
     if (pathname === '/parque-realengo-3d/dist' || pathname === '/parque-realengo-3d/dist/') {
       pathname = '/parque-realengo-3d/dist/index.html';

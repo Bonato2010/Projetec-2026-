@@ -21,15 +21,21 @@ node capturar-screenshots.js
 
 ## 📁 Estrutura de Diretórios e Índice de Capturas
 
-O acervo conta com **33 capturas de tela reais** organizadas nas seguintes categorias:
+O acervo conta com **65 capturas de tela reais** organizadas nas seguintes categorias:
 
 ```
 screenshots/
+├── interface/    (36 capturas — Matriz comparativa ANTES & DEPOIS das interfaces, logo, vídeo, gamificação e quiz)
+│   ├── antes/    (18 capturas — Estado anterior às melhorias)
+│   ├── depois/   (18 capturas — Estado posterior com todas as correções e novas funcionalidades aplicadas)
+│   └── README.md (Índice detalhado e justificativa técnica de cada refinamento)
 ├── 3d/           (14 capturas — Vistas gerais, arquitetura, esportes e vegetação 3D)
 ├── detalhes/     (5 capturas — Macrofotografias e close-ups de microdetalhes 3D)
 ├── interfaces/   (10 capturas — Dashboards, controle móvel, painéis e rotas)
 └── apresentacao/ (4 capturas — Vídeo obrigatório, quiz ambiental e modais)
 ```
+
+> 📌 **Acesse o índice completo e comparativo de interfaces em:** [`screenshots/interface/README.md`](interface/README.md)
 
 ---
 

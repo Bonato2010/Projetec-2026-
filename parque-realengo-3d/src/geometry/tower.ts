@@ -78,7 +78,7 @@ export function buildTower(p: TowerParams): TowerModel {
       return lerp(Rbase * p.waist, Rbase * 0.88, u * u);
     } else {
       const u = (t - 0.72) / 0.28;
-      const flareFactor = H > 40 ? 1.40 : H > 20 ? 1.30 : 1.22;
+      const flareFactor = H > 40 ? 1.70 : H > 20 ? 1.55 : 1.45;
       return lerp(Rbase * 0.88, Rbase * flareFactor, Math.sin(u * Math.PI * 0.5));
     }
   };
@@ -179,9 +179,11 @@ export function buildTower(p: TowerParams): TowerModel {
     appendMesh(mesh, sweepTube(spokeBranch.pts, () => lr * 0.45, 6));
   }
 
-  // 5. NERVURAS SECUNDÁRIAS DA COPA INVERTIDA (Nível 1)
-  // Saem exatamente do vértice do topo de cada pilar e curvam para cima e para fora
+  // 5. NERVURAS PRINCIPAIS E TRELIÇA DIAGRID COMPLETA DA COPA
   const rTop = getRadiusAtY(H);
+  const crownRibs: V3[][] = [];
+  const crownLevels = [H * 0.72, H * 0.82, H * 0.91, H];
+
   for (let i = 0; i < N; i++) {
     const J = legs[i].pts[legs[i].pts.length - 1];
     const a = (i / N) * Math.PI * 2;
@@ -189,9 +191,11 @@ export function buildTower(p: TowerParams): TowerModel {
 
     const ribPts: V3[] = [
       J,
-      pol(lerp(getRadiusAtY(H * 0.72), rTop, 0.45), aTop, H * 0.85),
+      pol(lerp(getRadiusAtY(H * 0.72), rTop, 0.40), aTop, H * 0.82),
+      pol(lerp(getRadiusAtY(H * 0.72), rTop, 0.75), aTop, H * 0.91),
       pol(rTop, aTop, H)
     ];
+    crownRibs.push(ribPts);
 
     const ribBranch: Branch = {
       id: `${legs[i].id}/s0`,
@@ -199,10 +203,28 @@ export function buildTower(p: TowerParams): TowerModel {
       level: 1,
       pts: ribPts,
       r0: lr * 0.55,
-      r1: lr * 0.25
+      r1: lr * 0.28
     };
     branches.push(ribBranch);
-    appendMesh(mesh, sweepTube(ribPts, (u) => lerp(lr * 0.55, lr * 0.25, u), 6));
+    appendMesh(mesh, sweepTube(ribPts, (u) => lerp(lr * 0.55, lr * 0.28, u), 6));
+  }
+
+  // Treliça diagrid em X da copa entre nervuras vizinhas
+  const crownBraceR = lr * 0.24;
+  for (let lvl = 0; lvl < crownLevels.length - 1; lvl++) {
+    for (let i = 0; i < N; i++) {
+      const nextI = (i + 1) % N;
+      const P0 = crownRibs[i][lvl];
+      const P1 = crownRibs[i][lvl + 1];
+      const Q0 = crownRibs[nextI][lvl];
+      const Q1 = crownRibs[nextI][lvl + 1];
+
+      // Diagonais cruzadas
+      appendMesh(mesh, sweepTube([P0, Q1], () => crownBraceR, 4));
+      appendMesh(mesh, sweepTube([Q0, P1], () => crownBraceR, 4));
+      // Anel tubular intermediário
+      appendMesh(mesh, sweepTube([P1, Q1], () => crownBraceR * 1.1, 4));
+    }
   }
 
   // Anel tubular de coroamento no topo exato da copa (H)
@@ -211,7 +233,13 @@ export function buildTower(p: TowerParams): TowerModel {
     const a = (j / 36) * Math.PI * 2;
     topRingPts.push(pol(rTop, a, H));
   }
-  appendMesh(mesh, sweepTube(topRingPts, () => lr * 0.32, 8));
+  appendMesh(mesh, sweepTube(topRingPts, () => lr * 0.35, 8));
+
+  // Tirantes radiais de ancoragem no anel do topo
+  for (let i = 0; i < N; i++) {
+    const topPt = crownRibs[i][crownRibs[i].length - 1];
+    appendMesh(mesh, sweepTube([topPt, [0, H * 0.95, 0]], () => lr * 0.25, 4));
+  }
 
   // Anéis intermediários de reforço
   const ringHeights = [H * 0.22, H * 0.45, H * 0.65, H * 0.85];

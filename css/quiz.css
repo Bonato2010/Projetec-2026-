@@ -106,24 +106,31 @@ body {
 }
 
 .brand-logo-wrap {
-  width: 46px;
-  height: 46px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  padding: 2px;
-  background: linear-gradient(135deg, var(--cyan), var(--emerald));
+  padding: 3px;
+  background: radial-gradient(circle, rgba(16, 26, 46, 0.95) 0%, rgba(8, 14, 26, 0.98) 100%);
+  border: 1.5px solid var(--cyan);
   box-shadow: 0 0 16px var(--cyan-glow);
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
   flex-shrink: 0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.brand-logo-wrap:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 22px rgba(0, 240, 255, 0.6);
 }
 
 .brand-logo-wrap img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
+  object-fit: contain;
+  display: block;
 }
 
 .brand-title-wrap h1 {
@@ -225,6 +232,15 @@ body {
   transform: translateY(-1px);
 }
 
+@media (max-width: 1150px) and (min-width: 769px) {
+  .nav-action-btn:not(.primary-action) span {
+    display: none;
+  }
+  .nav-action-btn:not(.primary-action) {
+    padding: 8px 10px;
+  }
+}
+
 .nav-action-btn.primary-action {
   background: linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(0, 240, 255, 0.2));
   border-color: rgba(0, 255, 136, 0.5);
@@ -281,8 +297,8 @@ body {
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
-  padding: 44px 36px;
-  max-width: 720px;
+  padding: 40px 32px;
+  max-width: 660px;
   margin: 30px auto;
   text-align: center;
   box-shadow: var(--shadow-card);
@@ -301,21 +317,31 @@ body {
 }
 
 .welcome-logo {
-  width: 110px;
-  height: 110px;
+  width: 108px;
+  height: 108px;
   border-radius: 50%;
-  padding: 4px;
-  background: linear-gradient(135deg, var(--cyan), var(--emerald));
-  box-shadow: 0 0 30px var(--cyan-glow);
+  padding: 8px;
+  background: radial-gradient(circle, rgba(16, 26, 46, 0.95) 0%, rgba(6, 10, 18, 0.98) 100%);
+  border: 2px solid var(--cyan);
+  box-shadow: 0 0 28px var(--cyan-glow), inset 0 0 14px rgba(0, 240, 255, 0.15);
   margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.welcome-logo:hover {
+  transform: scale(1.04);
+  box-shadow: 0 0 36px var(--cyan-glow), inset 0 0 20px rgba(0, 240, 255, 0.25);
 }
 
 .welcome-logo img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
+  object-fit: contain;
+  display: block;
 }
 
 .welcome-card h2 {
@@ -444,6 +470,9 @@ body {
   align-items: center;
   justify-content: center;
   gap: 12px;
+  position: relative;
+  z-index: 5;
+  margin-top: 14px;
 }
 
 .btn-primary-glow:hover {
@@ -1694,7 +1723,13 @@ body {
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  box-shadow: 0 0 16px rgba(0, 240, 255, 0.3);
+  padding: 4px;
+  background: rgba(12, 20, 36, 0.9);
+  border: 1.5px solid var(--cyan);
+  box-shadow: 0 0 16px rgba(0, 240, 255, 0.35);
+  object-fit: contain;
+  display: block;
+  flex-shrink: 0;
 }
 
 .tv-ranking-title {
@@ -1965,41 +2000,726 @@ body {
   100% { transform: translateX(-100%); }
 }
 
+/* ==========================================================================
+   MEDIA QUERIES — RESPONSIVIDADE E ADAPTAÇÃO VISUAL (TABLET & MOBILE)
+   ========================================================================== */
+@media (max-width: 1024px) {
   .top-bar {
-    padding: 10px 14px;
+    padding: 10px 18px;
+    gap: 12px;
+  }
+  .top-controls {
+    gap: 8px;
+  }
+  .nav-action-btn {
+    padding: 7px 12px;
+    font-size: 0.8rem;
+  }
+  .hub-modes-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .top-bar {
+    padding: 8px 12px;
+    gap: 8px;
+  }
+  .brand-logo-wrap {
+    width: 38px;
+    height: 38px;
+    padding: 2px;
   }
   .brand-title-wrap h1 {
-    font-size: 1rem;
+    font-size: 0.95rem;
+  }
+  .brand-badge {
+    font-size: 0.58rem;
+    padding: 1px 6px;
   }
   .brand-subtitle {
     display: none;
   }
+  .top-controls .nav-action-btn span {
+    display: none;
+  }
+  .top-controls .nav-action-btn {
+    padding: 8px;
+    min-width: 36px;
+    justify-content: center;
+  }
+  .user-pill {
+    padding: 4px 10px;
+    font-size: 0.78rem;
+  }
   .welcome-card {
-    padding: 28px 18px;
+    padding: 24px 16px;
+    margin: 12px auto;
+  }
+  .welcome-logo {
+    width: 88px;
+    height: 88px;
+    padding: 6px;
+    margin-bottom: 14px;
+  }
+  .welcome-card h2 {
+    font-size: 1.45rem;
+  }
+  .welcome-tagline {
+    font-size: 0.88rem;
+    margin-bottom: 20px;
+  }
+  .welcome-input {
+    font-size: 1.05rem;
+    padding: 13px 14px;
   }
   .avatar-grid {
     grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+  .avatar-option {
+    padding: 8px;
+    font-size: 1.35rem;
+  }
+  .btn-primary-glow {
+    padding: 15px 20px;
+    font-size: 1.02rem;
+  }
+  .hub-header {
+    margin-bottom: 20px;
+  }
+  .hub-title {
+    font-size: 1.45rem;
+  }
+  .hub-desc {
+    font-size: 0.88rem;
+  }
+  .hub-card {
+    padding: 22px 16px;
+  }
+  .card-title {
+    font-size: 1.25rem;
+  }
+  .pill-selector {
+    gap: 6px;
+  }
+  .pill-option {
+    padding: 7px 6px;
+    font-size: 0.78rem;
+  }
+  .area-selector-grid {
+    grid-template-columns: 1fr;
+  }
+  .area-option.full-width {
+    grid-column: span 1;
+  }
+  .quiz-hud {
+    padding: 14px 16px;
+    margin-bottom: 16px;
   }
   .question-card {
-    padding: 24px 16px;
+    padding: 20px 16px;
   }
   .question-text {
     font-size: 1.15rem;
+    line-height: 1.4;
+    margin-bottom: 20px;
+  }
+  .option-btn {
+    padding: 13px 14px;
+    font-size: 0.95rem;
+    gap: 12px;
+  }
+  .option-letter {
+    width: 32px;
+    height: 32px;
+    font-size: 0.92rem;
+  }
+  .feedback-box {
+    padding: 16px;
   }
   .results-hero-card {
-    padding: 28px 16px;
+    padding: 24px 16px;
+  }
+  .score-circle-wrap {
+    width: 124px;
+    height: 124px;
+  }
+  .score-number {
+    font-size: 2.3rem;
+  }
+  .metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .metric-card {
+    padding: 12px 10px;
+  }
+  .metric-value {
+    font-size: 1.2rem;
+  }
+  .big-chart-card {
+    padding: 16px 12px;
+  }
+  .chart-tab-pills {
+    width: 100%;
+    justify-content: space-between;
+    overflow-x: auto;
+  }
+  .chart-tab-pill {
+    padding: 6px 10px;
+    font-size: 0.78rem;
+    white-space: nowrap;
   }
   .results-actions-grid {
     grid-template-columns: 1fr;
+    gap: 10px;
   }
-  .podium-section {
-    gap: 8px;
+  .tv-ranking-container {
+    padding: 12px;
+    gap: 16px;
   }
-  .podium-place {
-    width: 95px;
-  }
-  .footer-inner {
+  .tv-ranking-header {
     flex-direction: column;
-    text-align: center;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px;
+  }
+  .tv-ranking-title {
+    font-size: 1.2rem;
+  }
+  .tv-podium-monumental {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .tv-podium-card {
+    padding: 18px 14px;
+  }
+  .tv-table th, .tv-table td {
+    padding: 8px 6px;
+    font-size: 0.8rem;
   }
 }
+
+/* ==========================================================================
+   GAMIFICAÇÃO: FEEDBACK PERSONALIZADO, NÍVEIS XP & CONQUISTAS REAIS
+   ========================================================================== */
+
+/* 1. Banner de Feedback Individual */
+.personal-feedback-banner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: linear-gradient(135deg, rgba(0, 240, 255, 0.08), rgba(0, 255, 136, 0.05));
+  border: 1px solid rgba(0, 240, 255, 0.25);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  margin: 16px 0 20px 0;
+  text-align: left;
+  backdrop-filter: blur(10px);
+}
+
+.personal-feedback-icon {
+  font-size: 2.2rem;
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  background: rgba(0, 240, 255, 0.12);
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.personal-feedback-content {
+  flex: 1;
+}
+
+.personal-feedback-title {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0 0 4px 0;
+  letter-spacing: 0.3px;
+}
+
+.personal-feedback-msg {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.45;
+  margin: 0;
+}
+
+/* 2. Sistema de Nível e XP */
+.xp-level-card {
+  background: rgba(10, 16, 28, 0.85);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+  margin-top: 18px;
+  text-align: left;
+  box-shadow: var(--shadow-card);
+}
+
+.xp-level-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.xp-level-badge-wrap {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.xp-level-icon {
+  font-size: 2rem;
+  width: 48px;
+  height: 48px;
+  background: rgba(0, 255, 136, 0.12);
+  border: 1px solid rgba(0, 255, 136, 0.3);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.xp-level-sub {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--cyan);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.xp-level-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 2px 0 0 0;
+}
+
+.xp-match-gain {
+  background: rgba(0, 255, 136, 0.15);
+  border: 1px solid var(--emerald);
+  color: var(--emerald);
+  font-weight: 800;
+  font-size: 0.85rem;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  box-shadow: 0 0 10px rgba(0, 255, 136, 0.2);
+}
+
+.xp-bar-track {
+  width: 100%;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.xp-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--cyan), var(--emerald));
+  border-radius: var(--radius-full);
+  box-shadow: 0 0 12px rgba(0, 255, 136, 0.5);
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.xp-bar-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+/* 3. Conquistas e Selos */
+.achievements-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  margin-top: 24px;
+  text-align: left;
+  box-shadow: var(--shadow-card);
+}
+
+.achievements-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-subtle);
+  margin-bottom: 20px;
+}
+
+.achievements-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.achievements-main-icon {
+  font-size: 1.8rem;
+  width: 44px;
+  height: 44px;
+  background: rgba(255, 184, 0, 0.12);
+  border: 1px solid rgba(255, 184, 0, 0.3);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.achievements-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+.achievements-subtitle {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.achievements-counter-pill {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-subtle);
+  color: #ffffff;
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 5px 14px;
+  border-radius: var(--radius-full);
+}
+
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 14px;
+}
+
+.achievement-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: rgba(14, 22, 38, 0.6);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.achievement-item.unlocked {
+  border: 1px solid rgba(0, 255, 136, 0.45);
+  background: linear-gradient(135deg, rgba(0, 255, 136, 0.08), rgba(0, 240, 255, 0.04));
+  box-shadow: 0 0 16px rgba(0, 255, 136, 0.12);
+}
+
+.achievement-item.unlocked:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0, 255, 136, 0.25);
+}
+
+.achievement-item.locked {
+  border: 1px dashed rgba(255, 255, 255, 0.12);
+  opacity: 0.55;
+  filter: grayscale(0.65);
+}
+
+.achievement-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.achievement-icon {
+  font-size: 1.8rem;
+  width: 42px;
+  height: 42px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.achievement-item.unlocked .achievement-icon {
+  background: rgba(0, 255, 136, 0.15);
+  border: 1px solid rgba(0, 255, 136, 0.35);
+}
+
+.achievement-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.25;
+}
+
+.achievement-desc {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  margin: 0 0 12px 0;
+  flex: 1;
+}
+
+.achievement-badge-status {
+  align-self: flex-start;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+}
+
+.achievement-item.unlocked .achievement-badge-status {
+  background: rgba(0, 255, 136, 0.18);
+  color: var(--emerald);
+  border: 1px solid rgba(0, 255, 136, 0.4);
+}
+
+.achievement-item.locked .achievement-badge-status {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-muted);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* 4. Modal de Revisão Interativa de Questões */
+.modal-window-wide {
+  max-width: 960px;
+  width: 95%;
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.review-filters-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-bottom: 16px;
+  margin-bottom: 18px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.review-stats-summary {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--cyan);
+  background: rgba(0, 240, 255, 0.1);
+  border: 1px solid rgba(0, 240, 255, 0.25);
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+}
+
+.review-questions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: calc(88vh - 220px);
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.review-card {
+  background: rgba(11, 18, 32, 0.75);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  text-align: left;
+  transition: border-color 0.2s;
+  position: relative;
+}
+
+.review-card.is-correct {
+  border-left: 5px solid var(--emerald);
+  background: linear-gradient(90deg, rgba(0, 255, 136, 0.04), transparent 50%);
+}
+
+.review-card.is-error {
+  border-left: 5px solid var(--coral);
+  background: linear-gradient(90deg, rgba(255, 51, 102, 0.04), transparent 50%);
+}
+
+.review-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.review-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.review-q-number {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--cyan);
+  background: rgba(0, 240, 255, 0.12);
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+}
+
+.review-q-area {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.review-status-tag {
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+}
+
+.review-card.is-correct .review-status-tag {
+  background: rgba(0, 255, 136, 0.18);
+  color: var(--emerald);
+  border: 1px solid rgba(0, 255, 136, 0.35);
+}
+
+.review-card.is-error .review-status-tag {
+  background: rgba(255, 51, 102, 0.18);
+  color: var(--coral);
+  border: 1px solid rgba(255, 51, 102, 0.35);
+}
+
+.review-q-text {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.45;
+  margin: 0 0 14px 0;
+}
+
+.review-options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.review-opt {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: var(--text-secondary);
+}
+
+.review-opt-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.review-opt-letter {
+  font-weight: 800;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  color: #ffffff;
+}
+
+.review-opt.user-chosen-correct {
+  background: rgba(0, 255, 136, 0.12);
+  border-color: var(--emerald);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.review-opt.user-chosen-correct .review-opt-letter {
+  background: var(--emerald);
+  color: #060a12;
+}
+
+.review-opt.user-chosen-wrong {
+  background: rgba(255, 51, 102, 0.12);
+  border-color: var(--coral);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.review-opt.user-chosen-wrong .review-opt-letter {
+  background: var(--coral);
+  color: #ffffff;
+}
+
+.review-opt.correct-answer-missed {
+  background: rgba(0, 255, 136, 0.08);
+  border: 1px dashed var(--emerald);
+  color: #ffffff;
+}
+
+.review-opt.correct-answer-missed .review-opt-letter {
+  background: rgba(0, 255, 136, 0.3);
+  color: var(--emerald);
+}
+
+.review-opt-tag {
+  font-size: 0.74rem;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+}
+
+.tag-correct {
+  background: rgba(0, 255, 136, 0.2);
+  color: var(--emerald);
+}
+
+.tag-wrong {
+  background: rgba(255, 51, 102, 0.2);
+  color: var(--coral);
+}
+
+.review-explanation {
+  background: rgba(0, 240, 255, 0.06);
+  border: 1px solid rgba(0, 240, 255, 0.2);
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 0.85rem;
+  color: #c4f0ff;
+  line-height: 1.5;
+}
+
+.review-explanation strong {
+  color: #ffffff;
+}
+

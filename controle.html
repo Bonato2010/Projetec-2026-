@@ -31,11 +31,17 @@
 
   <!-- ==========================================================================
        ETAPA 1: VÍDEO OFICIAL OBRIGATÓRIO EM TELA CHEIA (SEM HUB ANTECIPADO)
-       Ocupa 100% da tela, sem botões de início e sem cards. Ao terminar, transita automaticamente.
+       Preenche 100% da área de exibição com camada de fundo contínua sem espaços vazios
        ========================================================================== -->
   <div id="mobile-video-screen" class="mobile-video-screen">
     
     <div class="video-container-fullscreen">
+      <!-- Camada de Fundo Dinâmica Fluida (Garante 100% de cobertura sem barras pretas) -->
+      <video id="mobile-video-backdrop" class="video-backdrop-blur" playsinline muted preload="auto" aria-hidden="true">
+        <source src="public/media/intro-vida.mp4" type="video/mp4">
+      </video>
+
+      <!-- Vídeo Principal com Enquadramento Nítido e Proporção Preservada -->
       <video id="mobile-video" playsinline preload="auto" autoplay muted>
         <source src="public/media/intro-vida.mp4" type="video/mp4">
         Seu dispositivo não suporta o vídeo MP4.

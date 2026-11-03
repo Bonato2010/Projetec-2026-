@@ -11,7 +11,7 @@ import { getMaterials } from './materials';
 export const ParkTerrain = memo(function ParkTerrain() {
   const M = getMaterials();
   const g = useMemo(() => {
-    const hole = rectPoly(SKATE.cx, SKATE.cz, SKATE.w, SKATE.d);
+    const hole = rectPoly(SKATE.cx, SKATE.cz, SKATE.w, SKATE.d, SKATE.rot);
     const nodes = new Map(PATH_NODES.map((n) => [n.id, n.pos]));
     const segs = PATH_EDGES.map(([a, b, w]) => ({ a: nodes.get(a)!, b: nodes.get(b)!, w: w ?? DEFAULT_PATH_WIDTH }));
     return {

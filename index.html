@@ -354,6 +354,15 @@
             </div>
           </div>
 
+          <!-- Feedback Personalizado do Visitante -->
+          <div class="personal-feedback-banner" id="personalFeedbackBanner">
+            <div class="personal-feedback-icon" id="personalFeedbackIcon">🌿</div>
+            <div class="personal-feedback-content">
+              <h4 class="personal-feedback-title" id="personalFeedbackTitle">Análise Pedagógica Individual</h4>
+              <p class="personal-feedback-msg" id="personalFeedbackMsg">Carregando avaliação diagnóstica...</p>
+            </div>
+          </div>
+
           <!-- Métricas -->
           <div class="metrics-grid">
             <div class="metric-card">
@@ -371,6 +380,27 @@
             <div class="metric-card">
               <div class="metric-value" id="metricTime" style="color: var(--amber);">03m 12s</div>
               <div class="metric-label">Tempo Total</div>
+            </div>
+          </div>
+
+          <!-- Sistema de Nível e XP (Gamificação Ativa) -->
+          <div class="xp-level-card">
+            <div class="xp-level-header">
+              <div class="xp-level-badge-wrap">
+                <span class="xp-level-icon" id="userLevelIcon">🌱</span>
+                <div>
+                  <div class="xp-level-sub">PROGRESSÃO DO PARTICIPANTE</div>
+                  <h4 class="xp-level-title" id="userLevelTitle">Nível 1 — Aprendiz da Natureza</h4>
+                </div>
+              </div>
+              <div class="xp-match-gain" id="xpMatchGain">+500 XP nesta partida</div>
+            </div>
+            <div class="xp-bar-track">
+              <div class="xp-bar-fill" id="xpBarFill" style="width: 20%;"></div>
+            </div>
+            <div class="xp-bar-labels">
+              <span id="xpCurrentLabel">500 XP</span>
+              <span id="xpNextLabel">Próximo Nível: 1.000 XP</span>
             </div>
           </div>
 
@@ -413,8 +443,28 @@
             </div>
           </div>
 
+          <!-- Conquistas e Selos Ambientais Desbloqueados -->
+          <div class="achievements-card">
+            <div class="achievements-header">
+              <div class="achievements-title-wrap">
+                <span class="achievements-main-icon">🎖️</span>
+                <div>
+                  <h3 class="achievements-title">CONQUISTAS E SELOS DE APRENDIZAGEM</h3>
+                  <div class="achievements-subtitle">Distintivos conquistados com base no seu desempenho real na partida</div>
+                </div>
+              </div>
+              <span class="achievements-counter-pill" id="achievementsCounterPill">0 / 8 Desbloqueadas</span>
+            </div>
+            <div class="achievements-grid" id="achievementsGrid">
+              <!-- Renderizado dinamicamente via JS -->
+            </div>
+          </div>
+
           <!-- Ações Finais -->
           <div class="results-actions-grid">
+            <button type="button" class="btn-card-launch btn-launch-cyan" id="btnReviewAnswers" style="grid-column: 1 / -1;">
+              <span>📝</span> Revisar Questões & Explicações Detalhadas
+            </button>
             <button type="button" class="btn-card-launch btn-launch-emerald" id="btnPlayAgain">
               <span>🔄</span> Jogar Novamente
             </button>
@@ -430,6 +480,8 @@
           </div>
         </div>
       </div>
+    </section>
+
     <!-- VIEW 5: MODO TELÃO TV — RANKING GERAL OFICIAL EM TEMPO REAL -->
     <section id="tvRankingView" class="quiz-view">
       <div class="tv-ranking-container">
@@ -616,6 +668,36 @@
       <div class="modal-body">
         <div id="historyItemsList">
           <!-- Renderizado dinamicamente -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL DE REVISÃO INTERATIVA DE QUESTÕES (GABARITO E CONCEITOS)
+       ======================================================================== -->
+  <div class="modal-overlay" id="reviewModal">
+    <div class="modal-window modal-window-wide">
+      <div class="modal-header">
+        <h3 class="modal-title">
+          <span>📝</span> REVISÃO PEDAGÓGICA DA PARTIDA
+        </h3>
+        <button type="button" class="modal-close-btn" id="btnCloseReview" title="Fechar">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="review-filters-bar">
+          <div class="ranking-filters" id="reviewFilters">
+            <button type="button" class="filter-btn active" data-review-filter="todas">Todas as Questões (<span id="reviewCountAll">0</span>)</button>
+            <button type="button" class="filter-btn" data-review-filter="erros">Apenas Erros (<span id="reviewCountErrors">0</span>)</button>
+            <button type="button" class="filter-btn" data-review-filter="acertos">Apenas Acertos (<span id="reviewCountHits">0</span>)</button>
+          </div>
+          <div class="review-stats-summary" id="reviewStatsSummary">
+            Aproveitamento Oficial
+          </div>
+        </div>
+
+        <div class="review-questions-list" id="reviewQuestionsList">
+          <!-- Renderizado dinamicamente via JS -->
         </div>
       </div>
     </div>

@@ -623,6 +623,7 @@
     currentGame.answersRecord.push({
       pergunta: qData.pergunta,
       area: qData.area || currentGame.modeLabel,
+      opcoes: [...qData.opcoes],
       selectedIndex: selectedIndex,
       correctIndex: qData.correta,
       isCorrect: isCorrect,
@@ -754,8 +755,11 @@
       setTimeout(() => audio.playChimeSuccess(), 300);
     }
 
+    // Avaliar Conquistas e Sistema de Níveis XP
+    const gamif = evaluateGamification(score, total, timeSpent, currentGame.difficulty, rawNota, currentGame.answersRecord);
+
     // Renderizar Tela de Resultados
-    renderResultsScreen(notaFinal, rawNota, score, total, accuracy, timeSpent, badgeClass, badgeLabel);
+    renderResultsScreen(notaFinal, rawNota, score, total, accuracy, timeSpent, badgeClass, badgeLabel, gamif);
 
     // Salvar partida no Histórico e no Ranking
     saveGameRecord(notaFinal, score, total, accuracy, timeSpent);
@@ -763,7 +767,7 @@
     showView('resultsView');
   }
 
-  function renderResultsScreen(notaFinal, rawNota, score, total, accuracy, timeSpent, badgeClass, badgeLabel) {
+  function renderResultsScreen(notaFinal, rawNota, score, total, accuracy, timeSpent, badgeClass, badgeLabel, gamif) {
     const scoreNumberEl = document.getElementById('resultsScoreNumber');
     const badgeEl = document.getElementById('resultsBadge');
     const scoreProgressEl = document.getElementById('resultsCircleProgress');
@@ -792,6 +796,9 @@
     if (errorsEl) errorsEl.textContent = `${total - score}`;
     if (accuracyEl) accuracyEl.textContent = `${accuracy}%`;
     if (timeEl) timeEl.textContent = formatTimeReadable(timeSpent);
+
+    // Gamificação: Feedback Personalizado, Níveis XP e Conquistas
+    renderGamificationUI(gamif, rawNota, score, total);
 
     // Breakdown por Área / Assunto
     renderBreakdown();
@@ -832,6 +839,466 @@
         </div>
       `;
       list.appendChild(item);
+    });
+  }
+
+  // ==========================================================================
+  // SISTEMA DE GAMIFICAÇÃO: CONQUISTAS, NÍVEIS XP E REVISÃO PEDAGÓGICA
+  // ==========================================================================
+
+  const ACHIEVEMENTS_DEF = [
+    {
+      id: 'gabarito_verde',
+      nome: 'Gabarito Verde',
+      icone: '🏆',
+      desc: 'Alcançou aproveitamento máximo (Nota 10.0) na partida.'
+    },
+    {
+      id: 'guardiao_aguas',
+      nome: 'Guardião das Águas',
+      icone: '💧',
+      desc: 'Dominou conceitos do lago, macrodrenagem e bacia pluvial.'
+    },
+    {
+      id: 'mestre_bioclimatico',
+      nome: 'Mestre Bioclimático',
+      icone: '🌀',
+      desc: 'Acertou perguntas das 5 Super-Torres e microclima urbano.'
+    },
+    {
+      id: 'botanico_parque',
+      nome: 'Botânico do Parque',
+      icone: '🌳',
+      desc: 'Demonstrou excelência sobre a Mata Atlântica e espécies nativas.'
+    },
+    {
+      id: 'velocidade_sustentavel',
+      nome: 'Velocidade Sustentável',
+      icone: '⚡',
+      desc: 'Completou a partida em ritmo ágil (< 10s/questão) com nota ≥ 7.0.'
+    },
+    {
+      id: 'sequencia_epica',
+      nome: 'Sequência Épica',
+      icone: '🔥',
+      desc: 'Acertou 5 ou mais questões consecutivas sem errar.'
+    },
+    {
+      id: 'desafio_supremo',
+      nome: 'Desafio Supremo',
+      icone: '🎖️',
+      desc: 'Enfrentou o Modo Difícil e obteve aproveitamento ≥ 80%.'
+    },
+    {
+      id: 'eco_cidadao',
+      nome: 'Eco-Cidadão Frequente',
+      icone: '🌱',
+      desc: 'Completou 3 ou mais partidas no stand do Projeto V.I.D.A.'
+    }
+  ];
+
+  const LEVELS_DEF = [
+    { level: 1, title: 'Nível 1 — Aprendiz da Natureza', icon: '🌱', minXp: 0, maxXp: 1000 },
+    { level: 2, title: 'Nível 2 — Protetor da Mata', icon: '🌿', minXp: 1000, maxXp: 2500 },
+    { level: 3, title: 'Nível 3 — Especialista Ambiental', icon: '🌳', minXp: 2500, maxXp: 5000 },
+    { level: 4, title: 'Nível 4 — Engenheiro Bioclimático', icon: '⚡', minXp: 5000, maxXp: 9000 },
+    { level: 5, title: 'Nível 5 — Guardião Supremo do Parque', icon: '👑', minXp: 9000, maxXp: 99999 }
+  ];
+
+  function evaluateGamification(score, total, timeSpent, difficulty, rawNota, answersRecord) {
+    const records = answersRecord || [];
+
+    // 1. Sequência máxima
+    let currentStreak = 0;
+    let maxStreak = 0;
+    records.forEach(rec => {
+      if (rec.isCorrect) {
+        currentStreak++;
+        if (currentStreak > maxStreak) maxStreak = currentStreak;
+      } else {
+        currentStreak = 0;
+      }
+    });
+
+    // 2. Análise temática
+    let waterTotal = 0, waterHits = 0;
+    let towerTotal = 0, towerHits = 0;
+    let botanicTotal = 0, botanicHits = 0;
+
+    records.forEach(rec => {
+      const p = (rec.pergunta || '').toLowerCase();
+      const a = (rec.area || '').toLowerCase();
+      const exp = (rec.explicacao || '').toLowerCase();
+
+      if (p.includes('água') || p.includes('agua') || p.includes('drenagem') || p.includes('bacia') || p.includes('lago') || a.includes('água') || a.includes('hídrico')) {
+        waterTotal++;
+        if (rec.isCorrect) waterHits++;
+      }
+      if (p.includes('torre') || p.includes('microclima') || p.includes('nevoa') || p.includes('névoa') || p.includes('aspersor') || p.includes('bioclimát') || a.includes('clima')) {
+        towerTotal++;
+        if (rec.isCorrect) towerHits++;
+      }
+      if (p.includes('árvore') || p.includes('árvores') || p.includes('ipê') || p.includes('mata atlântica') || p.includes('vegetação') || p.includes('espécie') || a.includes('botânica') || a.includes('vegetação')) {
+        botanicTotal++;
+        if (rec.isCorrect) botanicHits++;
+      }
+    });
+
+    // 3. Contagem de partidas no histórico
+    let pastGamesCount = 0;
+    try {
+      const histStr = localStorage.getItem(STORAGE_KEYS.HISTORY);
+      if (histStr) pastGamesCount = JSON.parse(histStr).length;
+    } catch (e) {}
+    const totalGames = pastGamesCount + 1;
+
+    // 4. Conquistas
+    let unlockedAchievements = [];
+    try {
+      const achStr = localStorage.getItem('vida_quiz_achievements');
+      if (achStr) unlockedAchievements = JSON.parse(achStr);
+    } catch (e) {}
+
+    const newlyUnlocked = [];
+    function tryUnlock(achId) {
+      if (!unlockedAchievements.includes(achId)) {
+        unlockedAchievements.push(achId);
+        newlyUnlocked.push(achId);
+      }
+    }
+
+    if (total >= 5 && score === total) tryUnlock('gabarito_verde');
+    if (waterTotal >= 1 && waterHits === waterTotal) tryUnlock('guardiao_aguas');
+    if (towerTotal >= 1 && towerHits === towerTotal) tryUnlock('mestre_bioclimatico');
+    if (botanicTotal >= 1 && botanicHits === botanicTotal) tryUnlock('botanico_parque');
+    if (total > 0 && (timeSpent / total) < 10 && rawNota >= 7.0) tryUnlock('velocidade_sustentavel');
+    if (maxStreak >= 5) tryUnlock('sequencia_epica');
+    if (difficulty === 'dificil' && (score / total) >= 0.8) tryUnlock('desafio_supremo');
+    if (totalGames >= 3) tryUnlock('eco_cidadao');
+
+    try {
+      localStorage.setItem('vida_quiz_achievements', JSON.stringify(unlockedAchievements));
+    } catch (e) {}
+
+    // 5. XP ganho nesta partida
+    let xpEarned = score * 100;
+    if (difficulty === 'dificil') xpEarned += 350;
+    else if (difficulty === 'medio') xpEarned += 200;
+    else xpEarned += 100;
+
+    if (score === total && total >= 5) xpEarned += 500;
+    if (maxStreak >= 5) xpEarned += 250;
+    if (total > 0 && (timeSpent / total) < 12) xpEarned += 150;
+
+    let currentTotalXp = 0;
+    try {
+      currentTotalXp = parseInt(localStorage.getItem('vida_user_xp') || '0', 10);
+    } catch (e) {}
+    currentTotalXp += xpEarned;
+    try {
+      localStorage.setItem('vida_user_xp', String(currentTotalXp));
+    } catch (e) {}
+
+    // Determinar Nível
+    let currentLevel = LEVELS_DEF[0];
+    for (let i = LEVELS_DEF.length - 1; i >= 0; i--) {
+      if (currentTotalXp >= LEVELS_DEF[i].minXp) {
+        currentLevel = LEVELS_DEF[i];
+        break;
+      }
+    }
+
+    return {
+      xpEarned,
+      currentTotalXp,
+      currentLevel,
+      unlockedAchievements,
+      newlyUnlocked,
+      maxStreak
+    };
+  }
+
+  function renderGamificationUI(gamif, rawNota, score, total) {
+    let g = gamif;
+    if (!g) {
+      let currentTotalXp = 0;
+      let unlockedAchievements = [];
+      try {
+        currentTotalXp = parseInt(localStorage.getItem('vida_user_xp') || '1200', 10);
+        const achStr = localStorage.getItem('vida_quiz_achievements');
+        if (achStr) unlockedAchievements = JSON.parse(achStr);
+        else unlockedAchievements = ['guardiao_aguas', 'mestre_bioclimatico'];
+      } catch (e) {}
+      let currentLevel = LEVELS_DEF[0];
+      for (let i = LEVELS_DEF.length - 1; i >= 0; i--) {
+        if (currentTotalXp >= LEVELS_DEF[i].minXp) {
+          currentLevel = LEVELS_DEF[i];
+          break;
+        }
+      }
+      g = {
+        xpEarned: 500,
+        currentTotalXp,
+        currentLevel,
+        unlockedAchievements,
+        newlyUnlocked: []
+      };
+    }
+
+    const { xpEarned, currentTotalXp, currentLevel, unlockedAchievements } = g;
+
+    // 1. Feedback Personalizado
+    const feedbackTitleEl = document.getElementById('personalFeedbackTitle');
+    const feedbackMsgEl = document.getElementById('personalFeedbackMsg');
+    const feedbackIconEl = document.getElementById('personalFeedbackIcon');
+    const userName = (currentUser && currentUser.nome) ? currentUser.nome : 'Visitante';
+
+    if (feedbackTitleEl && feedbackMsgEl) {
+      if (rawNota >= 9.5) {
+        if (feedbackIconEl) feedbackIconEl.textContent = '🌟';
+        feedbackTitleEl.textContent = `Desempenho Extraordinário, ${userName}!`;
+        feedbackMsgEl.innerHTML = `Você demonstrou domínio impecável sobre o <strong>Gêmeo Digital do Parque Realengo</strong>, gabaritando questões sobre macrodrenagem pluvial, microclima das Super-Torres e restauração da Mata Atlântica. Sua visão ambiental é inspiradora!`;
+      } else if (rawNota >= 7.5) {
+        if (feedbackIconEl) feedbackIconEl.textContent = '🌿';
+        feedbackTitleEl.textContent = `Parabéns pela Consciência Ambiental, ${userName}!`;
+        feedbackMsgEl.innerHTML = `Você alcançou um resultado de alto nível! Compreendeu as principais soluções sustentáveis aplicadas à Zona Oeste do Rio. Use a <em>Revisão de Questões</em> para lapidar detalhes técnicos e conquistar o selo máximo!`;
+      } else if (rawNota >= 5.0) {
+        if (feedbackIconEl) feedbackIconEl.textContent = '💡';
+        feedbackTitleEl.textContent = `Boa Participação e Aprendizado Ativo, ${userName}!`;
+        feedbackMsgEl.innerHTML = `Você demonstrou boa sensibilidade socioambiental. O Parque Susana Naspolini integra diversas inovações arquitetônicas e ecológicas. Clique em <em>Revisar Questões</em> abaixo para ver a explicação científica de cada conceito!`;
+      } else {
+        if (feedbackIconEl) feedbackIconEl.textContent = '🌱';
+        feedbackTitleEl.textContent = `Início de Jornada Sustentável, ${userName}!`;
+        feedbackMsgEl.innerHTML = `A sustentabilidade urbana é um aprendizado contínuo. Explore o <strong>Parque Realengo 3D</strong> para vivenciar as estruturas na prática, depois confira o gabarito comentado para tentar novamente!`;
+      }
+    }
+
+    // 2. Nível e XP
+    const userLevelIconEl = document.getElementById('userLevelIcon');
+    const userLevelTitleEl = document.getElementById('userLevelTitle');
+    const xpMatchGainEl = document.getElementById('xpMatchGain');
+    const xpBarFillEl = document.getElementById('xpBarFill');
+    const xpCurrentLabelEl = document.getElementById('xpCurrentLabel');
+    const xpNextLabelEl = document.getElementById('xpNextLabel');
+
+    if (userLevelIconEl) userLevelIconEl.textContent = currentLevel.icon;
+    if (userLevelTitleEl) userLevelTitleEl.textContent = currentLevel.title;
+    if (xpMatchGainEl) xpMatchGainEl.textContent = `+${xpEarned.toLocaleString('pt-BR')} XP nesta partida!`;
+
+    const span = currentLevel.maxXp - currentLevel.minXp;
+    const progressInLevel = Math.min(Math.max(currentTotalXp - currentLevel.minXp, 0), span);
+    const pct = Math.round((progressInLevel / span) * 100);
+
+    if (xpBarFillEl) {
+      setTimeout(() => {
+        xpBarFillEl.style.width = `${pct}%`;
+      }, 150);
+    }
+    if (xpCurrentLabelEl) xpCurrentLabelEl.textContent = `${currentTotalXp.toLocaleString('pt-BR')} XP Total`;
+    if (xpNextLabelEl) {
+      if (currentLevel.level === 5) {
+        xpNextLabelEl.textContent = 'Nível Máximo Atingido 👑';
+      } else {
+        xpNextLabelEl.textContent = `Meta Nível ${currentLevel.level + 1}: ${currentLevel.maxXp.toLocaleString('pt-BR')} XP`;
+      }
+    }
+
+    // 3. Grid de Conquistas
+    const countPill = document.getElementById('achievementsCounterPill');
+    if (countPill) {
+      countPill.textContent = `${unlockedAchievements.length} / ${ACHIEVEMENTS_DEF.length} Desbloqueadas`;
+    }
+
+    const grid = document.getElementById('achievementsGrid');
+    if (grid) {
+      grid.innerHTML = '';
+      ACHIEVEMENTS_DEF.forEach(ach => {
+        const isUnlocked = unlockedAchievements.includes(ach.id);
+        const card = document.createElement('div');
+        card.className = `achievement-item ${isUnlocked ? 'unlocked' : 'locked'}`;
+        card.innerHTML = `
+          <div class="achievement-top">
+            <span class="achievement-icon">${ach.icone}</span>
+            <div>
+              <h4 class="achievement-name">${ach.nome}</h4>
+            </div>
+          </div>
+          <p class="achievement-desc">${ach.desc}</p>
+          <span class="achievement-badge-status">${isUnlocked ? '✓ Conquistado' : '🔒 Bloqueado'}</span>
+        `;
+        grid.appendChild(card);
+      });
+    }
+  }
+
+  // ==========================================================================
+  // MODAL DE REVISÃO INTERATIVA DE RESPOSTAS E GABARITO PEDAGÓGICO
+  // ==========================================================================
+  let activeReviewFilter = 'todas';
+
+  function openReviewModal(filter = 'todas') {
+    audio.playClick();
+    activeReviewFilter = filter;
+
+    const modal = document.getElementById('reviewModal');
+    if (!modal) return;
+
+    // Atualizar classe ativa nos botões de filtro
+    document.querySelectorAll('#reviewFilters .filter-btn').forEach(btn => {
+      if (btn.dataset.reviewFilter === activeReviewFilter) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
+
+    renderReviewQuestions();
+    modal.classList.add('active');
+  }
+
+  function closeReviewModal() {
+    audio.playClick();
+    const modal = document.getElementById('reviewModal');
+    if (modal) modal.classList.remove('active');
+  }
+
+  function renderReviewQuestions() {
+    const list = document.getElementById('reviewQuestionsList');
+    if (!list) return;
+
+    let records = [];
+    if (currentGame && currentGame.answersRecord && currentGame.answersRecord.length > 0) {
+      records = currentGame.answersRecord;
+    } else {
+      // Fallback para demonstração se aberto fora de partida
+      records = [
+        {
+          pergunta: 'Qual é a principal função bioclimática das 5 Super-Torres instaladas no Parque Realengo?',
+          area: 'Sustentabilidade',
+          opcoes: [
+            'Gerar energia eólica com hélices de alta rotação',
+            'Aspersão de névoa d\'água para redução térmica e aumento da umidade',
+            'Apenas iluminação decorativa noturna',
+            'Antena repetidora de telecomunicações'
+          ],
+          selectedIndex: 1,
+          correctIndex: 1,
+          isCorrect: true,
+          explicacao: 'As 5 Super-Torres (17m a 47m) contam com 236 pulverizadores que produzem microgotas d\'água, promovendo resfriamento evaporativo e aliviando as ilhas de calor da Zona Oeste.'
+        },
+        {
+          pergunta: 'Como o espelho d\'água de 1.300 m² atua na drenagem sustentável do parque?',
+          area: 'Recursos Hídricos',
+          opcoes: [
+            'Como bacia de contenção e amortecimento das águas de chuva torrenciais',
+            'Apenas como piscina pública recreativa',
+            'Para descarte direto de efluentes',
+            'Como reservatório exclusivo para carros de bombeiros'
+          ],
+          selectedIndex: 0,
+          correctIndex: 0,
+          isCorrect: true,
+          explicacao: 'O lago foi dimensionado como bacia de amortecimento pluvial, retendo o excesso de chuva das encostas da Pedra Branca e evitando enchentes no bairro de Realengo.'
+        }
+      ];
+    }
+
+    const totalCount = records.length;
+    const errorCount = records.filter(r => !r.isCorrect).length;
+    const hitCount = records.filter(r => r.isCorrect).length;
+
+    // Atualizar contadores
+    const countAllEl = document.getElementById('reviewCountAll');
+    const countErrorsEl = document.getElementById('reviewCountErrors');
+    const countHitsEl = document.getElementById('reviewCountHits');
+    if (countAllEl) countAllEl.textContent = totalCount;
+    if (countErrorsEl) countErrorsEl.textContent = errorCount;
+    if (countHitsEl) countHitsEl.textContent = hitCount;
+
+    // Resumo
+    const summaryEl = document.getElementById('reviewStatsSummary');
+    if (summaryEl) {
+      const accuracy = totalCount > 0 ? Math.round((hitCount / totalCount) * 100) : 0;
+      summaryEl.textContent = `Aproveitamento: ${accuracy}% (${hitCount} acertos de ${totalCount})`;
+    }
+
+    // Filtrar
+    let filtered = records;
+    if (activeReviewFilter === 'erros') {
+      filtered = records.filter(r => !r.isCorrect);
+    } else if (activeReviewFilter === 'acertos') {
+      filtered = records.filter(r => r.isCorrect);
+    }
+
+    list.innerHTML = '';
+
+    if (filtered.length === 0) {
+      list.innerHTML = `
+        <div style="text-align: center; padding: 40px; color: var(--text-muted); font-size: 0.95rem;">
+          Nenhuma questão encontrada para este filtro.
+        </div>
+      `;
+      return;
+    }
+
+    const letters = ['A', 'B', 'C', 'D'];
+
+    filtered.forEach((rec) => {
+      const realIndex = records.indexOf(rec);
+      const card = document.createElement('div');
+      card.className = `review-card ${rec.isCorrect ? 'is-correct' : 'is-error'}`;
+
+      let optionsHtml = '';
+      if (Array.isArray(rec.opcoes)) {
+        optionsHtml = rec.opcoes.map((optText, optIdx) => {
+          let optClass = 'review-opt';
+          let tagHtml = '';
+
+          const isUserChoice = optIdx === rec.selectedIndex;
+          const isCorrectAnswer = optIdx === rec.correctIndex;
+
+          if (isUserChoice && isCorrectAnswer) {
+            optClass += ' user-chosen-correct';
+            tagHtml = '<span class="review-opt-tag tag-correct">✓ Sua Resposta (Correta)</span>';
+          } else if (isUserChoice && !isCorrectAnswer) {
+            optClass += ' user-chosen-wrong';
+            tagHtml = '<span class="review-opt-tag tag-wrong">✕ Sua Resposta</span>';
+          } else if (!isUserChoice && isCorrectAnswer) {
+            optClass += ' correct-answer-missed';
+            tagHtml = '<span class="review-opt-tag tag-correct">✓ Gabarito Correto</span>';
+          }
+
+          return `
+            <div class="${optClass}">
+              <div class="review-opt-left">
+                <span class="review-opt-letter">${letters[optIdx] || optIdx + 1}</span>
+                <span>${optText}</span>
+              </div>
+              ${tagHtml}
+            </div>
+          `;
+        }).join('');
+      }
+
+      card.innerHTML = `
+        <div class="review-card-header">
+          <div class="review-card-meta">
+            <span class="review-q-number">Questão ${String(realIndex + 1).padStart(2, '0')}</span>
+            <span class="review-q-area">📚 ${rec.area || 'Sustentabilidade'}</span>
+          </div>
+          <span class="review-status-tag">${rec.isCorrect ? '✓ Acertou' : '✕ Errou'}</span>
+        </div>
+        <h4 class="review-q-text">${rec.pergunta}</h4>
+        <div class="review-options-list">
+          ${optionsHtml}
+        </div>
+        <div class="review-explanation">
+          <strong>💡 Fundamentação Pedagógica & Científica:</strong><br>
+          ${rec.explicacao || 'Explicação detalhada sobre os benefícios ambientais e tecnologias sustentáveis do parque.'}
+        </div>
+      `;
+
+      list.appendChild(card);
     });
   }
 
@@ -1564,6 +2031,12 @@
       btnResultsHistory.addEventListener('click', openHistoryModal);
     }
 
+    // Botão de Revisão de Respostas Pedagógicas
+    const btnReviewAnswers = document.getElementById('btnReviewAnswers');
+    if (btnReviewAnswers) {
+      btnReviewAnswers.addEventListener('click', () => openReviewModal('todas'));
+    }
+
     // Top Bar Actions
     const btnOpenTvRanking = document.getElementById('btnOpenTvRanking');
     if (btnOpenTvRanking) {
@@ -1605,17 +2078,31 @@
     const btnCloseHistory = document.getElementById('btnCloseHistory');
     if (btnCloseHistory) btnCloseHistory.addEventListener('click', closeHistoryModal);
 
+    const btnCloseReview = document.getElementById('btnCloseReview');
+    if (btnCloseReview) btnCloseReview.addEventListener('click', closeReviewModal);
+
     // Fechar ao clicar fora do modal
     window.addEventListener('click', (e) => {
       const rankModal = document.getElementById('rankingModal');
       const histModal = document.getElementById('historyModal');
+      const revModal = document.getElementById('reviewModal');
       if (e.target === rankModal) closeRankingModal();
       if (e.target === histModal) closeHistoryModal();
+      if (e.target === revModal) closeReviewModal();
     });
 
     // Filtros do Ranking
-    document.querySelectorAll('.ranking-filters .filter-btn').forEach(btn => {
+    document.querySelectorAll('#rankingModal .ranking-filters .filter-btn').forEach(btn => {
       btn.addEventListener('click', () => filterRanking(btn.dataset.filter));
+    });
+
+    // Filtros da Revisão de Respostas
+    document.querySelectorAll('#reviewFilters .filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#reviewFilters .filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        openReviewModal(btn.dataset.reviewFilter);
+      });
     });
 
     // Abas do Grande Gráfico de Desempenho
@@ -1641,8 +2128,12 @@
     launchQuiz,
     openRankingModal,
     openHistoryModal,
+    openReviewModal,
+    closeReviewModal,
     showTvRankingView,
     renderBigPerformanceChart,
+    evaluateGamification,
+    renderGamificationUI,
     getCurrentGame: () => currentGame,
     getCurrentUser: () => currentUser
   };

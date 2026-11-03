@@ -225,8 +225,9 @@
   </header>
 
   <div class="filter-bar">
-    <button class="filter-pill active" data-filter="all">Todas as Imagens (40)</button>
-    <button class="filter-pill" data-filter="3d">🌿 Gêmeo 3D Realengo (14)</button>
+    <button class="filter-pill active" data-filter="all">Todas as Imagens (58)</button>
+    <button class="filter-pill" data-filter="3d">🌿 Gêmeo 3D Realengo AAA (18)</button>
+    <button class="filter-pill" data-filter="3d-antigas">📁 3D Versão Anterior (14)</button>
     <button class="filter-pill" data-filter="interfaces">🖥️ Interfaces & HUD (12)</button>
     <button class="filter-pill" data-filter="apresentacao">🎓 Plataforma de Quiz (9)</button>
     <button class="filter-pill" data-filter="detalhes">🔍 Microestruturas (5)</button>
@@ -243,21 +244,41 @@
 
   <script>
     const SHOTS = [
-      // 3D
-      { cat: '3d', file: '3d/01-vista-aerea-geral.png', title: 'Vista Aérea Geral', desc: '78.129 m² implantados com 25 vértices cadastrais reais do Parque Realengo' },
-      { cat: '3d', file: '3d/02-perspectiva-obliqua.png', title: 'Perspectiva Panorâmica Obliqua', desc: 'Visão das 5 super-torres, passarelas e bacia de contenção pluvial' },
-      { cat: '3d', file: '3d/03-super-torres-nebulizacao.png', title: 'Super-Torres de Nebulização', desc: 'Estruturas de 17m a 47m com anéis de microclima e atomização' },
-      { cat: '3d', file: '3d/04-passarelas-e-mirantes.png', title: 'Passarelas Elevadas Acessíveis', desc: 'Interligação aérea entre torres com rampas de acessibilidade universal' },
-      { cat: '3d', file: '3d/05-lago-espelho-dagua.png', title: 'Espelho d\'Água e Bacia', desc: '1.300 m² de lago e 1.950 m³ de bacia de retenção de enchentes' },
-      { cat: '3d', file: '3d/06-nave-do-conhecimento.png', title: 'Nave do Conhecimento', desc: 'Pavilhão tecnológico comunitário de 830 m² para capacitação digital' },
-      { cat: '3d', file: '3d/07-praca-do-mercado.png', title: 'Praça do Mercado (Messina | Rivas)', desc: '11 lojas comunitárias para economia circular e comércio local' },
-      { cat: '3d', file: '3d/08-anfiteatro-susana-naspolini.png', title: 'Anfiteatro Susana Naspolini', desc: 'Arquibancadas ao ar livre para eventos culturais e palestras' },
-      { cat: '3d', file: '3d/09-skatepark-bowls.png', title: 'Skatepark com Dois Bowls', desc: 'Pista de street e bowls olímpicos de concreto polido' },
-      { cat: '3d', file: '3d/10-campo-e-quadras.png', title: 'Complexo Poliesportivo', desc: 'Campo sintético society e quadras poliesportivas' },
-      { cat: '3d', file: '3d/11-bosque-mata-atlantica.png', title: 'Bosque Nativo da Mata Atlântica', desc: 'Arborização com ipês, pau-brasil, palmeiras e gramados' },
-      { cat: '3d', file: '3d/12-acesso-norte-portal.png', title: 'Portal de Acesso Norte', desc: 'Acesso principal integrado à malha urbana pela Rua Carlos Wenceslau' },
-      { cat: '3d', file: '3d/13-planta-geral-sem-vegetacao.png', title: 'Planta Técnica de Implantação', desc: 'Geometria cadastral e gabaritos dos equipamentos do parque' },
-      { cat: '3d', file: '3d/14-zona-expansao-fase2.png', title: 'Zona de Expansão (Fase 2)', desc: 'Área reservada para ampliação futura de até 150 mil m²' },
+      // 3D AAA RECONSTRUÍDO
+      { cat: '3d', file: '3d/01_vista_aerea_geral.png', title: '01. Vista Aérea Geral (Bioma Mata Atlântica)', desc: '78.129 m² com densidade vegetal expandida, ipês floridos, jacarandás, palmeiras e lago integrado' },
+      { cat: '3d', file: '3d/02_perspectiva_obliqua_panoramica.png', title: '02. Perspectiva Oblíqua Panorâmica', desc: 'Composição espacial das 5 Super-Torres, passarelas acessíveis e bacia de amortecimento' },
+      { cat: '3d', file: '3d/03_super_torres_bioclimaticas_nevoa.png', title: '03. Super-Torres com Névoa e Jardins Verticais', desc: 'Treliça metálica diagrid, névoa atomizada densa e folhagem trepadeira na base' },
+      { cat: '3d', file: '3d/04_passarelas_elevadas_mirante.png', title: '04. Passarelas Elevadas e Mirantes', desc: 'Circulação aérea suave (declividade ≤ 8%) com pisos em madeira tratada e guarda-corpos' },
+      { cat: '3d', file: '3d/05_lago_bacia_retencao_riprap.png', title: '05. Espelho d\'Água & Enrocamento Riprap', desc: '1.300 m² de lâmina d\'água PBR, bordas naturais de pedra riprap e ponte arqueada' },
+      { cat: '3d', file: '3d/06_nave_do_conhecimento_usina_solar.png', title: '06. Nave do Conhecimento & Usina Solar', desc: 'Pavilhão tecnológico com módulos solares fotovoltaicos, brises de proteção e rampa acessível' },
+      { cat: '3d', file: '3d/07_anfiteatro_cultural_susana_naspolini.png', title: '07. Concha Acústica & Anfiteatro', desc: 'Espaço cultural para cinema ao ar livre, palestras e arquibancada com degraus em concreto' },
+      { cat: '3d', file: '3d/08_praca_do_mercado_messina_rivas.png', title: '08. Praça do Mercado Comunitário', desc: 'Projeto autêntico Messina | Rivas com 11 lojas e esplanada de convivência circular' },
+      { cat: '3d', file: '3d/09_skatepark_street_bowls.png', title: '09. Skatepark Street & Bowls', desc: 'Concreto polido de alto desempenho com dois bowls interligados e obstáculos urbanos' },
+      { cat: '3d', file: '3d/10_campo_sintetico_quadras_esportivas.png', title: '10. Campo Society & Quadras Poliesportivas', desc: 'Piso em resina acrílica, demarcação técnica de basquete/futsal e alambrado' },
+      { cat: '3d', file: '3d/11_bosque_mata_atlantica_ipes_palmeiras.png', title: '11. Bosque Preservado da Mata Atlântica', desc: 'Ipês-amarelos, quaresmeiras, jacarandás, pau-brasil e clúsias em maciços orgânicos' },
+      { cat: '3d', file: '3d/12_acesso_norte_carlos_wenceslau.png', title: '12. Acesso Norte Integrado à Cidade', desc: 'Conexão com a malha urbana da Rua Carlos Wenceslau e calçadão de acolhimento' },
+      { cat: '3d', file: '3d/13_mobiliario_urbano_postes_solares_bancos.png', title: '13. Mobiliário Urbano Inteligente', desc: 'Postes solares LED fotovoltaicos, bancos de ripas de madeira nobre e lixeiras seletivas' },
+      { cat: '3d', file: '3d/14_splash_pad_playground_infantil.png', title: '14. Splash Pad & Playground Infantil', desc: 'Piso anti-impacto emborrachado com jatos d\'água interativos para conforto térmico infantil' },
+      { cat: '3d', file: '3d/15_quadras_volei_areia_ifrj.png', title: '15. Quadras de Areia e Acesso Oeste IFRJ', desc: 'Campos de vôlei de praia com textura de areia fina e bosque perimetral de amortecimento' },
+      { cat: '3d', file: '3d/16_detalhe_aspersores_torre_central.png', title: '16. Sistema de Nebulização e Microclima', desc: 'Aspersores atomizadores de alta pressão e estrutura hiperboloide da torre de 47m' },
+      { cat: '3d', file: '3d/17_horizonte_montanhoso_pedra_branca.png', title: '17. Horizonte Montanhoso de Realengo', desc: 'Silhueta autêntica do Maciço da Pedra Branca e Serra do Mendanha com névoa atmosférica' },
+      { cat: '3d', file: '3d/18_visitante_terceira_pessoa_lago.png', title: '18. Modo Visitante & Câmera em 3ª Pessoa', desc: 'Exploração interativa com personagem em tempo real, halo neon e colisão física no parque' },
+
+      // 3D VERSÃO ANTERIOR (HISTÓRICO)
+      { cat: '3d-antigas', file: '3d/01-vista-aerea-geral.png', title: 'Histórico: Vista Aérea Geral', desc: 'Primeira versão da implantação provisória' },
+      { cat: '3d-antigas', file: '3d/02-perspectiva-obliqua.png', title: 'Histórico: Perspectiva Oblíqua', desc: 'Perspectiva sem sombreamento PBR e sem montanhas' },
+      { cat: '3d-antigas', file: '3d/03-super-torres-nebulizacao.png', title: 'Histórico: Torres', desc: 'Torres anteriores sem jardins verticais' },
+      { cat: '3d-antigas', file: '3d/04-passarelas-e-mirantes.png', title: 'Histórico: Passarelas', desc: 'Passarelas anteriores com menor detalhe' },
+      { cat: '3d-antigas', file: '3d/05-lago-espelho-dagua.png', title: 'Histórico: Lago', desc: 'Lago anterior com margens simples de concreto' },
+      { cat: '3d-antigas', file: '3d/06-nave-do-conhecimento.png', title: 'Histórico: Nave do Conhecimento', desc: 'Versão preliminar sem painéis solares' },
+      { cat: '3d-antigas', file: '3d/07-praca-do-mercado.png', title: 'Histórico: Mercado', desc: 'Edificação anterior' },
+      { cat: '3d-antigas', file: '3d/08-anfiteatro-susana-naspolini.png', title: 'Histórico: Anfiteatro', desc: 'Concha acústica anterior' },
+      { cat: '3d-antigas', file: '3d/09-skatepark-bowls.png', title: 'Histórico: Skatepark', desc: 'Bowl anterior' },
+      { cat: '3d-antigas', file: '3d/10-campo-e-quadras.png', title: 'Histórico: Quadras', desc: 'Quadras esportivas' },
+      { cat: '3d-antigas', file: '3d/11-bosque-mata-atlantica.png', title: 'Histórico: Vegetação', desc: 'Densidade arbórea reduzida' },
+      { cat: '3d-antigas', file: '3d/12-acesso-norte-portal.png', title: 'Histórico: Entrada Norte', desc: 'Acesso anterior' },
+      { cat: '3d-antigas', file: '3d/13-planta-geral-sem-vegetacao.png', title: 'Histórico: Planta Cadastral', desc: 'Planta de implantação sem vegetação' },
+      { cat: '3d-antigas', file: '3d/14-zona-expansao-fase2.png', title: 'Histórico: Expansão Fase 2', desc: 'Área de expansão' },
 
       // Interfaces
       { cat: 'interfaces', file: 'interfaces/01-central-monitoramento-vida.png', title: 'Central V.I.D.A. Dashboard', desc: 'Painel profissional de indicadores ambientais em 1920×1080' },

@@ -16,3 +16,7 @@ dist/
 # Environment
 .env
 .env.local
+
+# Automation installer archives
+EcoCity-Automacao-Agentes-INSTALAR/
+ecocity-agent-pipeline/

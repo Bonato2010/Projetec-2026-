@@ -52,11 +52,11 @@ class ParqueVivoEngine {
       coolingDelta: -0.0
     };
 
-    // Attract Mode (Passeio Contínuo a cada 9s)
+    // Attract Mode (Passeio Contínuo com tempo de leitura ampliado para 16s)
     this.isAttractMode = true;
     this.attractStep = 0;
     this.attractTimer = null;
-    this.attractInterval = 9000;
+    this.attractInterval = 16000;
 
     // Coordenadas Espaciais e Dados Oficiais dos Equipamentos
     this.equipments = {
