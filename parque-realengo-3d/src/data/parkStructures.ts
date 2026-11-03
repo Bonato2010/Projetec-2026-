@@ -170,7 +170,7 @@ export const POIS: POI[] = [
     summary: 'Parque aquático infantil com jatos d\'água interativos e piso emborrachado anti-impacto para alívio térmico das crianças.',
   },
   {
-    id: 'poi-courts', name: 'Complexo Poliesportivo Azul', kind: 'courts', center: [88, 1, -26], radius: 36, accessNode: 'n_quadras_centro', refId: 'complexo-esportivo',
+    id: 'poi-courts', name: 'Complexo Poliesportivo Azul', kind: 'courts', center: [88, 1, -26], radius: 36, accessNode: 'n_quadras_oeste', refId: 'complexo-esportivo',
     summary: 'Duas quadras de basquete/futsal com pintura técnica em azul royal, celeste e laranja, com iluminação em LED e meia-quadra integrada.',
   },
   {

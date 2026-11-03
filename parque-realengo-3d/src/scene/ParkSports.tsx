@@ -75,7 +75,13 @@ function Floodlight({ x, z, h = 14 }: { x: number; z: number; h?: number }) {
   );
 }
 
-/** Complexo esportivo: Campo society sintético e quadras de basquete/futsal em azul e laranja (Fiel à foto aérea real) */
+/**
+ * Complexo Poliesportivo Oficial do Parque Realengo Susana Naspolini
+ * - Duas quadras em ângulo diagonal com pintura em Azul Royal (#1d4ed8) e Azul Celeste (#38bdf8)
+ * - Garrafões e círculo central em Laranja (#ea580c)
+ * - Demarcações regulamentares de basquete e futsal
+ * - Laje estrutural elevada em 12cm sobre o terreno
+ */
 export const ParkSports = memo(function ParkSports() {
   const M = getMaterials();
 
@@ -104,10 +110,10 @@ export const ParkSports = memo(function ParkSports() {
     const isHalf = c.id.includes('meia');
     const f = isSand ? null : rectFence(0, 0, c.w, c.d, 0, 3.2, 3);
     const lines = emptyMesh();
-    const add = (pts: V2[], closed = false) => appendMesh(lines, ribbonMesh(polylineSegs(pts, 0.08, closed), 0.06, false));
+    const add = (pts: V2[], closed = false) => appendMesh(lines, ribbonMesh(polylineSegs(pts, 0.08, closed), 0.08, false));
 
-    const playW = c.w - (isSand ? 1.5 : 2.5);
-    const playD = c.d - (isSand ? 1.5 : 2.5);
+    const playW = c.w - (isSand ? 1.5 : 2.6);
+    const playD = c.d - (isSand ? 1.5 : 2.6);
 
     if (isSand) {
       add(rectLine(16, 8), true);
@@ -116,25 +122,11 @@ export const ParkSports = memo(function ParkSports() {
       add(rectLine(playW, playD), true);
       add(circle(-playW / 2 + 1.8, 0, 5.8, 24, -Math.PI / 2, Math.PI / 2));
     } else {
-      // Quadra inteira oficial
       add(rectLine(playW, playD), true);
       add([[0, -playD / 2], [0, playD / 2]]);
       add(circle(0, 0, 2.2, 28));
       for (const s of [-1, 1]) {
-        // Linhas de 3 pontos
         add(circle(s * (playW / 2 - 1.6), 0, 6.2, 24, s > 0 ? Math.PI - 1.2 : -1.2, s > 0 ? Math.PI + 1.2 : 1.2));
-      }
-    }
-
-    // Geometrias das áreas em laranja (garrafão e círculo central)
-    const orangeKeys: THREE.BufferGeometry[] = [];
-    if (!isSand) {
-      if (isHalf) {
-        orangeKeys.push(polygonGeometry(rectLine(4.8, 5.0, -playW / 2 + 2.5, 0), 0.045));
-      } else {
-        orangeKeys.push(polygonGeometry(rectLine(4.8, 5.0, -playW / 2 + 2.5, 0), 0.045));
-        orangeKeys.push(polygonGeometry(rectLine(4.8, 5.0, playW / 2 - 2.5, 0), 0.045));
-        orangeKeys.push(polygonGeometry(circle(0, 0, 2.0), 0.045));
       }
     }
 
@@ -142,9 +134,8 @@ export const ParkSports = memo(function ParkSports() {
       c,
       isSand,
       isHalf,
-      apron: polygonGeometry(rectLine(c.w, c.d), 0.03),
-      surface: polygonGeometry(rectLine(playW, playD), 0.04),
-      orangeKeys,
+      playW,
+      playD,
       lines: toGeometry(lines, { uv: 'planar' }),
       frame: f ? toGeometry(f.frame) : null,
       panel: f ? toGeometry(f.panel) : null,
@@ -153,7 +144,7 @@ export const ParkSports = memo(function ParkSports() {
 
   return (
     <group>
-      {/* Campo Society */}
+      {/* 1. Campo de Futebol Society */}
       <group position={[FIELD.cx, 0, FIELD.cz]}>
         <mesh geometry={field.pitch} material={M.field} receiveShadow />
         <mesh geometry={field.lines} material={M.line} receiveShadow />
@@ -166,34 +157,53 @@ export const ParkSports = memo(function ParkSports() {
         ))}
       </group>
 
-      {/* Quadras Poliesportivas e de Areia com pintura em Azul Royal, Celeste e Laranja */}
-      {courts.map(({ c, isSand, isHalf, apron, surface, orangeKeys, lines, frame, panel }) => (
+      {/* 2. Quadras Poliesportivas com pintura técnica em Azul Celeste, Azul Royal e Laranja */}
+      {courts.map(({ c, isSand, isHalf, playW, playD, lines, frame, panel }) => (
         <group key={c.id} position={[c.cx, 0, c.cz]} rotation-y={c.rot}>
-          {/* Borda / Recuo (Celeste) */}
-          <mesh geometry={apron} material={isSand ? M.wood : M.courtSkyBlue} receiveShadow />
+          {/* Laje Estrutural Elevada em Concreto/Resina Acrílica (Azul Celeste no basquete, Madeira na areia) */}
+          <Box p={[0, 0.06, 0]} s={[c.w, 0.12, c.d]} material={isSand ? M.wood : M.courtSkyBlue} />
 
-          {/* Campo principal (Azul Royal) */}
-          <mesh geometry={surface} material={isSand ? M.sand : M.courtRoyalBlue} receiveShadow />
+          {/* Piso do campo interno de jogo (Azul Royal no basquete, Areia na areia) */}
+          <mesh rotation-x={-Math.PI / 2} position-y={0.125} material={isSand ? M.sand : M.courtRoyalBlue} receiveShadow>
+            <planeGeometry args={[playW, playD]} />
+          </mesh>
 
-          {/* Garrafões e círculo em Laranja */}
-          {orangeKeys.map((kGeo, kIdx) => (
-            <mesh key={kIdx} geometry={kGeo} material={M.courtOrange} receiveShadow />
-          ))}
+          {/* Garrafões e círculo central em Laranja Vivo */}
+          {!isSand && (
+            <>
+              {/* Garrafão 1 */}
+              <mesh rotation-x={-Math.PI / 2} position={[-playW / 2 + 2.5, 0.13, 0]} material={M.courtOrange} receiveShadow>
+                <planeGeometry args={[5.0, 4.8]} />
+              </mesh>
+              {/* Garrafão 2 (apenas quadra inteira) */}
+              {!isHalf && (
+                <>
+                  <mesh rotation-x={-Math.PI / 2} position={[playW / 2 - 2.5, 0.13, 0]} material={M.courtOrange} receiveShadow>
+                    <planeGeometry args={[5.0, 4.8]} />
+                  </mesh>
+                  {/* Círculo Central */}
+                  <mesh rotation-x={-Math.PI / 2} position={[0, 0.13, 0]} material={M.courtOrange} receiveShadow>
+                    <circleGeometry args={[2.0, 32]} />
+                  </mesh>
+                </>
+              )}
+            </>
+          )}
 
-          {/* Linhas demarcatórias brancas */}
-          <mesh geometry={lines} material={isSand ? M.ring : M.line} receiveShadow />
+          {/* Linhas demarcatórias brancas nítidas */}
+          <mesh geometry={lines} position-y={0.135} material={isSand ? M.ring : M.line} receiveShadow />
 
           {isSand ? (
             <BeachVolleyballNet d={c.d} />
           ) : (
-            <>
-              <BasketballHoop x={-(c.w - 2.5) / 2} dir={-1} />
-              {!isHalf && <BasketballHoop x={(c.w - 2.5) / 2} dir={1} />}
+            <group position-y={0.12}>
+              <BasketballHoop x={-(playW) / 2} dir={-1} />
+              {!isHalf && <BasketballHoop x={(playW) / 2} dir={1} />}
               {frame && <mesh geometry={frame} material={M.metalDark} castShadow />}
               {panel && <mesh geometry={panel} material={M.fencePanel} />}
               <Floodlight x={-c.w / 2 - 1} z={0} h={10} />
               <Floodlight x={c.w / 2 + 1} z={0} h={10} />
-            </>
+            </group>
           )}
         </group>
       ))}

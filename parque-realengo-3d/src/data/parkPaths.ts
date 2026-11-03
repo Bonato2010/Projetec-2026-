@@ -28,10 +28,11 @@ export const PATH_NODES: { id: string; pos: V2 }[] = [
   // Splash Pad Infantil
   { id: 'n_splash', pos: [80, -100] },
 
-  // Complexo Poliesportivo Azul
-  { id: 'n_quadras_centro', pos: [88, -26] },
-  { id: 'n_quadras_leste', pos: [112, -26] },
-  { id: 'n_quadras_sul', pos: [88, 5] },
+  // Complexo Poliesportivo Azul (Circulação perimetral externa)
+  { id: 'n_quadras_norte', pos: [88, -48] },
+  { id: 'n_quadras_oeste', pos: [68, -20] },
+  { id: 'n_quadras_leste', pos: [116, -18] },
+  { id: 'n_quadras_sul', pos: [88, 14] },
   { id: 'n_quadra_areia', pos: [45, 10] },
 
   // Pavilhões Orientais (Nave do Conhecimento e Centro Cultural)
@@ -79,13 +80,15 @@ export const PATH_EDGES: [string, string, number?][] = [
   ['n_torres_oeste', 'n_torres_sul', 4.0],
   ['n_torres_sul', 'rs', 4.0],
   ['n_splash', 'n_torres_leste', 4.0],
-  ['n_torres_leste', 'n_quadras_centro', 4.0],
-  ['n_torres_sul', 'n_quadras_centro', 4.0],
+  ['n_torres_leste', 'n_quadras_norte', 4.0],
+  ['n_torres_sul', 'n_quadras_oeste', 4.0],
 
-  // Complexo Poliesportivo
-  ['n_quadras_centro', 'n_quadras_leste', 3.5],
-  ['n_quadras_centro', 'n_quadras_sul', 3.5],
-  ['n_quadras_sul', 'n_quadra_areia', 3.5],
+  // Complexo Poliesportivo (percurso perimetral contornando as quadras)
+  ['n_quadras_norte', 'n_quadras_oeste', 3.5],
+  ['n_quadras_norte', 'n_quadras_leste', 3.5],
+  ['n_quadras_oeste', 'n_quadras_sul', 3.5],
+  ['n_quadras_leste', 'n_quadras_sul', 3.5],
+  ['n_quadras_oeste', 'n_quadra_areia', 3.5],
   ['n_quadra_areia', 'n_campo_hub', 3.5],
 
   // Nave do Conhecimento e Pavilhões Orientais

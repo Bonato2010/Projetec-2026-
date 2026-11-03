@@ -20,3 +20,4 @@ dist/
 # Automation installer archives
 EcoCity-Automacao-Agentes-INSTALAR/
 ecocity-agent-pipeline/
+.claude/
