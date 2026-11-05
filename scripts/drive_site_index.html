@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+
+  <title>
+    Tudo está conectado — uma viagem pelo universo
+  </title>
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  >
+
+  <link
+    rel="stylesheet"
+    href="css/styles.css"
+  >
+</head>
+
+<body>
+  <canvas
+    id="c"
+    aria-label="Universo 3D: Sol, Terra e cidade, navegados pelo scroll"
+  ></canvas>
+
+  <div id="fb"></div>
+
+  <div id="sp"></div>
+
+  <div id="S"></div>
+
+  <div id="bar"></div>
+
+  <div id="tl">
+    <button
+      id="bf"
+      aria-pressed="false"
+    >
+      Modo Feira (M)
+    </button>
+
+    <button
+      id="bp"
+      aria-pressed="false"
+    >
+      ▶ Apresentação (P)
+    </button>
+  </div>
+
+  <div
+    id="nv"
+    role="navigation"
+    aria-label="Capítulos"
+  ></div>
+
+  <div id="hint">
+    ROLE PARA VIAJAR ↓
+  </div>
+
+  <script src="vendor/three.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/scene.js"></script>
+</body>
+</html>

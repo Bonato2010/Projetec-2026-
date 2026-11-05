@@ -1,0 +1,323 @@
+:root {
+  --tx: #f2f5fa;
+  --mu: #9fb0c8;
+  --ac: #ffb938;
+  --gl: rgba(8, 13, 24, 0.55);
+  --ln: rgba(255, 255, 255, 0.18);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 20px;
+}
+
+html.feira {
+  font-size: 27px;
+}
+
+body {
+  margin: 0;
+  background: #04060b;
+  color: var(--tx);
+  font-family: "Segoe UI", system-ui, sans-serif;
+}
+
+#sp {
+  height: 800vh;
+}
+
+#c {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+#fb {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(
+    circle at 50% 45%,
+    #ffb938,
+    #ff7a1a 7%,
+    #04060b 34%
+  );
+  display: none;
+}
+
+#S {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  perspective: 900px;
+}
+
+.ch {
+  position: absolute;
+  left: 5vw;
+  top: 50%;
+  width: min(44vw, 760px);
+  margin-top: -20vh;
+  padding: 1.6rem 1.8rem;
+  border-left: 2px solid var(--ac);
+  background: linear-gradient(
+    90deg,
+    var(--gl),
+    transparent
+  );
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.ch:first-child {
+  left: 50%;
+  width: min(80vw, 900px);
+  margin-left: min(-40vw, -450px);
+  top: 62%;
+  text-align: center;
+  border: 0;
+  background: none;
+  backdrop-filter: none;
+}
+
+.ch:first-child h2 {
+  font-size: clamp(2.2rem, 6.5vw, 5.5rem);
+  letter-spacing: 0.3em;
+  font-weight: 200;
+}
+
+.ch:last-child {
+  width: min(56vw, 980px);
+  margin-top: -30vh;
+  max-height: 70vh;
+  overflow: auto;
+}
+
+.k {
+  color: var(--ac);
+  letter-spacing: 0.3em;
+  font-size: 0.7rem;
+}
+
+h2 {
+  margin: 0.3rem 0 0.5rem;
+  font-weight: 300;
+  font-size: clamp(1.5rem, 2.6vw, 2.4rem);
+  line-height: 1.15;
+}
+
+p {
+  margin: 0.3rem 0;
+  line-height: 1.5;
+  color: #dbe4f2;
+  font-size: 0.95rem;
+}
+
+.mu {
+  color: var(--mu);
+  font-size: 0.75rem;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.8rem 0;
+}
+
+.chip {
+  font: inherit;
+  font-size: 0.85rem;
+  color: var(--tx);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--ln);
+  border-radius: 999px;
+  padding: 0.45rem 0.9rem;
+  cursor: pointer;
+  pointer-events: auto;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: 0.5s;
+}
+
+.chip.v {
+  opacity: 1;
+  transform: none;
+}
+
+.chip:hover {
+  border-color: var(--ac);
+}
+
+.info {
+  font-size: 0.85rem;
+  color: var(--mu);
+  min-height: 3.2rem;
+  border-top: 1px solid var(--ln);
+  padding-top: 0.6rem;
+}
+
+.info b {
+  color: var(--ac);
+}
+
+.ch:last-child {
+  pointer-events: auto;
+}
+
+a {
+  color: var(--ac);
+}
+
+.tm {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.6rem 0;
+}
+
+.tm span {
+  border: 1px solid var(--ln);
+  border-radius: 10px;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.8rem;
+}
+
+#nv {
+  position: fixed;
+  right: 2vw;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-end;
+}
+
+#nv button {
+  font: inherit;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  color: var(--mu);
+  background: none;
+  border: 0;
+  cursor: pointer;
+  padding: 0.25rem 0.4rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+#nv button i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1px solid var(--mu);
+  display: block;
+}
+
+#nv button.on {
+  color: var(--ac);
+}
+
+#nv button.on i {
+  background: var(--ac);
+  border-color: var(--ac);
+}
+
+#nv button span {
+  opacity: 0;
+  transition: 0.3s;
+}
+
+#nv button:hover span,
+#nv button.on span {
+  opacity: 1;
+}
+
+#tl {
+  position: fixed;
+  left: 2vw;
+  top: 2vh;
+  display: flex;
+  gap: 0.5rem;
+}
+
+#tl button {
+  font: inherit;
+  font-size: 0.7rem;
+  color: var(--tx);
+  background: var(--gl);
+  border: 1px solid var(--ln);
+  border-radius: 999px;
+  padding: 0.4rem 0.9rem;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+}
+
+#bar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 2px;
+  background: var(--ac);
+  width: 0;
+}
+
+#hint {
+  position: fixed;
+  left: 50%;
+  bottom: 4vh;
+  transform: translateX(-50%);
+  color: var(--mu);
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  animation: p 2.4s infinite;
+}
+
+@keyframes p {
+  50% {
+    opacity: 0.3;
+  }
+}
+
+:focus-visible {
+  outline: 3px solid #fff;
+}
+
+@media (max-width: 800px) {
+  html {
+    font-size: 16px;
+  }
+
+  .ch,
+  .ch:last-child {
+    left: 4vw;
+    width: 92vw;
+    top: auto;
+    bottom: 3vh;
+    margin: 0;
+  }
+
+  .ch:first-child {
+    left: 4vw;
+    margin: 0;
+    width: 92vw;
+    bottom: 14vh;
+  }
+
+  #nv span {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+  }
+}

@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Central de Monitoramento Ambiental V.I.D.A. — Parque Realengo Jornalista Susana Naspolini</title>
+  <meta name="description" content="Central digital de indicadores ambientais de sustentabilidade urbana para o Parque Realengo Jornalista Susana Naspolini, Rio de Janeiro.">
+  
+  <!-- Estilos Customizados -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="theme-dark">
+
+  <div class="app-layout">
+    
+    <!-- ==========================================================================
+         CABEÇALHO INSTITUCIONAL & BARRA DE COMANDOS
+         ========================================================================== -->
+    <header class="app-header">
+      <div class="header-container">
+        
+        <!-- Marca / Logotipo -->
+        <div class="brand-section">
+          <div class="brand-logo-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+            </svg>
+          </div>
+          <div class="brand-titles">
+            <h1>
+              CENTRAL V.I.D.A.
+              <span class="badge-acronym">RIO 2026</span>
+            </h1>
+            <p>Visualização Integrada de Dados Ambientais • Parque Realengo Susana Naspolini</p>
+          </div>
+        </div>
+
+        <!-- Ações do Cabeçalho -->
+        <div class="header-actions">
+          
+          <!-- Status de Operação do Parque -->
+          <div class="status-pill-live" title="Dados consolidados da rede Data.rio e Alerta Rio">
+            <span class="live-pulse"></span>
+            <span>Parque Operacional</span>
+          </div>
+
+          <!-- Controle de Névoa das Torres (Simulação Bioclimática) -->
+          <button id="btn-toggle-misting" class="btn-header-action" title="Alternar status das 5 torres de climatização por névoa d'água">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            <span>Névoa: 5 Torres Ativas</span>
+          </button>
+
+          <!-- Seletor de Intervalo Temporal -->
+          <select id="time-range-select" class="select-time-range" aria-label="Seletor de Intervalo de Tempo">
+            <option value="24h">Tempo Real (Ciclo 24h)</option>
+            <option value="7d">Últimos 7 Dias</option>
+            <option value="trimestre">Trimestre Recente</option>
+            <option value="anual">Consolidado Anual (2024-2026)</option>
+            <option value="proj2030">Cenário Projetado 2030</option>
+          </select>
+
+          <!-- Botão Exportar Relatório -->
+          <button id="btn-export-report" class="btn-header-action btn-primary-action">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            <span>Exportar Relatório</span>
+          </button>
+
+          <!-- Alternador de Tema Escuro / Claro -->
+          <button id="theme-toggle-btn" class="btn-header-action" aria-label="Alternar Tema">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="5"/>
+              <line x1="12" y1="1" x2="12" y2="3"/>
+              <line x1="12" y1="21" x2="12" y2="23"/>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+              <line x1="1" y1="12" x2="3" y2="12"/>
+              <line x1="21" y1="12" x2="23" y2="12"/>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+            <span>Modo Claro</span>
+          </button>
+
+        </div>
+      </div>
+    </header>
+
+    <!-- ==========================================================================
+         CORPO DO DASHBOARD
+         ========================================================================== -->
+    <main class="main-content">
+      
+      <!-- Banner de Contextualização do Parque -->
+      <section class="hero-banner">
+        <div class="hero-text">
+          <h2>Parque Realengo Jornalista Susana Naspolini</h2>
+          <p>
+            Implantado em área de 76 mil m² da antiga Fábrica de Cartuchos do Exército na Zona Oeste carioca.
+            O parque é um marco de <strong>Soluções Baseadas na Natureza (SbN)</strong>, combinando 3.700 árvores da Mata Atlântica,
+            espelho d'água de 1.300 m² e 5 torres de climatização por vapor para combater as históricas ilhas de calor de Realengo.
+          </p>
+        </div>
+        <div class="hero-badges">
+          <span class="hero-badge-pill">📍 Realengo, Rio de Janeiro</span>
+          <span class="hero-badge-pill">🏛️ Prefeitura do Rio / FPJ</span>
+          <span class="hero-badge-pill">📊 Dados Oficiais: Data.rio</span>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           TOP 4 KPI CARDS (MÉTRICAS-CHAVE EM DESTAQUE)
+           ========================================================================== -->
+      <section class="top-kpis-grid" aria-label="Indicadores Chave do Parque">
+        
+        <!-- KPI 1: Arborização -->
+        <div class="kpi-card" data-category="vegetacao">
+          <div class="kpi-header">
+            <span class="kpi-title">Vegetação & Dossel</span>
+            <div class="kpi-icon-wrapper" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 10v.2A3 3 0 0 1 8.9 16v0H5v0h0a3 3 0 0 1-1-5.8V10a3 3 0 0 1 6 0Z"/><path d="M7 16v6"/><path d="M13 19v3"/><path d="M12 19h8.3a1 1 0 0 0 .7-1.7L18 14h.3a1 1 0 0 0 .7-1.7L16 9h.2a1 1 0 0 0 .8-1.7L13 3l-4 4.3a1 1 0 0 0 .8 1.7H10l-3 3.3a1 1 0 0 0 .7 1.7H8l-3 3.3a1 1 0 0 0 .7 1.7H12Z"/></svg>
+            </div>
+          </div>
+          <div class="kpi-body">
+            <div class="kpi-number-row">
+              <span id="kpi-arvores-val" class="kpi-val">3.700</span>
+              <span class="kpi-unit">árvores plantadas</span>
+            </div>
+          </div>
+          <div class="kpi-footer">
+            <span class="kpi-trend trend-up">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+              <span>+100% Meta Fase 1</span>
+            </span>
+            <span class="badge-trust badge-oficial"><span class="trust-dot"></span> Oficial FPJ</span>
+          </div>
+        </div>
+
+        <!-- KPI 2: Clima / Alívio Térmico -->
+        <div class="kpi-card" data-category="clima">
+          <div class="kpi-header">
+            <span class="kpi-title">Alívio de Temperatura</span>
+            <div class="kpi-icon-wrapper" style="background-color: rgba(6, 182, 212, 0.12); color: var(--cyan-accent);" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"/></svg>
+            </div>
+          </div>
+          <div class="kpi-body">
+            <div class="kpi-number-row">
+              <span id="kpi-temp-val" class="kpi-val">-5,8°C</span>
+              <span class="kpi-unit">vs asfalto externo</span>
+            </div>
+          </div>
+          <div class="kpi-footer">
+            <span class="kpi-trend trend-down">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg>
+              <span>Pico ao meio-dia</span>
+            </span>
+            <span class="badge-trust badge-oficial"><span class="trust-dot"></span> Oficial Data.rio</span>
+          </div>
+        </div>
+
+        <!-- KPI 3: Água e Retenção Pluvial -->
+        <div class="kpi-card" data-category="agua">
+          <div class="kpi-header">
+            <span class="kpi-title">Retenção de Tempestades</span>
+            <div class="kpi-icon-wrapper" style="background-color: rgba(56, 189, 248, 0.12); color: var(--cyan-light);" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></svg>
+            </div>
+          </div>
+          <div class="kpi-body">
+            <div class="kpi-number-row">
+              <span id="kpi-agua-val" class="kpi-val">1.950 m³</span>
+              <span class="kpi-unit">1,95 mi de litros</span>
+            </div>
+          </div>
+          <div class="kpi-footer">
+            <span class="kpi-trend trend-up">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+              <span>Lago + Biovaletas</span>
+            </span>
+            <span class="badge-trust badge-oficial"><span class="trust-dot"></span> Oficial Rio-Águas</span>
+          </div>
+        </div>
+
+        <!-- KPI 4: Permeabilidade do Solo -->
+        <div class="kpi-card" data-category="agua">
+          <div class="kpi-header">
+            <span class="kpi-title">Taxa de Permeabilidade</span>
+            <div class="kpi-icon-wrapper" style="background-color: rgba(132, 204, 22, 0.12); color: var(--lime-accent);" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/></svg>
+            </div>
+          </div>
+          <div class="kpi-body">
+            <div class="kpi-number-row">
+              <span id="kpi-perm-val" class="kpi-val">84,2%</span>
+              <span class="kpi-unit">do solo do parque</span>
+            </div>
+          </div>
+          <div class="kpi-footer">
+            <span class="kpi-trend trend-up">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+              <span>+72,4% vs Terreno 2021</span>
+            </span>
+            <span class="badge-trust badge-oficial"><span class="trust-dot"></span> Oficial FPJ</span>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ==========================================================================
+           SEÇÃO VISUAL 1: MAPA MICROCLIMÁTICO + LINHA DO TEMPO DE TEMPERATURA
+           ========================================================================== -->
+      <section class="visuals-split-row">
+        
+        <!-- Painel Esquerdo: Mapa de Calor Interativo & GIS do Parque -->
+        <div class="dashboard-panel">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <h3>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
+                <span>Mapa Microclimático & Infraestrutura Verde</span>
+              </h3>
+              <p>Simulação geoespacial da ilha de calor urbana e dos dispositivos SbN de Realengo</p>
+            </div>
+            
+            <!-- Alternador de Camadas do Mapa -->
+            <div class="panel-controls" role="tablist" aria-label="Camadas do Mapa">
+              <button class="map-layer-btn active" onclick="window.VidaHeatmap.setLayer('temperatura'); document.querySelectorAll('.map-layer-btn').forEach(b => b.classList.remove('active')); this.classList.add('active');">
+                🔥 Ilha de Calor
+              </button>
+              <button class="map-layer-btn" onclick="window.VidaHeatmap.setLayer('drenagem'); document.querySelectorAll('.map-layer-btn').forEach(b => b.classList.remove('active')); this.classList.add('active');">
+                💧 Lago & Drenagem
+              </button>
+              <button class="map-layer-btn" onclick="window.VidaHeatmap.setLayer('vegetacao'); document.querySelectorAll('.map-layer-btn').forEach(b => b.classList.remove('active')); this.classList.add('active');">
+                🌳 Bosque Nativo
+              </button>
+            </div>
+          </div>
+
+          <!-- Canvas Interativo -->
+          <div class="map-canvas-wrapper">
+            <canvas id="heatmap-canvas"></canvas>
+
+            <!-- Card de Hotspot do Mapa -->
+            <div id="hotspot-quick-card" class="hotspot-quick-card"></div>
+
+            <!-- Sonda Térmica & Legenda de Calor -->
+            <div class="map-overlay-info">
+              <div id="map-probe-value" class="probe-pill temp-park">
+                <strong>33.2°C</strong> <span>Passe o cursor sobre o mapa</span>
+              </div>
+              <div class="map-legend-bar">
+                <span>Fresco (31°C)</span>
+                <div class="legend-gradient-strip"></div>
+                <span>Calor Extremo (44°C+)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Painel Direito: Gráfico de Linhas de Temperatura 24h -->
+        <div class="dashboard-panel">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <h3>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                <span>Curva Térmica Diária (Horas x °C)</span>
+              </h3>
+              <p>Asfalto periférico vs Sombra do Bosque vs Aspersão das 5 Torres</p>
+            </div>
+          </div>
+
+          <!-- Container do Gráfico SVG de Linhas -->
+          <div id="chart-temperatura" class="chart-container"></div>
+        </div>
+
+      </section>
+
+      <!-- ==========================================================================
+           SEÇÃO COMPARATIVA ANTES / DEPOIS (SLIDER INTERATIVO)
+           ========================================================================== -->
+      <section class="comparison-section">
+        <div class="panel-header">
+          <div class="panel-title-group">
+            <h3>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18 15-6-6-6 6"/></svg>
+              <span>Comparador Temporal: Antes vs Depois da Implantação</span>
+            </h3>
+            <p>Arraste o cursor central para comparar a antiga Fábrica de Cartuchos do Exército (2021) com o Parque Verde (2024/2026)</p>
+          </div>
+
+          <!-- Presets de Comparação -->
+          <div class="panel-controls">
+            <button class="map-layer-btn" onclick="window.VidaSlider.setPreset('antes')">Ver 2021 (Antes)</button>
+            <button class="map-layer-btn active" onclick="window.VidaSlider.setPreset('50')">Comparar 50/50</button>
+            <button class="map-layer-btn" onclick="window.VidaSlider.setPreset('depois')">Ver 2026 (Depois)</button>
+          </div>
+        </div>
+
+        <!-- Slider Visual Interativo -->
+        <div id="comparison-slider" class="comparison-wrapper">
+          
+          <!-- Camada DEPOIS (Fundo Verde do Parque) -->
+          <div class="slider-layer slider-layer-after">
+            <div class="slider-content-box after-box">
+              <span class="slider-badge-year after-badge">2024 / 2026 — Parque Realengo Concluído</span>
+              <h4>Parque Realengo Susana Naspolini</h4>
+              <p>76.000 m² recuperados com 3.700 árvores da Mata Atlântica, lago de retenção pluvial de 1.300 m², biovaletas e 5 torres de climatização por névoa.</p>
+            </div>
+          </div>
+
+          <!-- Camada ANTES (Fundo Cinza Árido com Clip-Path dinâmico) -->
+          <div class="slider-layer slider-layer-before">
+            <div class="slider-content-box before-box">
+              <span class="slider-badge-year before-badge">2021 — Antigo Terreno Militar</span>
+              <h4>Fábrica de Cartuchos do Exército</h4>
+              <p>Terreno árido, compactado e estéril com retenção pluvial nula, gerando enxurradas e atuando como um bolsão irradiador de calor no bairro.</p>
+            </div>
+          </div>
+
+          <!-- Manípulo Arrastável (Handle) -->
+          <div class="slider-handle">
+            <div class="handle-grip" title="Arraste para comparar">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="15 18 9 12 15 6"/>
+              </svg>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Métricas Comparativas Lado a Lado -->
+        <div class="comparison-quick-metrics">
+          <div class="comp-metric-chip">
+            <span class="chip-label">Árvores Catalogadas</span>
+            <div class="chip-vals">
+              <span class="chip-before">&lt; 40</span>
+              <span>➔</span>
+              <span class="chip-after">3.700 mudas</span>
+            </div>
+          </div>
+          <div class="comp-metric-chip">
+            <span class="chip-label">Permeabilidade do Solo</span>
+            <div class="chip-vals">
+              <span class="chip-before">11,8%</span>
+              <span>➔</span>
+              <span class="chip-after">84,2%</span>
+            </div>
+          </div>
+          <div class="comp-metric-chip">
+            <span class="chip-label">Capacidade Retenção Pluvial</span>
+            <div class="chip-vals">
+              <span class="chip-before">0 m³</span>
+              <span>➔</span>
+              <span class="chip-after">1.950 m³</span>
+            </div>
+          </div>
+          <div class="comp-metric-chip">
+            <span class="chip-label">Temperatura de Superfície</span>
+            <div class="chip-vals">
+              <span class="chip-before">48°C (Pico)</span>
+              <span>➔</span>
+              <span class="chip-after">-5,8°C alívio</span>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ==========================================================================
+           SEÇÃO VISUAL 2: BARRAS COMPARATIVAS + DONUT DE ESPÉCIES + RADAR ODS
+           ========================================================================== -->
+      <section class="secondary-charts-row">
+        
+        <!-- Gráfico 1: Permeabilidade vs Escoamento (Gráfico de Barras) -->
+        <div class="dashboard-panel">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <h3>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                <span>Balanço Hídrico Pluvial (%)</span>
+              </h3>
+              <p>Solo Permeável vs Escoamento Superficial</p>
+            </div>
+          </div>
+          <div id="chart-permeabilidade" class="chart-container"></div>
+        </div>
+
+        <!-- Gráfico 2: Donut de Espécies Arbóreas da Mata Atlântica -->
+        <div class="dashboard-panel">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <h3>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/></svg>
+                <span>Espécies Nativas (Mata Atlântica)</span>
+              </h3>
+              <p>Composição botânica das 3.700 árvores</p>
+            </div>
+          </div>
+          <div id="chart-especies-donut" class="chart-container"></div>
+          <div id="donut-legend"></div>
+        </div>
+
+        <!-- Gráfico 3: Progresso de Metas ODS ONU 2030 -->
+        <div class="dashboard-panel">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <h3>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+                <span>Aderência às Metas ODS (ONU)</span>
+              </h3>
+              <p>Índice integrado de sustentabilidade urbana</p>
+            </div>
+          </div>
+          <div id="chart-ods-progress"></div>
+        </div>
+
+      </section>
+
+      <!-- ==========================================================================
+           CATÁLOGO DE INDICADORES (FILTROS + BUSCA + CARDS INTERATIVOS)
+           ========================================================================== -->
+      <section class="catalog-section" aria-label="Catálogo Completo de Indicadores">
+        
+        <div class="catalog-toolbar">
+          
+          <!-- Filtros por Categoria -->
+          <div id="category-filter-pills" class="category-filter-pills" role="tablist">
+            <!-- Injetado dinamicamente por app.js -->
+          </div>
+
+          <!-- Busca Instantânea -->
+          <div class="search-box-wrapper">
+            <span class="search-icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            </span>
+            <input type="text" id="indicator-search-input" class="search-input" placeholder="Buscar indicador, fonte ou palavra..." aria-label="Buscar indicador ambiental">
+          </div>
+
+        </div>
+
+        <!-- Grade Dinâmica de Cards de Indicadores -->
+        <div id="indicators-grid" class="indicators-grid">
+          <!-- Injetado dinamicamente por app.js -->
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- ==========================================================================
+         MODAL DE EXPLICAÇÃO & CONFIABILIDADE DO INDICADOR
+         ========================================================================== -->
+    <div id="indicator-modal-backdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div id="indicator-modal" class="modal-dialog" tabindex="-1">
+        
+        <div class="modal-header">
+          <div>
+            <div class="modal-badges-row">
+              <span id="modal-cat-tag" class="card-category-tag"></span>
+              <span id="modal-trust-badge" class="badge-trust"></span>
+            </div>
+            <h2 id="modal-title" class="modal-title">Nome do Indicador</h2>
+          </div>
+          <button id="modal-close-btn" class="modal-close-btn" aria-label="Fechar janela">&times;</button>
+        </div>
+
+        <div class="modal-body">
+          
+          <!-- Destaque Numérico -->
+          <div class="modal-kpi-highlight">
+            <span id="modal-val" class="modal-highlight-val">0</span>
+            <span id="modal-unit" class="modal-highlight-unit">unidade</span>
+          </div>
+
+          <!-- 1. O que este indicador mede -->
+          <div class="modal-section">
+            <h4>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+              <span>O que este indicador mede</span>
+            </h4>
+            <p id="modal-o-que-mede">Explicação clara e acessível do que representa o dado.</p>
+          </div>
+
+          <!-- 2. Por que ele é importante -->
+          <div class="modal-section">
+            <h4>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <span>Por que ele é importante</span>
+            </h4>
+            <p id="modal-por-que-importa">Impacto na saúde, alívio do calor, mitigação de enchentes ou conservação.</p>
+          </div>
+
+          <!-- 3. Relação com a Sustentabilidade Urbana -->
+          <div class="modal-section">
+            <h4>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+              <span>Relação com a Sustentabilidade Urbana & Parque Realengo</span>
+            </h4>
+            <p id="modal-relacao-sustentabilidade">Conexão com Soluções Baseadas na Natureza e adaptação climática.</p>
+          </div>
+
+          <!-- Caixa Extra de Espécies Arbóreas se aplicável -->
+          <div id="modal-extra-box" class="modal-section" style="display: none;"></div>
+
+          <!-- 4. Metadados de Confiabilidade & Fonte Oficial -->
+          <div class="modal-meta-grid">
+            <div class="modal-meta-item">
+              <span class="meta-label">Unidade & Período</span>
+              <span id="modal-unidade-periodo" class="meta-value">-</span>
+            </div>
+            <div class="modal-meta-item">
+              <span class="meta-label">Fonte Oficial Auditada</span>
+              <span id="modal-fonte-oficial" class="meta-value">-</span>
+            </div>
+            <div class="modal-meta-item" style="grid-column: 1 / -1;">
+              <span class="meta-label">Metodologia Científica / Coleta</span>
+              <span id="modal-metodologia" class="meta-value">-</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ==========================================================================
+         MODAL DE EXPORTAÇÃO DE RELATÓRIO
+         ========================================================================== -->
+    <div id="export-modal-backdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="export-modal-title">
+      <div class="modal-dialog" style="max-width: 540px;">
+        
+        <div class="modal-header">
+          <div>
+            <h2 id="export-modal-title" class="modal-title">Exportar Dados Ambientais</h2>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 2px;">Central V.I.D.A. • Parque Realengo Susana Naspolini</p>
+          </div>
+          <button id="export-close-btn" class="modal-close-btn" aria-label="Fechar janela">&times;</button>
+        </div>
+
+        <div class="modal-body">
+          <p style="font-size: 0.85rem; color: var(--text-muted);">
+            Selecione o formato de exportação desejado. Todos os arquivos incluem a classificação de confiabilidade e as fontes oficiais:
+          </p>
+
+          <div class="export-options-grid">
+            <button id="btn-download-json" class="export-card-btn">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--cyan-accent);"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              <span>Exportar JSON</span>
+            </button>
+            <button id="btn-download-csv" class="export-card-btn">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--emerald-light);"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M8 13h8"/><path d="M8 17h8"/><path d="M10 9h4"/></svg>
+              <span>Exportar CSV</span>
+            </button>
+            <button id="btn-print-report" class="export-card-btn">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--lime-accent);"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></svg>
+              <span>Imprimir / PDF</span>
+            </button>
+          </div>
+
+          <div class="modal-section" style="margin-top: 0.5rem; background: var(--bg-surface-elevated); padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle);">
+            <p style="font-size: 0.76rem; color: var(--text-subtle);">
+              Os dados são distribuídos sob diretrizes de transparência de dados abertos da Prefeitura da Cidade do Rio de Janeiro e do portal Data.rio.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ==========================================================================
+         RODAPÉ INSTITUCIONAL & TRANSPARÊNCIA
+         ========================================================================== -->
+    <footer class="app-footer">
+      <div class="footer-container">
+        <div>
+          <strong>Central V.I.D.A. — Visualização Integrada de Dados Ambientais</strong>
+          <p>Desenvolvido para monitoramento do Parque Realengo Jornalista Susana Naspolini • Rio de Janeiro - RJ</p>
+        </div>
+        <div class="footer-sources">
+          <span>Fontes Oficiais:</span>
+          <a href="https://www.data.rio/" target="_blank" rel="noopener noreferrer">Data.rio (IPP)</a>
+          <a href="https://prefeitura.rio/" target="_blank" rel="noopener noreferrer">Prefeitura do Rio / FPJ</a>
+          <a href="https://www.ibge.gov.br/" target="_blank" rel="noopener noreferrer">IBGE</a>
+          <a href="https://www.gov.br/mma/" target="_blank" rel="noopener noreferrer">MMA</a>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Scripts da Aplicação -->
+  <script src="js/data.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/heatmap.js"></script>
+  <script src="js/slider.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

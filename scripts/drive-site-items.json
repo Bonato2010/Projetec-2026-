@@ -1,0 +1,47 @@
+{
+  "siteItems": [
+    {
+      "id": "1yB4RgK0x1xYkj8WEGuzFI_DIsrEJ0YUH",
+      "name": "css",
+      "mime": "application/vnd.google-apps.folder"
+    },
+    {
+      "id": "1OUhEhi0DM3E-hD8mvt19KYaoKOTCvXlE",
+      "name": "js",
+      "mime": "application/vnd.google-apps.folder"
+    },
+    {
+      "id": "18BY0LFbqNqDEz8MB1pzjKaspK-qLkjHw",
+      "name": "vendor",
+      "mime": "application/vnd.google-apps.folder"
+    },
+    {
+      "id": "1OBMasKgYfcX82bQOywZmEoObjnaNzyk6",
+      "name": "index.html",
+      "mime": "text/html"
+    },
+    {
+      "id": "1ldPI-1hb9lsJnjvyHOW6FHZsNXRbr2il",
+      "name": "Organização dentro do Vs Code",
+      "mime": "image/png"
+    },
+    {
+      "id": "1ipd7VeTVPx0UpYa0xfAZUFIXp9VJO4s8",
+      "name": "Tudo está conectado — uma viagem pelo universo - Opera 2026-09-30 23-08-42.mp4",
+      "mime": "video/mp4"
+    }
+  ],
+  "pesqItems": [],
+  "cartazItems": [
+    {
+      "id": "1TiIe85lMyesg5Ye4lG1QkrcfuYlMxFL7",
+      "name": "Ideias, inspirações",
+      "mime": "application/vnd.google-apps.folder"
+    },
+    {
+      "id": "1aGDTFxKngrGVtvbPD5IqbRBnl_-CJfJt",
+      "name": "Rascunhos",
+      "mime": "application/vnd.google-apps.folder"
+    }
+  ]
+}

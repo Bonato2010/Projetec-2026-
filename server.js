@@ -196,6 +196,8 @@ const server = http.createServer((req, res) => {
     pathname = '/prototipos/galeria-screenshots/index.html';
   } else if (pathname === '/screenshots' || pathname === '/screenshots/') {
     pathname = '/screenshots/index.html';
+  } else if (pathname === '/site-informativo' || pathname === '/site-informativo/' || pathname === '/ecocity' || pathname === '/informativo') {
+    pathname = '/site-informativo/index.html';
   } else if (pathname === '/parque3d') {
     res.writeHead(301, { 'Location': '/parque3d/' });
     res.end();
@@ -467,6 +469,8 @@ server.listen(PORT, '0.0.0.0', () => {
   console.log(`📱 TELA 2 (Celular do Visitante): http://${netInfo.preferredIp}:${PORT}/controle.html`);
   console.log(`🔄 WebSocket em tempo real:        ws://${netInfo.preferredIp}:${PORT}/ws`);
   console.log(`🖼️  Galeria de Screenshots:        http://localhost:${PORT}/galeria`);
+  console.log(`🌐 TELA 3 (Site Informativo EcoCity): http://localhost:${PORT}/site-informativo/`);
+  console.log(`🎮 TELA 4 (Gêmeo Digital 3D):         http://localhost:${PORT}/parque3d/`);
   console.log(`----------------------------------------------------------------`);
   console.log(`✨ IPs de rede disponíveis:`);
   netInfo.allIps.forEach(i => console.log(`   - Interface [${i.iface}]: http://${i.ip}:${PORT}/`));

@@ -11,7 +11,6 @@ import { PARK_MISSIONS, ParkMission } from './data/parkMissions';
 import { MissionsHUD } from './components/MissionsHUD';
 import { VirtualJoystick } from './components/VirtualJoystick';
 import { MobileControlsDock } from './components/MobileControlsDock';
-import { TvConnectCard } from './components/TvConnectCard';
 import { getParkModel } from './systems/parkModel';
 import { buildNavGraph } from './systems/navigationGraph';
 
@@ -337,13 +336,8 @@ export default function App() {
               )}
             </>
           ) : (
-            /* MODO TV DO STAND / DESKTOP: CARD DE CONEXÃO COM QR CODE DINÂMICO */
+            /* MODO TV DO STAND / DESKTOP */
             <>
-              <TvConnectCard
-                isVisitorConnected={isVisitorConnected}
-                visitorName={visitorName}
-              />
-
               <MissionsHUD
                 completedMissions={completedMissions}
                 activeMission={activeMission}

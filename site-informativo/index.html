@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="EcoCity — Projetec 2026. Projeto V.I.D.A. Documentação científica, biotecnologia, saúde pública e telemetria ambiental no Parque Realengo Jornalista Susana Naspolini.">
+  <meta name="theme-color" content="#0b1410">
+  <title>EcoCity — Tudo está conectado • Projetec 2026</title>
+
+  <!-- Favicon e Ícones -->
+  <link rel="icon" type="image/png" href="assets/logos/logo-vida-simbolo-transparente.png">
+
+  <!-- Estilos Principais -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Link de Acessibilidade -->
+  <a href="#abertura" class="skip-link">Pular para o conteúdo principal</a>
+
+  <!-- Barra de Progresso de Leitura -->
+  <div id="reading-progress-bar" aria-hidden="true"></div>
+
+  <!-- ========================================================================
+       CABEÇALHO & NAVEGAÇÃO PRINCIPAL (DESKTOP & MOBILE HEADER)
+       ======================================================================== -->
+  <header class="site-header" role="banner">
+    <div class="nav-container">
+      <a href="#abertura" class="nav-brand" aria-label="EcoCity Projetec 2026 Página Inicial">
+        <img src="assets/logos/logo-vida-simbolo-transparente.png" alt="Símbolo EcoCity" class="nav-brand-logo">
+        <span class="nav-brand-text">EcoCity</span>
+        <span class="nav-brand-tag">PROJETEC 2026</span>
+      </a>
+
+      <!-- Menu Desktop -->
+      <nav class="nav-desktop" aria-label="Navegação do site">
+        <ul class="nav-desktop-menu">
+          <li><a href="#abertura" class="nav-pill active">Cosmos</a></li>
+          <li><a href="#desafio" class="nav-pill">O Desafio</a></li>
+          <li><a href="#saude" class="nav-pill">Saúde</a></li>
+          <li><a href="#tecnologia" class="nav-pill">Tecnologia</a></li>
+          <li><a href="#parque" class="nav-pill">Parque Realengo</a></li>
+          <li><a href="#pesquisas" class="nav-pill">Pesquisas</a></li>
+          <li><a href="#pratica" class="nav-pill">Na Prática</a></li>
+          <li><a href="#equipe" class="nav-pill">Equipe</a></li>
+        </ul>
+      </nav>
+
+      <!-- Ações & Utilitários de Apresentação -->
+      <div class="nav-actions">
+        <button id="btn-toggle-feira" class="btn-utility" title="Ampliar contraste e tipografia para o estande da feira (Atalho: M)" aria-pressed="false">
+          <svg class="btn-svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          <span class="btn-label">Modo Feira (M)</span>
+        </button>
+
+        <button id="btn-toggle-presentation" class="btn-utility" title="Rolagem automática contínua para estande (Atalho: P)" aria-pressed="false">
+          <svg class="btn-svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <span class="btn-label">Apresentação (P)</span>
+        </button>
+
+        <button id="btn-toggle-audio" class="btn-utility" title="Ambiência bioclimática sonora procedural (Atalho: A)" aria-pressed="false">
+          <svg class="btn-svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+          <span class="btn-label">Áudio (A)</span>
+        </button>
+
+        <a href="#parque" class="nav-cta">
+          <span>Ver Fotos Reais</span>
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+
+        <!-- Botão Menu Mobile -->
+        <button id="mobile-menu-toggle" class="mobile-menu-btn" aria-label="Abrir Menu Mobile" aria-expanded="false">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       DRAWER MOBILE & BACKDROP
+       ======================================================================== -->
+  <div id="mobile-backdrop" aria-hidden="true"></div>
+  <aside id="mobile-drawer" aria-label="Menu Mobile" role="dialog" aria-modal="true">
+    <div class="mobile-drawer-header">
+      <div class="nav-brand">
+        <img src="assets/logos/logo-vida-simbolo-transparente.png" alt="Símbolo EcoCity" class="nav-brand-logo">
+        <span class="nav-brand-text">EcoCity</span>
+      </div>
+      <button id="mobile-drawer-close" class="modal-close-btn" aria-label="Fechar menu">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <ul class="mobile-nav-list">
+      <li><a href="#abertura" class="mobile-nav-link"><span>01. Abertura & Cosmos</span> <span>→</span></a></li>
+      <li><a href="#desafio" class="mobile-nav-link"><span>02. O Desafio dos Recursos</span> <span>→</span></a></li>
+      <li><a href="#saude" class="mobile-nav-link"><span>03. Saúde & Enfermagem</span> <span>→</span></a></li>
+      <li><a href="#tecnologia" class="mobile-nav-link"><span>04. Tecnologia IoT & Sensores</span> <span>→</span></a></li>
+      <li><a href="#parque" class="mobile-nav-link highlight"><span>05. Parque Realengo (Fotos Reais)</span> <span>→</span></a></li>
+      <li><a href="#pesquisas" class="mobile-nav-link"><span>06. Nossas Pesquisas & ODS</span> <span>→</span></a></li>
+      <li><a href="#pratica" class="mobile-nav-link"><span>07. O Trabalho na Prática</span> <span>→</span></a></li>
+      <li><a href="#equipe" class="mobile-nav-link"><span>08. Equipe & Orientação</span> <span>→</span></a></li>
+      <li><a href="#conclusao" class="mobile-nav-link"><span>09. Ecossistema & Fontes</span> <span>→</span></a></li>
+    </ul>
+
+    <div class="mobile-drawer-footer">
+      <p class="drawer-footer-title">Modos de Exibição no Estande:</p>
+      <div class="drawer-shortcuts">
+        <button id="btn-drawer-feira" class="drawer-chip-btn">Modo Feira (M)</button>
+        <button id="btn-drawer-audio" class="drawer-chip-btn">Áudio (A)</button>
+        <button id="btn-drawer-pres" class="drawer-chip-btn">Apresentação (P)</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ========================================================================
+       BARRA DE NAVEGAÇÃO FLUTUANTE INFERIOR (MOBILE BOTTOM BAR)
+       ======================================================================== -->
+  <nav class="mobile-bottom-bar" aria-label="Navegação rápida mobile">
+    <a href="#abertura" class="mobile-bar-item active">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+      <span>Início</span>
+    </a>
+    <a href="#saude" class="mobile-bar-item">
+      <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+      <span>Saúde</span>
+    </a>
+    <a href="#parque" class="mobile-bar-item highlight-bar">
+      <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+      <span>Parque Real</span>
+    </a>
+    <a href="#tecnologia" class="mobile-bar-item">
+      <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>
+      <span>Sensores</span>
+    </a>
+    <button id="mobile-bar-menu-trigger" class="mobile-bar-item" aria-label="Abrir menu completo">
+      <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      <span>Menu</span>
+    </button>
+  </nav>
+
+  <!-- ========================================================================
+       SEÇÃO 01 — ABERTURA: TUDO ESTÁ CONECTADO (COSMOS HERO)
+       ======================================================================== -->
+  <section id="abertura" class="hero-section" aria-label="Abertura da experiência EcoCity">
+    <canvas id="cosmos-canvas" aria-hidden="true"></canvas>
+    <div id="cosmos-fallback" aria-hidden="true"></div>
+    <div class="hero-overlay-radial" aria-hidden="true"></div>
+
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="pulse-dot" aria-hidden="true"></span>
+        <span>Projeto V.I.D.A. • Vigilância e Indicadores Digitais Ambientais</span>
+      </div>
+
+      <h1 class="hero-title">
+        Tudo está conectado.
+        <span class="title-accent">Do Cosmos à Cidade.</span>
+      </h1>
+
+      <p class="hero-subtitle">
+        Uma investigação científica e pedagógica desenvolvida por estudantes de <strong>Enfermagem</strong> e <strong>Informática</strong> da Projetec 2026. Analisamos como a transformação de 76 mil metros quadrados de um antigo lote militar árido no <strong>Parque Realengo Susana Naspolini</strong> redefiniu a saúde pública, o microclima e a cidadania na Zona Oeste do Rio de Janeiro.
+      </p>
+
+      <div class="hero-ctas">
+        <a href="#desafio" class="btn-primary-hero">
+          <span>Explorar Pesquisa</span>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+        </a>
+        <a href="#parque" class="btn-secondary-hero">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+          <span>Ver Fotos Reais do Parque</span>
+        </a>
+      </div>
+
+      <!-- Faixa de Métricas Documentadas -->
+      <div class="hero-metrics-strip">
+        <div class="hero-metric-card">
+          <div class="hero-metric-icon">
+            <svg viewBox="0 0 24 24"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+          </div>
+          <div class="hero-metric-val">76.000<span class="unit">m²</span></div>
+          <div class="hero-metric-label">Área Urbana Recuperada</div>
+          <div class="hero-metric-desc">Antigo lote militar da Fábrica de Munição</div>
+        </div>
+
+        <div class="hero-metric-card">
+          <div class="hero-metric-icon">
+            <svg viewBox="0 0 24 24"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/></svg>
+          </div>
+          <div class="hero-metric-val">-5,8<span class="unit">°C</span></div>
+          <div class="hero-metric-label">Alívio Térmico Máximo</div>
+          <div class="hero-metric-desc">Sob o dossel arbóreo e as super-torres</div>
+        </div>
+
+        <div class="hero-metric-card">
+          <div class="hero-metric-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+          </div>
+          <div class="hero-metric-val">1.950<span class="unit">m³</span></div>
+          <div class="hero-metric-label">Bacia de Retenção Pluvial</div>
+          <div class="hero-metric-desc">Proteção ativa contra enchentes no bairro</div>
+        </div>
+
+        <div class="hero-metric-card">
+          <div class="hero-metric-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 22v-7"/><path d="M9 9l3-7 3 7"/><path d="M5 15l7-6 7 6"/><path d="M2 20l10-8 10 8"/></svg>
+          </div>
+          <div class="hero-metric-val">3.700<span class="unit">árvores</span></div>
+          <div class="hero-metric-label">Mudas da Mata Atlântica</div>
+          <div class="hero-metric-desc">Espécies nativas nobres catalogadas</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       SEÇÃO 02 — O DESAFIO DOS RECURSOS (LINEAR VS CIRCULAR)
+       ======================================================================== -->
+  <section id="desafio" class="section-wrapper" aria-labelledby="desafio-title">
+    <span class="section-tagline">O Desafio dos Recursos</span>
+    <h2 id="desafio-title" class="section-heading">Do modelo linear predatório à economia regenerativa circular</h2>
+    <p class="section-lead">
+      Durante mais de um século, a sociedade operou no paradigma da extração cega: retirar matéria-prima virgem, produzir em massa, consumir e descartar resíduos no meio ambiente. Na natureza, contudo, o conceito de lixo não existe: a matéria orgânica e os ciclos biogeoquímicos retroalimentam a vida continuamente.
+    </p>
+
+    <!-- Comparação Visual Linear vs Circular -->
+    <div class="linear-vs-circular-grid">
+      <!-- Coluna Linear -->
+      <div class="challenge-column linear">
+        <div class="challenge-col-header">
+          <h3 class="col-title-linear">Modelo Linear Tradicional</h3>
+          <span class="challenge-badge linear">Inviável a Longo Prazo</span>
+        </div>
+        <p class="col-lead-text">
+          Consumo acelerado de recursos finitos, sobrecarga de aterros sanitários e saturação da atmosfera com gases de efeito estufa e material particulado.
+        </p>
+
+        <div class="step-flow">
+          <div class="flow-step-item">
+            <div class="flow-step-icon-box linear">
+              <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+            </div>
+            <div>
+              <div class="flow-step-title">1. Extração de Recursos Virgens</div>
+              <div class="flow-step-desc">Mineração de bauxita bruta, desmatamento de florestas primárias e alto consumo hídrico fóssil.</div>
+            </div>
+          </div>
+
+          <div class="flow-step-item">
+            <div class="flow-step-icon-box linear">
+              <svg viewBox="0 0 24 24"><path d="M2 20h20"/><path d="M5 20V8l5 4V4l7 5v11"/><line x1="9" y1="16" x2="9" y2="16"/><line x1="13" y1="16" x2="13" y2="16"/></svg>
+            </div>
+            <div>
+              <div class="flow-step-title">2. Transformação Intensiva em Carbono</div>
+              <div class="flow-step-desc">Processamento térmico e fabril com emissão descontrolada de CO₂ e efluentes industriais tóxicos.</div>
+            </div>
+          </div>
+
+          <div class="flow-step-item">
+            <div class="flow-step-icon-box linear">
+              <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+            </div>
+            <div>
+              <div class="flow-step-title">3. Descarte Terminal em Aterros</div>
+              <div class="flow-step-desc">Acúmulo de resíduos em lixões clandestinos, contaminação de lençóis freáticos e microplásticos nos corpos hídricos.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Coluna Circular -->
+      <div class="challenge-column circular">
+        <div class="challenge-col-header">
+          <h3 class="col-title-circular">Ciclo Fechado Regenerativo (SbN)</h3>
+          <span class="challenge-badge circular">Abordagem EcoCity</span>
+        </div>
+        <p class="col-lead-text">
+          Inspirado nos ecossistemas naturais: remanufatura tecnológica, biofiltração vegetal, reciclagem contínua e valorização da matéria biológica.
+        </p>
+
+        <div class="step-flow">
+          <div class="flow-step-item">
+            <div class="flow-step-icon-box circular">
+              <svg viewBox="0 0 24 24"><path d="M7 20h10"/><path d="M10 20c0-4 1-7 2-10"/><path d="M14 20c0-3-1-6-2-10"/><path d="M12 10V2"/><path d="M12 2C9.5 2 7 4.5 7 7c0 2 1.5 3.5 3 4"/><path d="M12 2c2.5 0 5 2.5 5 5 0 2-1.5 3.5-3 4"/></svg>
+            </div>
+            <div>
+              <div class="flow-step-title">1. Design Circular & Biodegradável</div>
+              <div class="flow-step-desc">Engenharia de produtos desmontáveis, materiais de baixo impacto e substituição de polímeros fósseis.</div>
+            </div>
+          </div>
+
+          <div class="flow-step-item">
+            <div class="flow-step-icon-box circular">
+              <svg viewBox="0 0 24 24"><path d="M7 19H4.815a1.83 1.83 0 0 1-1.57-.881 1.785 1.785 0 0 1-.004-1.784L7.196 9.5"/><path d="M11 19h8.2a1.8 1.8 0 0 0 1.565-.89 1.78 1.78 0 0 0 .007-1.78l-3.952-6.83"/><path d="M12 5l-2.5 4.5h5L12 5z"/></svg>
+            </div>
+            <div>
+              <div class="flow-step-title">2. Circulação & Remanufatura</div>
+              <div class="flow-step-desc">Triagem correta, recuperação hidrometalúrgica de componentes eletrônicos e reaproveitamento integral de embalagens.</div>
+            </div>
+          </div>
+
+          <div class="flow-step-item">
+            <div class="flow-step-icon-box circular">
+              <svg viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+            </div>
+            <div>
+              <div class="flow-step-title">3. Retorno como Nutriente ao Solo</div>
+              <div class="flow-step-desc">Compostagem termofílica de resíduos orgânicos para enriquecer os canteiros comunitários e os bosques do parque.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Análise de Materiais do Cotidiano -->
+    <div class="materials-intro">
+      <h3 class="subsection-title">Análise Interativa de Materiais do Cotidiano</h3>
+      <p class="subsection-lead">Toque em cada material para examinar seu ciclo de vida, tempo de decomposição e alternativas ecológicas auditadas.</p>
+    </div>
+
+    <div class="materials-grid">
+      <!-- 01: Lata de Alumínio -->
+      <div class="material-card" data-material-id="aluminio" tabindex="0" role="button" aria-label="Ver ciclo da lata de alumínio">
+        <div class="material-card-icon-wrap clay">
+          <svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.66 3.58 3 8 3s8-1.34 8-3V5"/><path d="M4 12c0 1.66 3.58 3 8 3s8-1.34 8-3"/></svg>
+        </div>
+        <div class="material-card-name">Lata de Alumínio</div>
+        <div class="material-card-type">Metal Reciclável Infinito</div>
+        <div class="material-card-stat">Reciclar consome <strong>95% menos energia</strong> do que minerar bauxita bruta virgem.</div>
+        <div class="material-card-action">Ver Ciclo Completo <span>→</span></div>
+      </div>
+
+      <!-- 02: Smartphone & E-lixo -->
+      <div class="material-card" data-material-id="eletronico" tabindex="0" role="button" aria-label="Ver ciclo do lixo eletrônico">
+        <div class="material-card-icon-wrap amber">
+          <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+        </div>
+        <div class="material-card-name">Smartphone & E-lixo</div>
+        <div class="material-card-type">Metais Nobres & Minerais Críticos</div>
+        <div class="material-card-stat">Contém ouro, lítio e cobre. O descarte incorreto libera chumbo e cádmio no solo.</div>
+        <div class="material-card-action">Ver Ciclo Completo <span>→</span></div>
+      </div>
+
+      <!-- 03: Camiseta & Têxtil -->
+      <div class="material-card" data-material-id="textil" tabindex="0" role="button" aria-label="Ver ciclo têxtil">
+        <div class="material-card-icon-wrap water">
+          <svg viewBox="0 0 24 24"><path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></svg>
+        </div>
+        <div class="material-card-name">Camiseta & Vestuário</div>
+        <div class="material-card-type">Fibras Naturais e Sintéticas</div>
+        <div class="material-card-stat">Exige até <strong>2.700 litros de água</strong> por unidade. Upcycling evita microplásticos no mar.</div>
+        <div class="material-card-action">Ver Ciclo Completo <span>→</span></div>
+      </div>
+
+      <!-- 04: Resíduo Orgânico -->
+      <div class="material-card" data-material-id="organico" tabindex="0" role="button" aria-label="Ver ciclo da matéria orgânica">
+        <div class="material-card-icon-wrap leaf">
+          <svg viewBox="0 0 24 24"><path d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 6-8 6-12.22A4.91 4.91 0 0 0 17 5c-2.22 0-4 1.44-5 2-1-.56-2.78-2-5-2a4.9 4.9 0 0 0-5 4.78C2 14 5 22 8 22c1.25 0 2.5-1.06 4-1.06Z"/><path d="M10 2c1 .5 2 2 2 5"/></svg>
+        </div>
+        <div class="material-card-name">Resíduo Orgânico</div>
+        <div class="material-card-type">Biomassa e Nutrientes do Solo</div>
+        <div class="material-card-stat">Representa mais de <strong>50% do lixo</strong> urbano. Na composteira vira adubo florestal.</div>
+        <div class="material-card-action">Ver Ciclo Completo <span>→</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       SEÇÃO 03 — QUANDO O AMBIENTE AFETA A SAÚDE (ENFERMAGEM & SAÚDE COLETIVA)
+       ======================================================================== -->
+  <section id="saude" class="section-wrapper health-section-bg" aria-labelledby="saude-title">
+    <span class="section-tagline">Enfermagem & Saúde Coletiva</span>
+    <h2 id="saude-title" class="section-heading">Quando a degradação ambiental adoece a população urbana</h2>
+    <p class="section-lead">
+      A pesquisa interdisciplinar conduzida pelos estudantes de Enfermagem demonstra que o meio ambiente não é um cenário externo: é um determinante fisiológico direto da vida humana. O calor excessivo de Realengo afeta o sistema circulatório e pulmonar dos cidadãos cotidianamente.
+    </p>
+
+    <div class="health-grid-2col">
+      <!-- Coluna da Esquerda: Riscos e Indicadores Clínicos -->
+      <div>
+        <h3 class="subsection-title">Impactos Fisiológicos das Ilhas de Calor em Realengo</h3>
+        <p class="subsection-desc">
+          Realengo e Bangu registram historicamente as sensações térmicas mais elevadas do estado do Rio de Janeiro, com episódios frequentes que superam 50°C de sensação no verão.
+        </p>
+
+        <div class="clinical-points">
+          <div class="clinical-point-card">
+            <div class="clinical-point-icon-box">
+              <svg viewBox="0 0 24 24"><path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"/><path d="M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4"/><circle cx="20" cy="10" r="2"/></svg>
+            </div>
+            <div>
+              <div class="clinical-point-title">Estresse Térmico & Sistema Cardiovascular</div>
+              <div class="clinical-point-desc">
+                O corpo humano sob temperatura extrema exige vasodilatação periférica severa e aumento reflexo da frequência cardíaca. Em idosos e hipertensos atendidos nas Clínicas da Família do bairro, o risco de descompensação, infarto e AVC cresce sensivelmente.
+              </div>
+            </div>
+          </div>
+
+          <div class="clinical-point-card warning">
+            <div class="clinical-point-icon-box warning">
+              <svg viewBox="0 0 24 24"><path d="M12 4v16"/><path d="M12 8c-3-2-6-1-8 2-2 3-1 7 1 9s6 1 7-2"/><path d="M12 8c3-2 6-1 8 2 2 3 1 7-1 9s-6 1-7-2"/></svg>
+            </div>
+            <div>
+              <div class="clinical-point-title">Material Particulado Fino (PM2.5 e PM10)</div>
+              <div class="clinical-point-desc">
+                Partículas microscópicas menores que 2,5 micrômetros ultrapassam os cílios do trato respiratório superior, atingem os alvéolos pulmonares e penetram na circulação sistêmica, agravando quadros de asma, bronquite crônica e pneumonia infantil.
+              </div>
+            </div>
+          </div>
+
+          <div class="clinical-point-card norm">
+            <div class="clinical-point-icon-box norm">
+              <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            </div>
+            <div>
+              <div class="clinical-point-title">Diretriz Sanitária ANVISA RDC nº 222/2018</div>
+              <div class="clinical-point-desc">
+                Os estudantes de Enfermagem mapearam as diretrizes técnicas para Resíduos de Serviços de Saúde (RSS): separação correta na fonte de materiais perfurocortantes (Grupo E) e biológicos (Grupo A), garantindo proteção ambiental e biossegurança nas unidades de saúde.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Coluna da Direita: Evidência e Biossegurança -->
+      <div class="clinical-visual-box">
+        <div class="clinical-stat-hero">+42%</div>
+        <div class="clinical-stat-title">Elevação em Atendimentos Respiratórios</div>
+        <div class="clinical-stat-desc">
+          Correlação estatística documentada nos meses de estio e calor extremo na Zona Oeste do Rio. A arborização maciça do Parque Realengo e a névoa das super-torres funcionam como medida profilática primária de saúde pública para a vizinhança.
+        </div>
+
+        <div class="anvisa-badge-card">
+          <div class="badge-title">Princípio da Saúde Planetária (OMS)</div>
+          <div class="badge-text">
+            A infraestrutura de macrodrenagem do parque (com bacia de 1.950 m³) elimina o represamento de poças de água suja nas ruas do entorno após temporais, reduzindo diretamente o risco de leptospirose e a proliferação de mosquitos vetores de Dengue, Zika e Chikungunya.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       SEÇÃO 04 — TECNOLOGIA E TELEMETRIA IOT
+       ======================================================================== -->
+  <section id="tecnologia" class="section-wrapper" aria-labelledby="tecnologia-title">
+    <span class="section-tagline">Internet das Coisas & Telemetria</span>
+    <h2 id="tecnologia-title" class="section-heading">Hardware aberto e sensores em tempo real para tomada de decisão</h2>
+    <p class="section-lead">
+      Unindo a Informática e a Engenharia de Software, criamos a arquitetura do <strong>Projeto V.I.D.A.</strong>: uma malha de microcontroladores de baixo custo e sensores de alta precisão que convertem grandezas físico-químicas em dados acionáveis para a gestão urbana.
+    </p>
+
+    <!-- Sensores do Sistema IoT -->
+    <div class="iot-architecture-grid">
+      <div class="iot-card">
+        <div class="iot-card-header-line">
+          <span class="iot-sensor-code">DHT22 / AM2302</span>
+          <span class="sensor-status-dot active">● Ativo</span>
+        </div>
+        <div class="iot-card-name">Termo-higrômetro Digital</div>
+        <div class="iot-card-role">Microclima & Conforto Térmico</div>
+        <div class="iot-card-metric">Faixa de -40°C a +80°C com precisão de ±0,5°C e umidade relativa de 0 a 100% UR.</div>
+      </div>
+
+      <div class="iot-card">
+        <div class="iot-card-header-line">
+          <span class="iot-sensor-code">PMS5003 Plantower</span>
+          <span class="sensor-status-dot active">● Ativo</span>
+        </div>
+        <div class="iot-card-name">Dispersor Laser de Partículas</div>
+        <div class="iot-card-role">Material Particulado Fino</div>
+        <div class="iot-card-metric">Contagem fotométrica a laser de partículas finas PM1.0, PM2.5 e PM10 com resolução de 1 µg/m³.</div>
+      </div>
+
+      <div class="iot-card">
+        <div class="iot-card-header-line">
+          <span class="iot-sensor-code">MQ-135 Gas Probe</span>
+          <span class="sensor-status-dot active">● Ativo</span>
+        </div>
+        <div class="iot-card-name">Sonda de Qualidade do Ar</div>
+        <div class="iot-card-role">Gases & Poluição Atmosférica</div>
+        <div class="iot-card-metric">Detecção de amônia (NH₃), sulfetos, monóxido e dióxido de carbono (CO/CO₂) em partes por milhão.</div>
+      </div>
+
+      <div class="iot-card">
+        <div class="iot-card-header-line">
+          <span class="iot-sensor-code">HC-SR04 Sonar</span>
+          <span class="sensor-status-dot active">● Ativo</span>
+        </div>
+        <div class="iot-card-name">Sonar Ultrassônico Pluvial</div>
+        <div class="iot-card-role">Bacia de Drenagem e Lâmina</div>
+        <div class="iot-card-metric">Monitoramento contínuo da lâmina d'água no reservatório pluvial de 1.950 m³ para alerta de transbordo.</div>
+      </div>
+    </div>
+
+    <!-- Catálogo de Indicadores Ambientais com Filtros Vivos -->
+    <div class="indicators-controls">
+      <div class="filter-pills-group" role="tablist" aria-label="Filtro de Indicadores">
+        <button class="filter-pill active" data-filter="todas" role="tab" aria-selected="true">Todas as Métricas</button>
+        <button class="filter-pill" data-filter="clima" role="tab" aria-selected="false">Clima & Conforto</button>
+        <button class="filter-pill" data-filter="ar" role="tab" aria-selected="false">Qualidade do Ar</button>
+        <button class="filter-pill" data-filter="agua" role="tab" aria-selected="false">Drenagem & Água</button>
+        <button class="filter-pill" data-filter="saude" role="tab" aria-selected="false">Vigilância em Saúde</button>
+      </div>
+
+      <div class="search-input-box">
+        <svg class="search-svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="indicator-search" placeholder="Buscar indicador ou sensor..." aria-label="Buscar indicador ambiental">
+      </div>
+    </div>
+
+    <div class="indicators-grid" id="indicators-list">
+      <!-- 01: Temperatura -->
+      <div class="indicator-card" data-category="clima">
+        <div class="indicator-card-header">
+          <span class="indicator-tag">Sensor DHT22</span>
+          <span class="indicator-status green">● Operante</span>
+        </div>
+        <div class="indicator-card-title">Temperatura do Ar no Parque</div>
+        <div class="indicator-card-value">27,4 °C</div>
+        <div class="indicator-card-desc">Redução de até 5,8°C em relação ao asfalto da Estrada General Canrobert da Costa.</div>
+      </div>
+
+      <!-- 02: Umidade Relativa -->
+      <div class="indicator-card" data-category="clima">
+        <div class="indicator-card-header">
+          <span class="indicator-tag">Torres de Névoa</span>
+          <span class="indicator-status green">● Ideal</span>
+        </div>
+        <div class="indicator-card-title">Umidade Relativa do Ar</div>
+        <div class="indicator-card-value">68%</div>
+        <div class="indicator-card-desc">Faixa considerada ótima pela OMS para prevenção do ressecamento de vias aéreas superiores.</div>
+      </div>
+
+      <!-- 03: PM2.5 -->
+      <div class="indicator-card" data-category="ar">
+        <div class="indicator-card-header">
+          <span class="indicator-tag">Laser PMS5003</span>
+          <span class="indicator-status green">● Boa</span>
+        </div>
+        <div class="indicator-card-title">Material Particulado PM2.5</div>
+        <div class="indicator-card-value">8,2 µg/m³</div>
+        <div class="indicator-card-desc">Abaixo do teto diário estipulado pela Organização Mundial da Saúde (15 µg/m³).</div>
+      </div>
+
+      <!-- 04: Bacia de Retenção -->
+      <div class="indicator-card" data-category="agua">
+        <div class="indicator-card-header">
+          <span class="indicator-tag">HC-SR04 Pluvial</span>
+          <span class="indicator-status cyan">● Amortecido</span>
+        </div>
+        <div class="indicator-card-title">Volume Retido no Reservatório</div>
+        <div class="indicator-card-value">1.420 m³</div>
+        <div class="indicator-card-desc">Capacidade de pico de 1.950 m³ protegendo o entorno contra alagamentos críticos.</div>
+      </div>
+
+      <!-- 05: Índice AQI -->
+      <div class="indicator-card" data-category="ar">
+        <div class="indicator-card-header">
+          <span class="indicator-tag">Qualidade do Ar</span>
+          <span class="indicator-status green">● Faixa Verde</span>
+        </div>
+        <div class="indicator-card-title">Índice Geral de Ar (AQI)</div>
+        <div class="indicator-card-value">32 AQI</div>
+        <div class="indicator-card-desc">Qualidade do ar excelente proporcionada pela barreira vegetal e filtragem das folhas.</div>
+      </div>
+
+      <!-- 06: Ruído Acústico -->
+      <div class="indicator-card" data-category="saude">
+        <div class="indicator-card-header">
+          <span class="indicator-tag">Bioacústica</span>
+          <span class="indicator-status green">● Confortável</span>
+        </div>
+        <div class="indicator-card-title">Pressão Sonora Ambiente</div>
+        <div class="indicator-card-value">51 dB(A)</div>
+        <div class="indicator-card-desc">Atenuação do ruído de trens e caminhões da malha urbana pelo maciço do bosque.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       SEÇÃO 05 — PARQUE REALENGO JORNALISTA SUSANA NASPOLINI
+       COMPARAÇÃO FOTOGRÁFICA HISTÓRICA & FOTOGRAFIAS REAIS VERIFICADAS
+       ======================================================================== -->
+  <section id="parque" class="section-wrapper" aria-labelledby="parque-title">
+    <div class="section-badge-row">
+      <span class="section-tagline">Estudo de Caso Oficial</span>
+      <span class="badge-foto-real">
+        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+        Fotografias Reais Verificadas • Sem Modelos 3D
+      </span>
+    </div>
+
+    <h2 id="parque-title" class="section-heading">Parque Realengo Jornalista Susana Naspolini</h2>
+    <p class="section-lead">
+      Um terreno de 76 mil metros quadrados que abrigou uma fábrica militar de armamentos por mais de um século foi transformado pela mobilização popular e pelo poder público no parque mais moderno e sustentável do Rio de Janeiro. Acompanhe abaixo o registro fotográfico autêntico dessa transformação.
+    </p>
+
+    <!-- Linha do Tempo Histórica Documentada -->
+    <div class="parque-history-timeline">
+      <div class="timeline-milestone">
+        <div class="timeline-year">1910 — 1990</div>
+        <div class="timeline-title">Fábrica Militar de Cartuchos</div>
+        <div class="timeline-desc">Mais de um século de ocupação bélica. Área murada, estéril e fechada aos cidadãos de Realengo.</div>
+      </div>
+
+      <div class="timeline-milestone">
+        <div class="timeline-year">2013 — 2020</div>
+        <div class="timeline-title">Mobilização Cidadã & Susana Naspolini</div>
+        <div class="timeline-desc">Moradores e a repórter Susana Naspolini (RJ1) lutam contra a especulação imobiliária privada no lote abandonado.</div>
+      </div>
+
+      <div class="timeline-milestone">
+        <div class="timeline-year">2021</div>
+        <div class="timeline-title">Desapropriação Pública</div>
+        <div class="timeline-desc">Decreto municipal nº 49.336/2021 declara a área de utilidade pública para criação de um parque 100% verde.</div>
+      </div>
+
+      <div class="timeline-milestone">
+        <div class="timeline-year">2023</div>
+        <div class="timeline-title">Engenharia Bioclimática & Obras</div>
+        <div class="timeline-desc">Execução das super-torres de névoa, escavação da bacia pluvial e plantio das espécies da Mata Atlântica.</div>
+      </div>
+
+      <div class="timeline-milestone">
+        <div class="timeline-year">2024</div>
+        <div class="timeline-title">Inauguração do Parque</div>
+        <div class="timeline-desc">Entrega oficial à população com 76.000 m², Nave do Conhecimento, espelho d'água e skatepark olímpico.</div>
+      </div>
+
+      <div class="timeline-milestone">
+        <div class="timeline-year">2026</div>
+        <div class="timeline-title">EcoCity & PROJETEC 2026</div>
+        <div class="timeline-desc">Estudantes de Informática e Enfermagem realizam a auditoria ambiental, telemetria e documentação científica.</div>
+      </div>
+    </div>
+
+    <!-- PAINEL COMPARATIVO EDITORIAL DE FOTOGRAFIAS REAIS -->
+    <div class="comparison-showcase" id="comparacao-visual-hub">
+      <div class="showcase-header">
+        <div>
+          <div class="showcase-pre-tag">Registro Histórico Documental</div>
+          <h3 class="showcase-title">Transformação Territorial: O Antes e o Hoje em Fotografias Reais</h3>
+          <p class="showcase-desc">
+            Compare o terreno árido e murado da antiga fábrica com a infraestrutura verde e humana implantada hoje.
+          </p>
+        </div>
+
+        <!-- Seletor de Perspectiva (Aérea vs Nível dos Olhos) -->
+        <div class="perspective-toggle-group" role="tablist" aria-label="Perspectivas da Comparação">
+          <button class="perspective-btn active" id="tab-persp-aerea" data-persp="aerea" role="tab" aria-selected="true">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+            <span>Visão Aérea (76.000 m²)</span>
+          </button>
+          <button class="perspective-btn" id="tab-persp-terrestre" data-persp="terrestre" role="tab" aria-selected="false">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <span>Nível dos Olhos (Visitantes)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Barra de Modos de Visualização (Desktop & Mobile) -->
+      <div class="comparison-view-controls">
+        <div class="view-controls-left">
+          <span class="controls-label">Modo de Exibição:</span>
+          <button class="view-mode-pill" data-mode="antes" title="Ver fotografia do passado em tela inteira">Ver Antes</button>
+          <button class="view-mode-pill active" data-mode="slider" title="Comparador interativo por deslizamento 50/50">Divisão Interativa</button>
+          <button class="view-mode-pill" data-mode="depois" title="Ver fotografia do parque atual em tela inteira">Ver Hoje</button>
+          <button class="view-mode-pill" data-mode="side-by-side" title="Ver as duas fotografias lado a lado">Lado a Lado</button>
+        </div>
+
+        <div class="view-controls-right">
+          <button id="btn-zoom-photo" class="btn-zoom-action" title="Ampliar fotografia em resolução máxima">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+            <span>Ampliar Foto</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Visualizador Principal (Slider e Lado a Lado) -->
+      <div id="interactive-comparison-stage" class="comparison-stage mode-slider" aria-label="Visualizador comparativo de fotografias reais">
+        <!-- Camada DEPOIS (Fotografia Real Atual) -->
+        <div class="stage-layer stage-layer-after" id="stage-after">
+          <img id="img-after" src="assets/fotos-reais/01_real_vista_aerea_parque_prefeitura.jpg" alt="Fotografia real aérea do Parque Realengo Susana Naspolini concluído">
+          <div class="stage-badge-tag after">
+            <span class="badge-dot green"></span>
+            <span id="badge-after-text">Hoje: Parque Realengo Concluído</span>
+          </div>
+        </div>
+
+        <!-- Camada ANTES (Fotografia Real Histórica) -->
+        <div class="stage-layer stage-layer-before" id="stage-before">
+          <img id="img-before" src="assets/fotos-reais/09_real_ortofoto_aerea_terreno.jpg" alt="Ortofoto aérea do terreno militar de Realengo antes das obras">
+          <div class="stage-badge-tag before">
+            <span class="badge-dot terracotta"></span>
+            <span id="badge-before-text">Antes: Terreno Militar Árido</span>
+          </div>
+        </div>
+
+        <!-- Manípulo Divisor Arrastável -->
+        <div id="stage-slider-handle" class="stage-divider" role="slider" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" aria-label="Divisor de comparação fotográfica" tabindex="0">
+          <div class="divider-line"></div>
+          <div class="divider-handle-knob" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="8 16 4 12 8 8"/><polyline points="16 8 20 12 16 16"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modo de Apresentação Mobile Dedicado (Cards Empilhados / Tabs de Rápido Acesso) -->
+      <div class="mobile-photo-cards-group">
+        <div class="mobile-photo-card before">
+          <div class="mobile-photo-card-head">
+            <span class="photo-period-tag before">ANTES • FOTOGRAFIA HISTÓRICA</span>
+            <span class="photo-verified-badge">Acervo Oficial</span>
+          </div>
+          <div class="mobile-card-img-wrap">
+            <img id="mobile-card-img-before" src="assets/fotos-reais/09_real_ortofoto_aerea_terreno.jpg" alt="Fotografia histórica da área militar de Realengo">
+            <button class="mobile-zoom-btn" data-target="before" aria-label="Ampliar foto histórica">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+            </button>
+          </div>
+          <div class="mobile-card-caption">
+            <div class="mobile-card-title" id="mobile-caption-before-title">Terreno Militar da Fábrica de Cartuchos</div>
+            <div class="mobile-card-text" id="mobile-caption-before-text">
+              Ortofoto aérea oficial do lote militar de 76 mil m². Área murada e isolada por mais de um século, com solo árido sem vegetação e alta irradiação térmica para o entorno de Realengo.
+            </div>
+            <div class="mobile-card-source" id="mobile-caption-before-source">
+              <strong>Fonte:</strong> SMAC / 14ª Bienal Internacional de Arquitetura de São Paulo
+            </div>
+          </div>
+        </div>
+
+        <div class="mobile-photo-card after">
+          <div class="mobile-photo-card-head">
+            <span class="photo-period-tag after">HOJE • FOTOGRAFIA ATUAL</span>
+            <span class="photo-verified-badge active">Parque Entregue</span>
+          </div>
+          <div class="mobile-card-img-wrap">
+            <img id="mobile-card-img-after" src="assets/fotos-reais/01_real_vista_aerea_parque_prefeitura.jpg" alt="Fotografia real aérea do Parque Realengo Susana Naspolini">
+            <button class="mobile-zoom-btn" data-target="after" aria-label="Ampliar foto atual do parque">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+            </button>
+          </div>
+          <div class="mobile-card-caption">
+            <div class="mobile-card-title" id="mobile-caption-after-title">Parque Susana Naspolini Concluído</div>
+            <div class="mobile-card-text" id="mobile-caption-after-text">
+              Fotografia aérea real de drone do parque concluído. Destaca-se o espelho d'água permanente de 1.300 m², bacia de amortecimento de 1.950 m³, bosque com 3.700 mudas nativas e as super-torres.
+            </div>
+            <div class="mobile-card-source" id="mobile-caption-after-source">
+              <strong>Fonte:</strong> Prefeitura da Cidade do Rio de Janeiro (Acervo Oficial)
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ficha Documental e Legenda Contextual das Fotografias -->
+      <div class="photo-meta-dossier" id="photo-dossier-box">
+        <div class="dossier-item">
+          <div class="dossier-label">Fotografia do Passado (Antes):</div>
+          <div class="dossier-title" id="dossier-before-title">Ortofoto Aerofotogramétrica do Lote Militar</div>
+          <div class="dossier-desc" id="dossier-before-desc">
+            Ortofoto aérea oficial do lote de 76 mil m². Área murada e isolada por mais de um século, com galpões de armamentos do Exército Brasileiro, solo descampado e alta retenção de calor.
+          </div>
+          <div class="dossier-credit" id="dossier-before-credit">
+            <strong>Fonte Verificada:</strong> SMAC / Catálogo Oficial da 14ª Bienal Internacional de Arquitetura de São Paulo (BIA-SP)
+          </div>
+        </div>
+
+        <div class="dossier-item">
+          <div class="dossier-label">Fotografia do Presente (Hoje):</div>
+          <div class="dossier-title" id="dossier-after-title">Fotografia Aérea por Drone do Parque Entregue</div>
+          <div class="dossier-desc" id="dossier-after-desc">
+            Fotografia aérea real de drone do parque concluído. Espelho d'água permanente de 1.300 m², bacia de amortecimento de 1.950 m³, bosque com 3.700 mudas da Mata Atlântica e super-torres.
+          </div>
+          <div class="dossier-credit" id="dossier-after-credit">
+            <strong>Fonte Verificada:</strong> Prefeitura da Cidade do Rio de Janeiro / Secretaria Municipal de Coordenação Governamental
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GALERIA DOCUMENTAL DE EQUIPAMENTOS DO PARQUE (FOTOGRAFIAS REAIS IDENTIFICADAS) -->
+    <div class="equipment-gallery-header">
+      <div>
+        <h3 class="subsection-title">Equipamentos Públicos & Arquitetura Bioclimática em Fotos Reais</h3>
+        <p class="subsection-lead">Registros fotográficos autênticos dos 6 principais equipamentos que compõem os 76.000 m² do Parque Realengo.</p>
+      </div>
+    </div>
+
+    <div class="structures-grid">
+      <!-- 01: Super Torres -->
+      <div class="structure-card" data-structure-id="torres" tabindex="0" role="button" aria-label="Ver detalhes reais das Super-Torres">
+        <div class="structure-thumb-box">
+          <img src="assets/fotos-reais/10_real_parque_bosque_torres_visitantes.jpg" alt="Fotografia real de visitantes sob as super-torres de nebulização">
+          <span class="photo-credit-badge">Foto: Rafael Salim</span>
+        </div>
+        <div class="structure-card-content">
+          <div class="structure-tag">Bioclimatismo & Resfriamento</div>
+          <div class="structure-title">Cinco Super-Torres de Névoa</div>
+          <div class="structure-desc">Torres metálicas treliçadas (17m, 26m e 47m) equipadas com 236 bicos que aspergiram névoa microscópica resfriando o ar por evaporação flash.</div>
+          <div class="structure-action-link">Ver Ficha Fotográfica <span>→</span></div>
+        </div>
+      </div>
+
+      <!-- 02: Nave do Conhecimento -->
+      <div class="structure-card" data-structure-id="nave" tabindex="0" role="button" aria-label="Ver detalhes reais da Nave do Conhecimento">
+        <div class="structure-thumb-box">
+          <img src="assets/fotos-reais/06_real_nave_do_conhecimento.jpg" alt="Fotografia real da fachada da Nave do Conhecimento de Realengo">
+          <span class="photo-credit-badge">Foto: Prefeitura do Rio</span>
+        </div>
+        <div class="structure-card-content">
+          <div class="structure-tag">Inclusão Digital & Inovação</div>
+          <div class="structure-title">Nave do Conhecimento</div>
+          <div class="structure-desc">Pavilhão tecnológico de 830 m² com laboratórios de robótica, informática e cursos gratuitos de capacitação profissional para a juventude.</div>
+          <div class="structure-action-link">Ver Ficha Fotográfica <span>→</span></div>
+        </div>
+      </div>
+
+      <!-- 03: Espelho d'Água -->
+      <div class="structure-card" data-structure-id="lago" tabindex="0" role="button" aria-label="Ver detalhes da bacia pluvial">
+        <div class="structure-thumb-box">
+          <img src="assets/fotos-reais/01_real_vista_aerea_parque_prefeitura.jpg" alt="Fotografia real da bacia pluvial e espelho d'água">
+          <span class="photo-credit-badge">Foto: Prefeitura do Rio</span>
+        </div>
+        <div class="structure-card-content">
+          <div class="structure-tag">Drenagem Sustentável (SbN)</div>
+          <div class="structure-title">Espelho d'Água & Bacia Pluvial</div>
+          <div class="structure-desc">Lâmina d'água de 1.300 m² e reservatório de amortecimento com 1.950 m³ que protege as ruas do bairro contra inundações severas.</div>
+          <div class="structure-action-link">Ver Ficha Fotográfica <span>→</span></div>
+        </div>
+      </div>
+
+      <!-- 04: Bosque de Convivência -->
+      <div class="structure-card" data-structure-id="bosque" tabindex="0" role="button" aria-label="Ver detalhes do bosque">
+        <div class="structure-thumb-box">
+          <img src="assets/fotos-reais/05_real_area_descanso_arborizacao.jpg" alt="Fotografia real da área arborizada de descanso e convivência">
+          <span class="photo-credit-badge">Foto: Prefeitura do Rio</span>
+        </div>
+        <div class="structure-card-content">
+          <div class="structure-tag">Biodiversidade & Flora</div>
+          <div class="structure-title">Bosque de Mata Atlântica</div>
+          <div class="structure-desc">Mais de 3.700 mudas catalogadas de Pau-Brasil, Ipês, Jacarandás e Sapucaias criando corredores ecológicos e sombra contínua.</div>
+          <div class="structure-action-link">Ver Ficha Fotográfica <span>→</span></div>
+        </div>
+      </div>
+
+      <!-- 05: Canteiros Comunitários -->
+      <div class="structure-card" data-structure-id="canteiros" tabindex="0" role="button" aria-label="Ver detalhes dos canteiros">
+        <div class="structure-thumb-box">
+          <img src="assets/fotos-reais/11_real_canteiros_comunitarios_familias.jpg" alt="Fotografia real de famílias e crianças nos canteiros de tijolo do parque">
+          <span class="photo-credit-badge">Foto: Rafael Salim</span>
+        </div>
+        <div class="structure-card-content">
+          <div class="structure-tag">Cidadania & Educação</div>
+          <div class="structure-title">Canteiros Comunitários</div>
+          <div class="structure-desc">Espaços em alvenaria e canteiros elevados onde famílias cultivam plantas medicinais e hortaliças com compostagem do próprio parque.</div>
+          <div class="structure-action-link">Ver Ficha Fotográfica <span>→</span></div>
+        </div>
+      </div>
+
+      <!-- 06: Memorial Susana Naspolini -->
+      <div class="structure-card" data-structure-id="memorial" tabindex="0" role="button" aria-label="Ver detalhes do memorial">
+        <div class="structure-thumb-box">
+          <img src="assets/fotos-reais/08_real_mural_susana_naspolini.jpg" alt="Fotografia real do mural memorial à jornalista Susana Naspolini">
+          <span class="photo-credit-badge">Foto: Prefeitura do Rio</span>
+        </div>
+        <div class="structure-card-content">
+          <div class="structure-tag">Memória & Cultura Coletiva</div>
+          <div class="structure-title">Memorial Susana Naspolini</div>
+          <div class="structure-desc">Homenagem à jornalista que deu visibilidade à luta comunitária por saneamento e lazer público de qualidade na Zona Oeste.</div>
+          <div class="structure-action-link">Ver Ficha Fotográfica <span>→</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       SEÇÃO 06 — NOSSAS PROPOSTAS E PESQUISAS CIENTÍFICAS
+       ======================================================================== -->
+  <section id="pesquisas" class="section-wrapper" aria-labelledby="pesquisas-title">
+    <span class="section-tagline">Pesquisa Acadêmica & Metas Globais</span>
+    <h2 id="pesquisas-title" class="section-heading">Nossos 4 eixos de investigação interdisciplinar e metas da ONU</h2>
+    <p class="section-lead">
+      O EcoCity articula rigor técnico, pesquisa experimental e responsabilidade social, estruturando as análises das turmas de Informática e Enfermagem em quatro eixos alinhados aos Objetivos de Desenvolvimento Sustentável (ODS) da Agenda 2030.
+    </p>
+
+    <!-- 4 Eixos de Pesquisa -->
+    <div class="research-axes-grid">
+      <div class="research-axis-card">
+        <div class="axis-icon-box leaf">
+          <svg viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+        </div>
+        <div class="axis-title">Soluções Baseadas na Natureza (SbN)</div>
+        <div class="axis-sub">Eixo Biotecnológico & Clima</div>
+        <div class="axis-desc">Uso de fitobiorremediação com vegetação nativa para retenção de particulados atmosféricos, biofiltração de águas pluviais e alívio de ilhas de calor urbanas.</div>
+      </div>
+
+      <div class="research-axis-card">
+        <div class="axis-icon-box cyan">
+          <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>
+        </div>
+        <div class="axis-title">Telemetria IoT em Hardware Aberto</div>
+        <div class="axis-sub">Eixo de Engenharia de Software</div>
+        <div class="axis-desc">Desenvolvimento de firmware em microcontroladores de baixo custo (ESP32/Arduino) com transmissão de telemetria climática em tempo real para bancos de dados abertos.</div>
+      </div>
+
+      <div class="research-axis-card">
+        <div class="axis-icon-box clay">
+          <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        </div>
+        <div class="axis-title">Saúde Coletiva & Enfermagem</div>
+        <div class="axis-sub">Eixo Clínico-Epidemiológico</div>
+        <div class="axis-desc">Monitoramento do estresse térmico em idosos e crianças, prevenção de picos hipertensivos e aplicação do protocolo de biossegurança da RDC 222/2018 da ANVISA.</div>
+      </div>
+
+      <div class="research-axis-card">
+        <div class="axis-icon-box amber">
+          <svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        </div>
+        <div class="axis-title">Educação e Inclusão Tecnológica</div>
+        <div class="axis-sub">Eixo Social & Pedagógico</div>
+        <div class="axis-desc">Desenvolvimento de interfaces interativas, ferramentas educativas e simulações para democratizar a percepção ambiental entre estudantes do ensino técnico.</div>
+      </div>
+    </div>
+
+    <!-- Metas ODS da ONU -->
+    <div class="ods-section-header">
+      <h3 class="subsection-title">Metas Auditadas dos Objetivos de Desenvolvimento Sustentável</h3>
+    </div>
+
+    <div class="ods-grid">
+      <div class="ods-card">
+        <div class="ods-number">ODS 3</div>
+        <div class="ods-title">Saúde e Bem-Estar</div>
+        <div class="ods-target">Meta 3.9 — Redução de Doenças</div>
+        <div class="ods-desc">Reduzir mortes e doenças causadas por poluição atmosférica, estresse térmico agudo e águas paradas contaminadas.</div>
+      </div>
+
+      <div class="ods-card">
+        <div class="ods-number">ODS 11</div>
+        <div class="ods-title">Cidades Sustentáveis</div>
+        <div class="ods-target">Meta 11.7 — Espaços Públicos Verdes</div>
+        <div class="ods-desc">Garantir acesso universal a espaços públicos seguros, inclusivos e verdes na periferia da Região Metropolitana.</div>
+      </div>
+
+      <div class="ods-card">
+        <div class="ods-number">ODS 13</div>
+        <div class="ods-title">Ação Climática Global</div>
+        <div class="ods-target">Meta 13.1 — Resiliência Urbana</div>
+        <div class="ods-desc">Reforçar a adaptação climática urbana contra temporais tropicais severos através de bacias de retenção pluvial.</div>
+      </div>
+
+      <div class="ods-card">
+        <div class="ods-number">ODS 15</div>
+        <div class="ods-title">Vida Terrestre</div>
+        <div class="ods-target">Meta 15.5 — Deter a Degradação</div>
+        <div class="ods-desc">Recuperar solos antes estéreis com o plantio de 3.700 mudas arbóreas e restauração da biodiversidade da Mata Atlântica.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       SEÇÃO 07 — O TRABALHO NA PRÁTICA (ACERVO REAL DO DRIVE)
+       ======================================================================== -->
+  <section id="pratica" class="section-wrapper" aria-labelledby="pratica-title">
+    <span class="section-tagline">Evidências & Produção Real</span>
+    <h2 id="pratica-title" class="section-heading">O trabalho na prática: identidade, arte e materiais do projeto</h2>
+    <p class="section-lead">
+      Documentação autêntica resgatada diretamente do acervo oficial de pesquisa do projeto (Google Drive): uniformes oficiais das turmas de Enfermagem e Informática, bottons de identificação, cartazes de campo e os rascunhos originais.
+    </p>
+
+    <div class="practice-gallery-grid">
+      <!-- 01: Camisa Enfermagem -->
+      <div class="practice-card">
+        <div class="practice-img-box">
+          <img src="assets/equipe/camisa_enfermagem.jpg" alt="Camisa Oficial da Equipe de Enfermagem">
+        </div>
+        <div class="practice-caption">
+          <div class="practice-tag">Uniforme Oficial</div>
+          <div class="practice-title">Camisa Enfermagem EcoCity</div>
+          <div class="practice-desc">Identidade visual desenvolvida para a turma de Enfermagem, simbolizando o cuidado com a saúde comunitária e ambiental.</div>
+        </div>
+      </div>
+
+      <!-- 02: Camisa Informática -->
+      <div class="practice-card">
+        <div class="practice-img-box">
+          <img src="assets/equipe/camisa_informatica.jpg" alt="Camisa Oficial da Equipe de Informática">
+        </div>
+        <div class="practice-caption">
+          <div class="practice-tag">Uniforme Oficial</div>
+          <div class="practice-title">Camisa Informática EcoCity</div>
+          <div class="practice-desc">Camisa oficial da turma de Informática com os símbolos dos sistemas digitais, sensores IoT e telemetria.</div>
+        </div>
+      </div>
+
+      <!-- 03: Botton Orientadora -->
+      <div class="practice-card">
+        <div class="practice-img-box">
+          <img src="assets/equipe/botton_prof_amanda.jpg" alt="Botton Oficial da Orientadora Profª Amanda">
+        </div>
+        <div class="practice-caption">
+          <div class="practice-tag">Crachá Oficial</div>
+          <div class="practice-title">Botton da Profª Amanda</div>
+          <div class="practice-desc">Identificação personalizada da professora orientadora, registrada no acervo de pesquisa para a feira tecnológica.</div>
+        </div>
+      </div>
+
+      <!-- 04: Cartazes e Rascunhos -->
+      <div class="practice-card">
+        <div class="practice-img-box">
+          <img src="assets/pesquisa/cartaz_rascunho_1.jpg" alt="Cartaz Técnico e Rascunho Científico">
+        </div>
+        <div class="practice-caption">
+          <div class="practice-tag">Processo de Pesquisa</div>
+          <div class="practice-title">Cartazes e Rascunhos de Campo</div>
+          <div class="practice-desc">Esboços conceituais da correlação entre estresse térmico, arborização e ciclo de resíduos sólidos.</div>
+        </div>
+      </div>
+
+      <!-- 05: Arte do Ecossistema EcoCity -->
+      <div class="practice-card">
+        <div class="practice-img-box">
+          <img src="assets/pesquisa/ecocity_arte_1.png" alt="Ilustração Conceitual do Ecossistema EcoCity">
+        </div>
+        <div class="practice-caption">
+          <div class="practice-tag">Arte & Storytelling</div>
+          <div class="practice-title">Mapa Conceitual EcoCity</div>
+          <div class="practice-desc">Composição visual representando a interconexão harmônica entre cidade, flora tropical e tecnologia limpa.</div>
+        </div>
+      </div>
+
+      <!-- 06: Identidade Solaris -->
+      <div class="practice-card">
+        <div class="practice-img-box">
+          <img src="assets/logos/logo-solaris.jpg" alt="Logo Solaris e Transição Energética">
+        </div>
+        <div class="practice-caption">
+          <div class="practice-tag">Identidade do Núcleo</div>
+          <div class="practice-title">Iniciativa Solaris</div>
+          <div class="practice-desc">Símbolo do núcleo de captação de energia fotovoltaica e fontes renováveis integradas ao projeto.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       SEÇÃO 08 — NOSSA EQUIPE & ORIENTAÇÃO
+       ======================================================================== -->
+  <section id="equipe" class="section-wrapper" aria-labelledby="equipe-title">
+    <span class="section-tagline">Quem Faz Acontecer</span>
+    <h2 id="equipe-title" class="section-heading">Equipe interdisciplinar de estudantes e coordenação</h2>
+    <p class="section-lead">
+      Um projeto de pesquisa é fruto da colaboração humana. Conheça os 8 estudantes das áreas de Informática e Enfermagem e a professora orientadora responsáveis pelo EcoCity na PROJETEC 2026.
+    </p>
+
+    <!-- Card de Destaque da Professora Orientadora -->
+    <div class="advisor-card">
+      <div class="advisor-photo-box">
+        <img src="assets/equipe/botton_prof_amanda.jpg" alt="Profª Amanda — Orientadora Oficial">
+      </div>
+      <div>
+        <div class="advisor-tag">Professora Orientadora e Representante Oficial</div>
+        <h3 class="advisor-name">Profª Amanda</h3>
+        <div class="advisor-title">Núcleo de Ciências Tecnológicas & Saúde Coletiva</div>
+        <p class="advisor-desc">
+          Orientação metodológica contínua, rigor ético na pesquisa científica e articulação pedagógica interdisciplinar integrando os estudantes de Enfermagem e Informática para a realização da PROJETEC 2026.
+        </p>
+      </div>
+    </div>
+
+    <!-- Grid dos 8 Estudantes Pesquisadores -->
+    <div class="team-grid">
+      <!-- 1: Daniel -->
+      <div class="team-member-card">
+        <div class="team-member-avatar">
+          <img src="assets/equipe/botton_daniel.png" alt="Daniel D. Mello Bonato">
+        </div>
+        <div class="team-member-name">Daniel D. Mello Bonato</div>
+        <div class="team-member-role">Autor & Coordenador Geral</div>
+        <div class="team-member-area">Informática & Engenharia de Software</div>
+      </div>
+
+      <!-- 2: Ana Clara -->
+      <div class="team-member-card">
+        <div class="team-member-avatar initial">AC</div>
+        <div class="team-member-name">Ana Clara Nascimento</div>
+        <div class="team-member-role">Pesquisadora & Conteúdo</div>
+        <div class="team-member-area">Biotecnologia & Meio Ambiente</div>
+      </div>
+
+      <!-- 3: Maria Eduarda -->
+      <div class="team-member-card">
+        <div class="team-member-avatar initial">ME</div>
+        <div class="team-member-name">Maria Eduarda Leite</div>
+        <div class="team-member-role">Pesquisadora & Conteúdo</div>
+        <div class="team-member-area">Sustentabilidade Urbana & Sociedade</div>
+      </div>
+
+      <!-- 4: Lucas -->
+      <div class="team-member-card">
+        <div class="team-member-avatar initial">LC</div>
+        <div class="team-member-name">Lucas Cordeiro</div>
+        <div class="team-member-role">Pesquisador & Desenvolvimento</div>
+        <div class="team-member-area">Informática & Modelagem Digital</div>
+      </div>
+
+      <!-- 5: João Pedro -->
+      <div class="team-member-card">
+        <div class="team-member-avatar initial">JP</div>
+        <div class="team-member-name">João Pedro Roldão</div>
+        <div class="team-member-role">Pesquisador & Desenvolvimento</div>
+        <div class="team-member-area">Informática & Sistemas Interativos</div>
+      </div>
+
+      <!-- 6: Isaac -->
+      <div class="team-member-card">
+        <div class="team-member-avatar initial">IA</div>
+        <div class="team-member-name">Isaac Alisson</div>
+        <div class="team-member-role">Pesquisador & Desenvolvimento</div>
+        <div class="team-member-area">Informática & Análise de Dados</div>
+      </div>
+
+      <!-- 7: Yasmin Vitória -->
+      <div class="team-member-card">
+        <div class="team-member-avatar">
+          <img src="assets/equipe/botton_hiasmin.png" alt="Yasmin Vitória">
+        </div>
+        <div class="team-member-name">Yasmin Vitória</div>
+        <div class="team-member-role">Pesquisadora & Saúde Coletiva</div>
+        <div class="team-member-area">Enfermagem & Saúde Pública</div>
+      </div>
+
+      <!-- 8: Gianna -->
+      <div class="team-member-card">
+        <div class="team-member-avatar initial">GV</div>
+        <div class="team-member-name">Gianna Nogueira Vargas</div>
+        <div class="team-member-role">Pesquisadora & Saúde Coletiva</div>
+        <div class="team-member-area">Enfermagem & Resíduos de Serviços (RSS)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       SEÇÃO 09 — ENCERRAMENTO, ECOSSISTEMA & FONTES AUDITADAS
+       ======================================================================== -->
+  <section id="conclusao" class="section-wrapper" aria-labelledby="conclusao-title">
+    <div class="footer-cta-box">
+      <h2 id="conclusao-title" class="footer-cta-title">A transformação ecológica começa pelo conhecimento</h2>
+      <p class="footer-cta-lead">
+        Explore as demais aplicações interativas do ecossistema EcoCity desenvolvidas para a feira tecnológica PROJETEC 2026.
+      </p>
+
+      <div class="ecosystem-links-grid">
+        <!-- Link 01: Protótipo 3D Realengo -->
+        <a href="../01-prototipo-3d/index.html" class="ecosystem-card-link">
+          <div>
+            <div class="ecosystem-link-icon-box">
+              <svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+            </div>
+            <div class="ecosystem-link-title">Protótipo 3D do Parque</div>
+            <div class="ecosystem-link-desc">Caminhe em primeira pessoa pelas estruturas do parque modeladas em escala real no simulador interativo.</div>
+          </div>
+          <div class="ecosystem-link-arrow">Acessar Simulação 3D →</div>
+        </a>
+
+        <!-- Link 02: Quiz Ecológico -->
+        <a href="../../site/index.html" class="ecosystem-card-link">
+          <div>
+            <div class="ecosystem-link-icon-box">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </div>
+            <div class="ecosystem-link-title">Quiz Ecológico Interativo</div>
+            <div class="ecosystem-link-desc">Teste seus conhecimentos sobre sustentabilidade, acumule XP e desbloqueie conquistas na feira.</div>
+          </div>
+          <div class="ecosystem-link-arrow">Jogar o Quiz →</div>
+        </a>
+
+        <!-- Link 03: Painel de Telemetria Ambiental -->
+        <a href="#tecnologia" class="ecosystem-card-link">
+          <div>
+            <div class="ecosystem-link-icon-box">
+              <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            </div>
+            <div class="ecosystem-link-title">Telemetria & Sensores</div>
+            <div class="ecosystem-link-desc">Consulte a série histórica de umidade, temperatura e nível pluvial do sistema V.I.D.A.</div>
+          </div>
+          <div class="ecosystem-link-arrow">Ver Telemetria →</div>
+        </a>
+
+        <!-- Link 04: Galeria de Evidências -->
+        <a href="#pratica" class="ecosystem-card-link">
+          <div>
+            <div class="ecosystem-link-icon-box">
+              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            </div>
+            <div class="ecosystem-link-title">Acervo de Evidências</div>
+            <div class="ecosystem-link-desc">Revise os cartazes de campo, camisas e bottons autênticos produzidos pelos alunos no acervo de pesquisa.</div>
+          </div>
+          <div class="ecosystem-link-arrow">Ver Acervo →</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Fontes e Bases de Dados Científicas Auditadas -->
+    <div class="sources-accordion">
+      <div class="sources-heading">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        <span>Fontes e Bases de Dados Oficiais Auditadas</span>
+      </div>
+      <p class="sources-lead">
+        Todas as métricas populacionais, microclimáticas e sanitárias apresentadas nesta plataforma foram verificadas em registros públicos abertos:
+      </p>
+
+      <div class="sources-grid">
+        <div class="source-item">
+          <strong>Prefeitura da Cidade do Rio de Janeiro</strong>
+          Decreto nº 49.336/2021 de criação do Parque Realengo e Memorial Descritivo de Obras.
+        </div>
+        <div class="source-item">
+          <strong>Fundação Parques e Jardins (FPJ)</strong>
+          Levantamento florístico com 3.700 mudas da Mata Atlântica catalogadas.
+        </div>
+        <div class="source-item">
+          <strong>14ª Bienal Internacional de Arquitetura de SP</strong>
+          Catálogo Oficial BIA-SP: Parque Realengo Susana Naspolini (SMAC / Embyá / Ecomimesis).
+        </div>
+        <div class="source-item">
+          <strong>Fundação Rio-Águas & Alerta Rio</strong>
+          Dimensionamento hidráulico da bacia de retenção de 1.950 m³ e prevenção de enchentes.
+        </div>
+        <div class="source-item">
+          <strong>Organização Mundial da Saúde (OMS)</strong>
+          Diretrizes Globais de Qualidade do Ar (2021) para limites de PM2.5 (15 µg/m³ diário).
+        </div>
+        <div class="source-item">
+          <strong>ANVISA — RDC nº 222/2018</strong>
+          Regulamento Técnico de Boas Práticas de Gerenciamento de Resíduos de Serviços de Saúde (RSS).
+        </div>
+      </div>
+    </div>
+
+    <!-- Rodapé Legal e Créditos -->
+    <footer class="site-footer-bottom">
+      <div>
+        <strong>EcoCity — PROJETEC 2026</strong> • Projeto V.I.D.A. (Vigilância e Indicadores Digitais Ambientais)
+      </div>
+      <div>
+        Desenvolvido com tecnologia web aberta, dados reais e dedicação científica por estudantes e orientadores do Rio de Janeiro.
+      </div>
+    </footer>
+  </section>
+
+  <!-- ========================================================================
+       MODAIS INTERATIVOS (MATERIAIS, ESTRUTURAS & LIGHTBOX FOTOGRÁFICO)
+       ======================================================================== -->
+
+  <!-- Modal 1: Materiais da Economia Circular -->
+  <div id="material-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-mat-title">
+    <div class="modal-window">
+      <button id="material-modal-close" class="modal-close-btn" aria-label="Fechar janela">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div id="modal-mat-icon" class="modal-icon-header">
+        <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 19H4.815a1.83 1.83 0 0 1-1.57-.881 1.785 1.785 0 0 1-.004-1.784L7.196 9.5"/><path d="M11 19h8.2a1.8 1.8 0 0 0 1.565-.89 1.78 1.78 0 0 0 .007-1.78l-3.952-6.83"/><path d="M12 5l-2.5 4.5h5L12 5z"/></svg>
+      </div>
+      <h3 id="modal-mat-title" class="modal-title">Lata de Alumínio</h3>
+      <div id="modal-mat-type" class="modal-subtitle">Metal Reciclável Infinito</div>
+
+      <div class="modal-body-section">
+        <div class="modal-label">Impacto no Modelo Linear Tradicional:</div>
+        <div id="modal-mat-impact" class="modal-text">Mineração de bauxita causa desmatamento severo...</div>
+      </div>
+
+      <div class="modal-body-section">
+        <div class="modal-label">Ciclo Fechado Regenerativo Recomendado:</div>
+        <div id="modal-mat-cycle" class="modal-text">Pode ser reciclada infinitas vezes sem perder qualidade...</div>
+      </div>
+
+      <div class="modal-body-section">
+        <div class="modal-label">Dado Estatístico Verificado:</div>
+        <div id="modal-mat-stats" class="modal-text highlight-stat">Brasil lidera reciclagem com 98,7%...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 2: Estruturas do Parque Realengo (Ficha Fotográfica Real) -->
+  <div id="structure-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-struct-title">
+    <div class="modal-window">
+      <button id="structure-modal-close" class="modal-close-btn" aria-label="Fechar janela">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="modal-image-preview">
+        <img id="modal-struct-img" src="assets/fotos-reais/10_real_parque_bosque_torres_visitantes.jpg" alt="Visualização fotográfica da estrutura">
+      </div>
+      <div class="modal-meta-row">
+        <span id="modal-struct-tag" class="modal-subtitle">Microclima & Resfriamento</span>
+        <span id="modal-struct-credit" class="modal-credit-tag">Foto: Rafael Salim</span>
+      </div>
+      <h3 id="modal-struct-title" class="modal-title">Super-Torres de Nebulização</h3>
+
+      <div class="modal-body-section">
+        <div class="modal-label">Descrição Técnica & Impacto Urbano:</div>
+        <div id="modal-struct-desc" class="modal-text">Estruturas verticais com aspersores de névoa fina...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 3: Lightbox de Ampliação de Fotografias Reais -->
+  <div id="photo-lightbox-modal" class="modal-overlay photo-lightbox" role="dialog" aria-modal="true" aria-label="Ampliação da Fotografia Real">
+    <div class="lightbox-window">
+      <button id="lightbox-close-btn" class="modal-close-btn" aria-label="Fechar ampliação">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="lightbox-image-wrap">
+        <img id="lightbox-full-img" src="" alt="Fotografia real ampliada">
+      </div>
+      <div class="lightbox-caption-bar">
+        <div>
+          <div id="lightbox-period-badge" class="photo-period-tag after">HOJE</div>
+          <h4 id="lightbox-title" class="lightbox-title">Título da Fotografia</h4>
+          <p id="lightbox-desc" class="lightbox-desc">Legenda detalhada.</p>
+        </div>
+        <div class="lightbox-source-box">
+          <span id="lightbox-source">Fonte: Acervo Oficial</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts da Aplicação -->
+  <!-- 1. Three.js para Cosmos Hero -->
+  <script src="vendor/three.min.js"></script>
+  <!-- 2. Banco de Dados Narrativo Canônico -->
+  <script src="js/data.js"></script>
+  <!-- 3. Cena 3D Cosmos & Terra -->
+  <script src="js/scene-cosmos.js"></script>
+  <!-- 4. Interações, Acessibilidade & Modos de Apresentação -->
+  <script src="js/app.js"></script>
+
+</body>
+</html>

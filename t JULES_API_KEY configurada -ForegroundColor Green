@@ -1,0 +1,246 @@
+warning: in the working copy of 'README.md', LF will be replaced by CRLF the next time Git touches it
+[1mdiff --git a/README.md b/README.md[m
+[1mindex 48193a6..ff44270 100644[m
+[1m--- a/README.md[m
+[1m+++ b/README.md[m
+[36m@@ -1,187 +1,83 @@[m
+[31m-# 🌿 PROJETO V.I.D.A. — CENTRAL MULTITELA DE SUSTENTABILIDADE & VIGILÂNCIA AMBIENTAL[m
+[31m-### Parque Realengo Jornalista Susana Naspolini • Stand de Exposição Interativa para Feira de Ciências[m
+[32m+[m[32m# ECOCITY — PARQUE REALENGO 3D (PROJETO V.I.D.A.)[m
+ [m
+[31m-O **V.I.D.A. (Vigilância e Indicadores Digitais Ambientais)** é uma instalação digital imersiva projetada para transformar a apresentação de sustentabilidade urbana em uma experiência viva, editorial, tecnológica e gamificada. Desenvolvido para estandes de feiras de ciências, o projeto opera de forma coordenada em **dois dispositivos simultâneos sincronizados em tempo real**.[m
+[32m+[m[32m**Feira de Ciências • Projetec 2026**[m[41m  [m
+[32m+[m[32m**Repositório Oficial:** [https://github.com/Bonato2010/Projetec-2026-](https://github.com/Bonato2010/Projetec-2026-)[m[41m  [m
+[32m+[m[32m**Branch Ativa:** `develop`[m[41m  [m
+ [m
+ ---[m
+ [m
+[31m-## 🌟 1. ARQUITETURA MULTITELA & VISÃO GERAL[m
+[32m+[m[32m## 🌿 Sobre o Projeto[m
+ [m
+[31m-```[m
+[31m- ┌────────────────────────────────────────────────────────┐       ┌───────────────────────────┐[m
+[31m- │               TELA 1: TELEVISÃO DO STAND               │       │ TELA 2: CELULAR VISITANTE │[m
+[31m- │                   (1920 × 1080 Full HD)                │       │     (Touch Mobile 2.5D)   │[m
+[31m- │                                                        │       │                           │[m
+[31m- │  1. Vídeo de Abertura Oficial (com áudio institucional)│       │ 1. Vídeo Obrigatório      │[m
+[31m- │  2. Cena Animada do Parque Vivo (Canvas 2.5D 60 FPS)   │ ◄───► │    (Sem botão de pular)   │[m
+[31m- │  3. 5 Super-Torres Bioclimáticas com Névoa Realística  │  WS   │ 2. Controle Remoto Touch  │[m
+[31m- │  4. Lago de 1.300 m² com Ondulações & Biovaletas       │  LAN  │ 3. 4 Missões Interativas  │[m
+[31m- │  5. QR Code Dinâmico com IP de Rede Local (Wi-Fi)      │   +   │ 4. Gatilhos de Clima/Névoa│[m
+[31m- │  6. Modo de Apresentação Contínuo (Attract Mode)       │ B-CH  │ 5. Trava de Visitante     │[m
+[31m- │  7. Overlays de Celebração e Conquista de Pontos       │       │    (Single Active Lock)   │[m
+[31m- └────────────────────────────────────────────────────────┘       └───────────────────────────┘[m
+[31m-```[m
+[32m+[m[32mO **EcoCity (Projeto V.I.D.A.)** é um ecossistema tecnológico e pedagógico desenvolvido para a Feira de Ciências, tendo como estudo de caso central o **Parque Urbano de Realengo Jornalista Susana Naspolini** (Rio de Janeiro - RJ). O projeto integra sustentabilidade urbana, arquitetura bioclimática, simulações tridimensionais de alta fidelidade e gamificação educativa.[m
+ [m
+ ---[m
+ [m
+[31m-## 🎨 2. IDENTIDADE VISUAL OFICIAL — V.I.D.A.[m
+[31m-[m
+[31m-A identidade visual do projeto foi construída com acabamento de exposição tecnológica profissional, aliando direção de arte editorial, visualização científica e contraste cinematográfico.[m
+[32m+[m[32m## 🚀 Arquitetura e Estrutura do Repositório[m
+ [m
+[31m-- **Arquivo Original Preservado:** [`public/assets/logo-vida-original.png`](file:///c:/Users/Daniz/Downloads/Projetec%203/public/assets/logo-vida-original.png) (496 × 496 px, obtido do Google Drive ID `1PEokgiNev-lGZv6_QJwBOpdNODGhPsyP`).[m
+[31m-- **Símbolo Gráfico Transparente RGBA 32-bit:** [`public/assets/logo-vida-simbolo-transparente.png`](file:///c:/Users/Daniz/Downloads/Projetec%203/public/assets/logo-vida-simbolo-transparente.png) e [`public/assets/logo-vida-simbolo.png`](file:///c:/Users/Daniz/Downloads/Projetec%203/public/assets/logo-vida-simbolo.png) com canal alfa limpo e recorte circular perfeito, eliminando 100% qualquer texto indesejado e destacando exclusivamente a marca oficial **V.I.D.A.**.[m
+[31m-- **Paleta Oficial de Quatro Elementos:**[m
+[31m-  - **Verde-Esmeralda (`#10b981`, `#059669`):** Representa a natureza, biodiversidade e a Mata Atlântica regenerada.[m
+[31m-  - **Azul Elétrico (`#06b6d4`, `#38bdf8`):** Simboliza a tecnologia, os circuitos e a gestão das águas pluviais.[m
+[31m-  - **Dourado Solar (`#f59e0b`, `#fbbf24`):** Energia solar, sol de Realengo e calor humano.[m
+[31m-  - **Preto Profundo (`#030712`, `#060b16`):** Sofisticação, profundidade e contraste institucional.[m
+[31m-[m
+[31m----[m
+[32m+[m[32mO repositório está organizado em módulos independentes e sinérgicos:[m
+ [m
+[31m-## 🖥️ 3. TELA 1 — TELEVISÃO DO STAND (`index.html`)[m
+[31m-[m
+[31m-1. **Abertura Oficial em Tela Cheia:**[m
+[31m-   - Reproduz localmente o arquivo oficial de apresentação em alta definição [`public/media/intro-vida.mp4`](file:///c:/Users/Daniz/Downloads/Projetec%203/public/media/intro-vida.mp4) (8.310.413 bytes).[m
+[31m-   - Botão de liberação com áudio para conformidade total de navegadores e atalho para a banca avaliadora.[m
+[31m-2. **Layout Split 75% / 25% Full HD (1920 × 1080):**[m
+[31m-   - **75% Esquerda:** Palco do Parque Vivo em projeção isométrica 2.5D/3D a 60 FPS com ordenação de profundidade (Depth Sorting / Painter's algorithm no eixo Y).[m
+[31m-   - **25% Direita:** Coluna lateral vertical em alto contraste (fundo branco puro) contendo a logo V.I.D.A., QR Code gerado dinamicamente com o IP da rede Wi-Fi local, status de conexão em tempo real e badge da sessão.[m
+[31m-3. **Cena Contínua do Parque Vivo 2.5D/3D (Canvas 60 FPS):**[m
+[31m-   - **5 Super-Torres Bioclimáticas Treliçadas:** Dimensões autênticas (17m, 26m e monumental torre central de 47m inspirada no Gardens by the Bay), com treliças em X, anéis estruturais e 236 bicos aspersores vaporizando névoa fotorrealística suave.[m
+[31m-   - **Espelho D'Água (1.300 m² / 1,95 mi L):** Lâmina d'água com gradiente profundo, ondas procedurais contínuas e biovaletas absorventes conectadas aos 12 jardins de chuva.[m
+[31m-   - **Bosque da Mata Atlântica:** 3.700 árvores volumétricas renderizadas por espécies (Ipês-Amarelos, Ipês-Roxos, Pau-Brasil, Jacarandás e Oitis) com balanço de vento orgânico e sombras projetadas.[m
+[31m-   - **Equipamentos e Arquitetura Real:** Anfiteatro Susana Naspolini com arquibancadas concêntricas, domo 3D da Nave do Conhecimento com anéis em ciano, Skatepark com bowl escavado 3D, campo de grama sintética com traves, quadras poliesportivas e splash pad aquático animado.[m
+[31m-   - **Câmera Cinematográfica Navegável Lerp:** Câmera fluida com transição suave que responde ao D-Pad do celular, com zoom contínuo (0.65x a 2.6x) e alternância entre Perspectiva Aérea e Nível Pedestre.[m
+[31m-4. **Modo de Apresentação Contínuo (Attract Mode):**[m
+[31m-   - Quando nenhum visitante está conectado, a televisão transita automaticamente a cada 9 segundos entre 6 pontos de interesse:[m
+[31m-     1. *Vista Geral do Parque Realengo* (76.000 m² de solo vivo)[m
+[31m-     2. *Cinco Super-Torres Bioclimáticas* (névoa pulsante e alívio térmico)[m
+[31m-     3. *Sistema Pluvial Sustentável* (1.950 m³ de retenção pluvial)[m
+[31m-     4. *Nave do Conhecimento & Inovação* (educação digital)[m
+[31m-     5. *Bosque com 3.700 Árvores Nativas* (sequestro de carbono)[m
+[31m-     6. *Anfiteatro Susana Naspolini* (arena cultural)[m
+[31m-   - Exibe banner editorial flutuante com a descrição histórica e técnica de cada área.[m
+[31m-5. **HUD & Síntese Sonora Web Audio API:**[m
+[31m-   - Toasts flutuantes com o feed de ações do visitante ao vivo.[m
+[31m-   - Sons sintetizados em tempo real: som de névoa pressurizada, bips harmônicos e fanfarra triunfal de missão.[m
+[31m-   - Tela de celebração com estrelas e pontuação ao concluir cada missão.[m
+[32m+[m[32m```text[m
+[32m+[m[32mProjetec-2026-/[m
+[32m+[m[32m├── apps / site / prototipos # Aplicações web, site institucional e 4 protótipos[m
+[32m+[m[32m├── parque-realengo-3d       # Gêmeo Digital 3D (React Three Fiber + Three.js)[m
+[32m+[m[32m├── docs                     # Documentação completa de arquitetura, protótipos e relatórios[m
+[32m+[m[32m├── screenshots              # Galeria visual e evidências de todas as telas[m
+[32m+[m[32m├── api & scripts            # Automações, scripts de sincronização e endpoints serverless[m
+[32m+[m[32m└── vercel.json              # Configuração de publicação oficial na Vercel[m
+[32m+[m[32m```[m
+ [m
+ ---[m
+ [m
+[31m-## 📱 4. TELA 2 — CELULAR DO VISITANTE (`controle.html`)[m
+[31m-[m
+[31m-1. **Trava de Visitante Único (Single Active Visitor Lock):**[m
+[31m-   - Caso um visitante tente entrar enquanto outro já está controlando a experiência, o celular exibe uma elegante tela de espera com o emblema V.I.D.A.: *"Sessão em Andamento: Aguarde alguns instantes para participar"*.[m
+[31m-   - Assim que o visitante atual conclui ou sai, o próximo na fila assume o controle automaticamente.[m
+[31m-2. **Etapa 1: Vídeo Oficial Obrigatório (Sem Pulo):**[m
+[31m-   - Trava de segurança: o visitante **precisa assistir ao vídeo até o final** para liberar o controle.[m
+[31m-   - A barra de progresso não permite avanço manual para a frente.[m
+[31m-   - Botão tátil *"Toque para Iniciar com Áudio"* para conformidade com iOS Safari e Android Chrome.[m
+[31m-3. **Etapa 2: Controle Remoto Touch (Liberado pós-vídeo):**[m
+[31m-   - **Dock de Navegação de Câmera da TV:**[m
+[31m-     - 🕹️ *D-Pad Direcional:* Rotação orbital contínua (esquerda/direita) e inclinação vertical (cima/baixo) da cena na televisão.[m
+[31m-     - 🔍 *Controle de Zoom:* Botões tácteis de aproximação e afastamento (0.65x até 2.6x) com interpolação suave Lerp.[m
+[31m-     - 🌐 *Alternância de Visão:* Botão de alternância instantânea entre *Visão Aérea Isométrica* e *Nível Pedestre*.[m
+[31m-   - **Aba "Explorar Parque":**[m
+[31m-     - 💨 *5 Super-Torres Bioclimáticas:* Dispara névoa máxima na TV.[m
+[31m-     - 💧 *Espelho D'Água & Drenagem:* Simula temporal e aciona biovaletas na TV.[m
+[31m-     - 🛹 *Skatepark & Esportes:* Foca na área de street e quadras.[m
+[31m-     - 🚀 *Nave do Conhecimento:* Destaque na inclusão digital e oficinas.[m
+[31m-     - 🌳 *Bosque da Mata Atlântica:* Informações sobre as 3.700 árvores nativas.[m
+[31m-     - 🎭 *Anfiteatro Susana Naspolini:* Apresentação da arena cultural.[m
+[31m-   - **Aba "4 Missões de Sustentabilidade":**[m
+[31m-     1. **Caminho da Água:** Controle deslizante de precipitação severa (20 a 110 mm/h) com acionamento de biovaletas e retenção pluvial (+150 pts).[m
+[31m-     2. **Proteja o Verde:** Plantio tátil de Pau-Brasil, Ipê-Amarelo, Jacarandá e Sapucaia, calculando o alívio térmico (-5,8°C) que surge brotando na TV (+80 pts/muda).[m
+[31m-     3. **Desafio da Reciclagem:** Coleta seletiva ágil com 4 lixeiras (Plástico, Papel, Metal e Compostagem) para nutrir o parque (+100 pts).[m
+[31m-     4. **Explorador do Parque:** Quiz de 4 perguntas cronometradas sobre a história (Fábrica de Cartuchos do Exército), as árvores, as torres e Susana Naspolini (+120 pts).[m
+[31m-4. **Feedback Sensorial & Resiliência:**[m
+[31m-   - Sons sintetizados via Web Audio API e vibração tátil (`navigator.vibrate`).[m
+[31m-   - Timeout de inatividade de 90 segundos: reseta a TV para o modo de espera caso o visitante se afaste.[m
+[32m+[m[32m## 🎮 Aplicações e Protótipos Disponíveis[m
+[32m+[m
+[32m+[m[32m1. **Plataforma Web & Central Multitela (`site/`)**[m
+[32m+[m[32m   - Portal institucional e aplicativo de stand (TV + Mobile via WebSocket).[m
+[32m+[m[32m   - [Documentação do Site](docs/site/README.md)[m
+[32m+[m[32m2. **Módulo Quiz Gamificado (`site/js/quiz-engine.js`)**[m
+[32m+[m[32m   - Quiz pedagógico com radar de competências, ranking global e histórico.[m
+[32m+[m[32m   - [Documentação do Quiz](docs/quiz/README.md)[m
+[32m+[m[32m3. **Protótipo 01 — EcoCity 3D / Parque Realengo (`parque-realengo-3d/`)**[m
+[32m+[m[32m   - Gêmeo digital 3D com as 5 super-torres bioclimáticas, bacia de retenção PBR, complexo esportivo e missões.[m
+[32m+[m[32m4. **Protótipo 02 — Mapa Interativo 2D (`prototipos/01-mapa-parque/`)**[m
+[32m+[m[32m   - Sistema GIS e trilhas ecológicas.[m
+[32m+[m[32m5. **Protótipo 03 — Painel Ambiental (`prototipos/02-painel-ambiental/`)**[m
+[32m+[m[32m   - Monitoramento de microclima e comparativo antes/depois.[m
+[32m+[m[32m6. **Protótipo 04 — Simulador de Drenagem (`prototipos/03-simulador-drenagem/`)**[m
+[32m+[m[32m   - Simulação hidrológica de tempestades e retenção pluvial.[m
+ [m
+ ---[m
+ [m
+[31m-## ⚡ 5. SERVIDOR LOCAL & WEBSOCKET EM TEMPO REAL (`server.js`)[m
+[32m+[m[32m## 📚 Documentação e Relatórios[m
+ [m
+[31m-- **Streaming HTTP 206 Partial Content:** Suporte integral a Range Requests para carregamento imediato do vídeo no iPhone/iPad (Safari) e Android sem travamentos.[m
+[31m-- **Relé WebSocket Nativo:** Encaminhamento instantâneo de eventos filtrados por ID de sessão (`VIDA-XXXX`).[m
+[31m-- **Gerenciador de Fila de Visitantes:** Controla a exclusividade do participante ativo no stand.[m
+[31m-- **API de Rede Local (`/api/network-info`):** Detecta os IPs da máquina no Wi-Fi para alimentar o QR Code dinâmico.[m
+[31m-- **Transporte Híbrido (`js/sync-engine.js`):** WebSocket na rede Wi-Fi com fallback automático para `BroadcastChannel` e `LocalStorage` para testes na mesma máquina.[m
+[32m+[m[32m- [🗺️ Mapa do Projeto (Arquitetura)](docs/arquitetura/MAPA_DO_PROJETO.md)[m
+[32m+[m[32m- [📋 Catálogo de Protótipos](docs/prototipos/CATALOGO_DE_PROTOTIPOS.md)[m
+[32m+[m[32m- [📊 Relatório de Reorganização Completa](docs/relatorios/RELATORIO_REORGANIZACAO_COMPLETA.md)[m
+ [m
+ ---[m
+ [m
+[31m-## 🚀 6. COMO EXECUTAR NO DIA DA FEIRA[m
+[31m-[m
+[31m-### Método 1: Inicialização em 1 Clique (Recomendado)[m
+[31m-Dê um duplo clique no arquivo:[m
+[31m-```cmd[m
+[31m-iniciar-stand.bat[m
+[31m-```[m
+[31m-*(Ou no PowerShell: `.\iniciar-stand.ps1`)*[m
+[31m-[m
+[31m-O iniciador automático:[m
+[31m-1. Inicia o servidor HTTP + WebSocket na porta 3000.[m
+[31m-2. Detecta a interface de rede ativa (ex: Wi-Fi `192.168.1.14`).[m
+[31m-3. Abre automaticamente a **Tela 1 (Televisão)** no navegador em modo de espera.[m
+[32m+[m[32m## 🛠️ Como Executar o Projeto Localmente[m
+ [m
+[31m-### Método 2: Via Terminal[m
+[32m+[m[32m### 1. Executar o Site e Central Multitela[m
+ ```bash[m
+ npm start[m
+[32m+[m[32m# ou node server.js[m
+ ```[m
+[32m+[m[32mAcesse `http://localhost:3000` (TV Stand) e `http://localhost:3000/controle` (Mobile).[m
+ [m
+[31m-### Links Gerados:[m
+[31m-- **Televisão do Stand:** `http://localhost:3000/` *(pressione `F11` para tela cheia)*[m
+[31m-- **Celular do Visitante:** `http://192.168.1.14:3000/controle.html` *(ou escaneie o QR Code na TV)*[m
+[31m-- **Salto Direto para o Parque Vivo:** `http://localhost:3000/?view=park`[m
+[31m-- **Galeria Visual de Screenshots:** `http://localhost:3000/galeria`[m
+[31m-[m
+[31m----[m
+[31m-[m
+[31m-## 📁 7. ESTRUTURA GERAL DOS ARQUIVOS E DIRETÓRIOS[m
+[31m-[m
+[31m-O projeto foi totalmente organizado em módulos especializados, facilitando manutenção, clareza e publicação contínua:[m
+[31m-[m
+[32m+[m[32m### 2. Executar o Gêmeo Digital 3D (Desenvolvimento)[m
+[32m+[m[32m```bash[m
+[32m+[m[32mcd parque-realengo-3d[m
+[32m+[m[32mnpm install[m
+[32m+[m[32mnpm run dev[m
+ ```[m
+[31m-Projetec 3/[m
+[31m-├── site/                        # 🌐 Pasta do Site Oficial (Plataforma Educativa & Quiz)[m
+[31m-│   ├── index.html               # Aplicação principal: quiz, ranking, telão e boletim[m
+[31m-│   ├── controle.html            # Controle touch do visitante para smartphones[m
+[31m-│   ├── css/                     # Estilos visuais (quiz.css, mobile-controller.css, tv-stand.css)[m
+[31m-│   ├── js/                      # Motores interativos (quiz-engine.js, quiz-questions.js, etc.)[m
+[31m-│   ├── public/                  # Logos oficiais (512×512 1:1) e vídeo em alta definição[m
+[31m-│   ├── data/                    # Placar oficial dos participantes da feira[m
+[31m-│   └── README.md                # Documentação detalhada dos componentes do site[m
+[31m-│[m
+[31m-├── parque-realengo-3d/          # 🌿 Gêmeo Digital 3D do Parque (React Three Fiber + Vite)[m
+[31m-│   ├── src/                     # Modelagem paramétrica (5 super-torres, lago, relevo, flora)[m
+[31m-│   └── dist/                    # Bundle web compilado de alta performance (rota /parque3d)[m
+[31m-│[m
+[31m-├── prototipos/                  # 📊 Simulador de Drenagem Pluvial e Painel de Indicadores SbN[m
+[31m-├── screenshots/                 # 📸 Catálogo de 54 capturas em alta fidelidade (3D e interfaces)[m
+[31m-├── scripts/                     # 🛠️ Scripts de automação, testes de integridade e renderização[m
+[31m-├── reports/                     # 📋 Relatórios técnicos e evidências de auditoria[m
+[31m-├── api/                         # ⚡ Funções serverless para publicação na Vercel[m
+[31m-├── server.js                    # 📡 Servidor local multitela HTTP + Range 206 + WebSocket[m
+[31m-├── vercel.json                  # 🚀 Configuração de publicação e roteamento na nuvem Vercel[m
+[31m-├── index.html                   # 🚪 Portal de entrada com redirecionamento para site/[m
+[31m-├── controle.html                # 📱 Portal de entrada mobile com redirecionamento para site/[m
+[31m-├── iniciar-stand.bat            # ⚡ Inicializador automático em 1 clique para o stand da feira[m
+[31m-├── iniciar-stand.ps1            # ⚡ Inicializador em PowerShell[m
+[31m-└── package.json                 # 📦 Dependências e scripts de compilação[m
+[32m+[m
+[32m+[m[32m### 3. Compilar para Produção (Build)[m
+[32m+[m[32m```bash[m
+[32m+[m[32mnpm run build[m
+ ```[m
+[32m+[m[32m*(Constrói o protótipo 3D e sincroniza automaticamente com `site/parque3d/`)*[m
+ [m
+ ---[m
+ [m
+[31m-## 📊 8. DADOS AMBIENTAIS E FONTES OFICIAIS VERIFICÁVEIS[m
+[31m-[m
+[31m-| Elemento / Indicador | Dado Verificável | Fonte Oficial |[m
+[31m-| :--- | :--- | :--- |[m
+[31m-| **Área Total do Parque** | 76.000 m² (7,6 hectares) | Prefeitura da Cidade do Rio de Janeiro / Data.Rio |[m
+[31m-| **Histórico do Terreno** | Antiga Fábrica de Cartuchos do Exército | Secretaria Municipal de Meio Ambiente e Clima (SMAC) |[m
+[31m-| **Volume de Retenção Pluvial** | 1.950 m³ (1,95 milhão de litros) | Fundação Rio-Águas / SMAC |[m
+[31m-| **Superfície do Lago** | 1.300 m² de espelho d'água permanente | Projeto Executivo Parque Realengo |[m
+[31m-| **Super-Torres Bioclimáticas** | 5 torres treliçadas (17m, 26m e monumental central de 47m) com 236 bicos aspersores | SMAC / Secretaria de Urbanismo |[m
+[31m-| **Reflorestamento de Mata Atlântica** | 3.700 árvores nativas plantadas na 1ª fase | Fundação Parques e Jardins (FPJ) |[m
+[31m-| **Espécies Nativas Utilizadas** | Pau-Brasil, Ipês, Jacarandás, Sapucaias | Guia de Arborização Urbana SMAC / FPJ |[m
+[31m-| **Diferencial de Temperatura** | Até -5,8°C sob copa arbórea e névoa | Dados micrometeorológicos Alerta Rio / SMAC |[m
+[31m-| **Capacidade das Bacias Infiltrantes** | 120 mm/h de retenção máxima de enxurradas | Fundação Rio-Águas |[m
+[32m+[m[32m## 📄 Licença e Autoria[m
+[32m+[m[32mDesenvolvido pela **Equipe V.I.D.A.** para o **Projetec 2026**.[m

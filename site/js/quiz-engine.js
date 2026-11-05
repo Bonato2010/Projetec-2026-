@@ -519,9 +519,18 @@
       pool = sourceQuestions;
     }
 
-    // Embaralhar e limitar à quantidade
-    const shuffled = shuffleArray(pool);
-    return shuffled.slice(0, targetCount);
+    // Embaralhar, sortear opções (eliminando viés de posição estática) e limitar à quantidade
+    const shuffled = shuffleArray(pool).slice(0, targetCount);
+    return shuffled.map(q => {
+      const optionsWithIndices = q.opcoes.map((opt, idx) => ({ opt, isCorrect: idx === q.correta }));
+      const shuffledOptions = shuffleArray(optionsWithIndices);
+      const newCorreta = shuffledOptions.findIndex(item => item.isCorrect);
+      return {
+        ...q,
+        opcoes: shuffledOptions.map(item => item.opt),
+        correta: newCorreta >= 0 ? newCorreta : 0
+      };
+    });
   }
 
   // ==========================================================================

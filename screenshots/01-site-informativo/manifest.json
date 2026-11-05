@@ -1,0 +1,199 @@
+{
+  "desktop": [
+    {
+      "file": "desktop/pagina-inicial.png",
+      "res": "1920×1080",
+      "desc": "Primeira dobra da página inicial em Full HD (1920×1080)",
+      "bytes": 259159
+    },
+    {
+      "file": "desktop/pagina-completa.png",
+      "res": "1920×1080 (Full)",
+      "desc": "Página inicial informativa completa com rolagem vertical total",
+      "bytes": 552681
+    },
+    {
+      "file": "desktop/pagina-inicial-1440x900.png",
+      "res": "1440×900",
+      "desc": "Primeira dobra em resolução widescreen (1440×900)",
+      "bytes": 242102
+    },
+    {
+      "file": "desktop/pagina-completa-1440x900.png",
+      "res": "1440×900 (Full)",
+      "desc": "Página inicial informativa completa em 1440×900",
+      "bytes": 538000
+    },
+    {
+      "file": "desktop/outras-paginas/mapa-interativo-2d.png",
+      "res": "1920×1080",
+      "desc": "Mapa Interativo 2D & Sistema GIS do Parque Realengo",
+      "bytes": 517206
+    },
+    {
+      "file": "desktop/outras-paginas/simulador-drenagem.png",
+      "res": "1920×1080",
+      "desc": "Simulador Hidrodinâmico e Bacias de Retenção Pluvial",
+      "bytes": 107360
+    },
+    {
+      "file": "desktop/outras-paginas/galeria-hub.png",
+      "res": "1920×1080",
+      "desc": "Central de Galeria Visual e Pré-visualização de Protótipos",
+      "bytes": 101052
+    }
+  ],
+  "mobile": [
+    {
+      "file": "mobile/pagina-inicial.png",
+      "res": "390×844",
+      "desc": "Primeira dobra mobile (390×844)",
+      "bytes": 78662
+    },
+    {
+      "file": "mobile/pagina-completa.png",
+      "res": "390×844 (Full)",
+      "desc": "Página informativa mobile completa com rolagem contínua (390×844)",
+      "bytes": 392409
+    },
+    {
+      "file": "mobile/pagina-inicial-360x800.png",
+      "res": "360×800",
+      "desc": "Primeira dobra mobile Android padrão (360×800)",
+      "bytes": 73125
+    },
+    {
+      "file": "mobile/pagina-completa-360x800.png",
+      "res": "360×800 (Full)",
+      "desc": "Página informativa mobile completa em 360×800",
+      "bytes": 384751
+    },
+    {
+      "file": "mobile/outras-paginas/mapa-interativo-2d-mobile.png",
+      "res": "390×844",
+      "desc": "Mapa Interativo 2D adaptado para celular touch",
+      "bytes": 96251
+    },
+    {
+      "file": "mobile/outras-paginas/simulador-drenagem-mobile.png",
+      "res": "390×844",
+      "desc": "Simulador de drenagem em layout vertical com abas táteis",
+      "bytes": 24935
+    },
+    {
+      "file": "mobile/outras-paginas/galeria-hub-mobile.png",
+      "res": "390×844",
+      "desc": "Galeria visual de protótipos adaptada para smartphones",
+      "bytes": 32546
+    }
+  ],
+  "secoes": [
+    {
+      "file": "secoes/cabecalho.png",
+      "desc": "Cabeçalho com marca Central V.I.D.A., status de operação, névoa e comandos",
+      "bytes": 28158
+    },
+    {
+      "file": "secoes/apresentacao.png",
+      "desc": "Apresentação histórica e Soluções Baseadas na Natureza (SbN)",
+      "bytes": 95030
+    },
+    {
+      "file": "secoes/sustentabilidade.png",
+      "desc": "Métricas de sustentabilidade: 3.700 árvores, alívio de -5,8°C, 1.950 m³ de água pluvial e 84,2% permeável",
+      "bytes": 13049
+    },
+    {
+      "file": "secoes/microclima.png",
+      "desc": "Mapa microclimático interativo de calor urbano e infraestrutura verde",
+      "bytes": 80729
+    },
+    {
+      "file": "secoes/curva-termica.png",
+      "desc": "Curva térmica 24h comparando asfalto, parque e área sob aspersão ativa",
+      "bytes": 33331
+    },
+    {
+      "file": "secoes/comparador-antes-depois.png",
+      "desc": "Comparador temporal interativo: 2021 (área militar desativada) vs 2026 (parque ecológico)",
+      "bytes": 147421
+    },
+    {
+      "file": "secoes/balanco-hidrico-botanica-ods.png",
+      "desc": "Gráficos de retenção hídrica, donut de espécies da Mata Atlântica e metas ODS da ONU",
+      "bytes": 37731
+    },
+    {
+      "file": "secoes/catalogo-indicadores.png",
+      "desc": "Catálogo geral de indicadores ambientais com busca, filtros por categoria e selos de proveniência",
+      "bytes": 103923
+    },
+    {
+      "file": "secoes/rodape.png",
+      "desc": "Rodapé institucional e transparência de dados abertos (Data.rio, Prefeitura, IBGE, MMA)",
+      "bytes": 3363
+    }
+  ],
+  "interacoes": [
+    {
+      "file": "interacoes/tema-claro.png",
+      "desc": "Interface no Modo Claro (Light Mode) ativado via alternador de tema",
+      "bytes": 274747
+    },
+    {
+      "file": "interacoes/mapa-camada-drenagem.png",
+      "desc": "Camada de Lago & Drenagem ativada no mapa microclimático",
+      "bytes": 32597
+    },
+    {
+      "file": "interacoes/mapa-camada-bosque.png",
+      "desc": "Camada de Bosque Nativo & Dossel Florestal ativada no mapa",
+      "bytes": 70093
+    },
+    {
+      "file": "interacoes/mapa-sonda-termica-hover.png",
+      "desc": "Sonda térmica ativa exibindo temperatura pontual e hotspot sob as torres",
+      "bytes": 81903
+    },
+    {
+      "file": "interacoes/slider-preset-2021-antes.png",
+      "desc": "Slider ajustado 100% para o estado de 2021 (Antigo Terreno Militar)",
+      "bytes": 148694
+    },
+    {
+      "file": "interacoes/slider-preset-2026-depois.png",
+      "desc": "Slider ajustado 100% para o estado de 2026 (Parque Ecológico Concluído)",
+      "bytes": 147482
+    },
+    {
+      "file": "interacoes/catalogo-filtro-categoria.png",
+      "desc": "Catálogo com filtro da categoria \"Clima Urbano\" ativo",
+      "bytes": 108759
+    },
+    {
+      "file": "interacoes/catalogo-busca-termo.png",
+      "desc": "Busca textual dinâmica filtrando indicadores pelo termo \"temperatura\"",
+      "bytes": 19556
+    },
+    {
+      "file": "interacoes/modal-detalhes-indicador.png",
+      "desc": "Modal interativo com explicação conceitual, relevância para saúde e fontes oficiais auditadas",
+      "bytes": 186353
+    },
+    {
+      "file": "interacoes/modal-exportacao-dados.png",
+      "desc": "Modal de exportação de dados em formatos JSON, CSV e Imprimir/PDF",
+      "bytes": 145955
+    },
+    {
+      "file": "interacoes/outros-estados/mapa-drawer-poi-aberto.png",
+      "desc": "Drawer lateral de ponto de interesse (POI) com dados de acessibilidade e status ativo",
+      "bytes": 520680
+    },
+    {
+      "file": "interacoes/outros-estados/simulador-tempestade-extrema.png",
+      "desc": "Simulador hidrodinâmico com precipitação extrema de 120 mm/h e nível dágua monitorado",
+      "bytes": 107438
+    }
+  ]
+}

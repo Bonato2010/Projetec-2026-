@@ -1,0 +1,78 @@
+{
+  "tecItems": [
+    {
+      "id": "1Tx5pXs4Ne0w3jOYQlvBVruFS3m3c_Qjm",
+      "name": "Protótipo",
+      "mime": "application/vnd.google-apps.folder"
+    },
+    {
+      "id": "1Tx5pXs4Ne0w3jOYQlvBVruFS3m3c_Qjm",
+      "name": "Protótipo",
+      "mime": "application/vnd.google-apps.folder"
+    },
+    {
+      "id": "189ppBnJRodSh-UExiPQnkwziaKBzybr6",
+      "name": "Site",
+      "mime": "application/vnd.google-apps.folder"
+    },
+    {
+      "id": "189ppBnJRodSh-UExiPQnkwziaKBzybr6",
+      "name": "Site",
+      "mime": "application/vnd.google-apps.folder"
+    }
+  ],
+  "logoItems": [
+    {
+      "id": "1S0Jv7ELU69hwHvDck0sHqLYnQTGsd0yk",
+      "name": "Logo",
+      "mime": "image/jpeg"
+    },
+    {
+      "id": "1S0Jv7ELU69hwHvDck0sHqLYnQTGsd0yk",
+      "name": "Logo",
+      "mime": "image/jpeg"
+    }
+  ],
+  "pesqItems": [
+    {
+      "id": "163arVPVf6uQdF_oVtfbBzVWX4vVzGbgs",
+      "name": "Bottons",
+      "mime": "application/vnd.google-apps.folder"
+    },
+    {
+      "id": "163arVPVf6uQdF_oVtfbBzVWX4vVzGbgs",
+      "name": "Bottons",
+      "mime": "application/vnd.google-apps.folder"
+    },
+    {
+      "id": "1hre7Jg3htlT_3FShluuvSQ8-ByiuqcrM",
+      "name": "Camisas",
+      "mime": "application/vnd.google-apps.folder"
+    },
+    {
+      "id": "1hre7Jg3htlT_3FShluuvSQ8-ByiuqcrM",
+      "name": "Camisas",
+      "mime": "application/vnd.google-apps.folder"
+    },
+    {
+      "id": "14Sj6XxwkU3_TLw1ppwvOlGhgEWZhCCk0",
+      "name": "Cartaz",
+      "mime": "application/vnd.google-apps.folder"
+    },
+    {
+      "id": "14Sj6XxwkU3_TLw1ppwvOlGhgEWZhCCk0",
+      "name": "Cartaz",
+      "mime": "application/vnd.google-apps.folder"
+    },
+    {
+      "id": "1-gMfUVazO8qqnV9HmvTqYq3oLMKlXSa2",
+      "name": "Pesquisa",
+      "mime": "application/vnd.google-apps.folder"
+    },
+    {
+      "id": "1-gMfUVazO8qqnV9HmvTqYq3oLMKlXSa2",
+      "name": "Pesquisa",
+      "mime": "application/vnd.google-apps.folder"
+    }
+  ]
+}

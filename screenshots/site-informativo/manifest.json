@@ -1,0 +1,79 @@
+{
+  "project": "EcoCity — PROJETEC 2026",
+  "scope": "Site Informativo Canônico Imersivo",
+  "generatedAt": "2026-11-05T01:08:00Z",
+  "canonicalInspirations": [
+    "What Is Missing? (whatismissing.org)",
+    "The Ocean Cleanup (theoceancleanup.com)",
+    "Acervo Oficial Google Drive: Tudo está conectado — uma viagem pelo universo"
+  ],
+  "categories": {
+    "00-versao-base": {
+      "description": "35 capturas de referência da versão pré-existente (painel ambiental)",
+      "count": 35
+    },
+    "01-desktop": {
+      "description": "Capturas em alta resolução 1920x1080 e 1440x900 das 9 seções completas",
+      "files": [
+        "01_hero_cosmos_1920x1080.png",
+        "02_desafio_linear_circular_1920x1080.png",
+        "03_materiais_circulares_1920x1080.png",
+        "04_saude_enfermagem_1920x1080.png",
+        "05_tecnologia_iot_sensores_1920x1080.png",
+        "06_indicadores_filtrados_1920x1080.png",
+        "07_parque_realengo_timeline_1920x1080.png",
+        "08_parque_estruturas_renders_1920x1080.png",
+        "09_pesquisas_eixos_ods_1920x1080.png",
+        "10_trabalho_pratica_camisas_arte_1920x1080.png",
+        "11_equipe_alunos_orientadora_1920x1080.png",
+        "12_encerramento_fontes_1920x1080.png",
+        "13_pagina_completa_1920x1080.png",
+        "14_pagina_completa_1440x900.png"
+      ]
+    },
+    "02-mobile": {
+      "description": "Capturas responsivas em iPhone 13/14 (390x844) e Android comum (360x800)",
+      "files": [
+        "01_hero_mobile_390x844.png",
+        "02_desafio_mobile_390x844.png",
+        "03_saude_mobile_390x844.png",
+        "04_parque_mobile_390x844.png",
+        "05_equipe_mobile_390x844.png",
+        "06_pagina_completa_390x844.png",
+        "07_pagina_completa_360x800.png"
+      ]
+    },
+    "03-tablet": {
+      "description": "Capturas em iPad / Tablet (768x1024)",
+      "files": [
+        "01_hero_tablet_768x1024.png",
+        "02_secoes_tablet_768x1024.png",
+        "03_pagina_completa_768x1024.png"
+      ]
+    },
+    "04-interacoes": {
+      "description": "Estados dinâmicos, modais, slider antes/depois, filtros e modo feira",
+      "files": [
+        "01_slider_antes_2021.png",
+        "02_slider_depois_2026.png",
+        "03_slider_meio_meio.png",
+        "04_modal_material_lata.png",
+        "05_modal_estrutura_torres.png",
+        "06_modo_feira_ativo.png",
+        "07_filtro_indicadores_ar.png",
+        "08_menu_mobile_drawer_aberto.png"
+      ]
+    },
+    "05-comparacoes": {
+      "description": "Comparações visuais lado a lado entre a versão anterior e a nova versão imersiva",
+      "files": [
+        "01_versao_anterior_painel_desktop.png",
+        "02_versao_nova_ecocity_desktop.png",
+        "03_versao_anterior_pagina_completa.png",
+        "04_versao_nova_pagina_completa.png",
+        "05_versao_anterior_mobile.png",
+        "06_versao_nova_mobile.png"
+      ]
+    }
+  }
+}
