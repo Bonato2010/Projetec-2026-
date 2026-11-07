@@ -1,0 +1,51 @@
+{
+  "city": "EcoCity Rio",
+  "version": "1.0.0",
+  "metrics": {
+    "safety": 85,
+    "health": 90,
+    "infrastructure": 88,
+    "environment": 82,
+    "resources": 95
+  },
+  "scenarios": [
+    {
+      "id": "guerra_faccoes",
+      "title": "Guerra de Facções / Alerta de Segurança",
+      "subtitle": "Conflito armado em área urbana exigindo proteção civil e contenção de danos.",
+      "description": "Uma região da cidade entrou em estado de alerta. Serviços essenciais comprometidos. Inicie protocolos de resposta para proteger a população.",
+      "duration": 180,
+      "phases": [
+        { "time": 0, "name": "Alerta Inicial", "effects": { "safety": -15, "infrastructure": -10 } },
+        { "time": 45, "name": "Fechamento de Comércio e Ruas", "effects": { "health": -10, "resources": -10 } },
+        { "time": 90, "name": "Mobilização de Abrigos", "effects": { "safety": +10, "health": +5 } },
+        { "time": 135, "name": "Normalização Controlada", "effects": { "safety": +20, "infrastructure": +10 } }
+      ]
+    },
+    {
+      "id": "inundacao",
+      "title": "Inundação Severa / Temporal Carioca",
+      "subtitle": "Chuvas intensas provocam alagamentos e risco de encosta na cidade.",
+      "description": "Frente fria avança sobre a Região Metropolitana. Céu nublado evolui rapidamente para tempestade com acumulados críticos.",
+      "duration": 180,
+      "phases": [
+        { "time": 0, "name": "Céu Nublado e Queda de Luz", "effects": { "environment": -5, "infrastructure": -5 } },
+        { "time": 30, "name": "Chuva Leve e Trânsito Lento", "effects": { "infrastructure": -10 } },
+        { "time": 60, "name": "Chuva Intensa e Alagamentos", "effects": { "infrastructure": -25, "safety": -15, "health": -10 } },
+        { "time": 120, "name": "Evacuação e Drenagem Ativa", "effects": { "safety": +15, "health": +15, "environment": +10 } }
+      ]
+    }
+  ],
+  "actions": {
+    "player1": [
+      { "id": "p1_shelter", "name": "Abrir Abrigos de Emergência", "cost": 15, "effect": { "safety": +15, "infrastructure": +5 }, "desc": "Instala abrigos seguros para moradores deslocados." },
+      { "id": "p1_routes", "name": "Organizar Rotas de Fuga", "cost": 10, "effect": { "infrastructure": +15, "safety": +10 }, "desc": "Desvia tráfego para vias seguras e desobstruídas." },
+      { "id": "p1_resources", "name": "Distribuir Suprimentos", "cost": 20, "effect": { "resources": +20, "health": +10 }, "desc": "Distribui água potável, alimentos e kits de emergência." }
+    ],
+    "player2": [
+      { "id": "p2_teams", "name": "Destinar Equipes de Resgate", "cost": 15, "effect": { "health": +20, "safety": +10 }, "desc": "Envia paramédicos e equipes de apoio humanitário." },
+      { "id": "p2_health", "name": "Priorizar Unidades de Saúde", "cost": 20, "effect": { "health": +25, "resources": -10 }, "desc": "Garante atendimento prioritário nos hospitais locais." },
+      { "id": "p2_env", "name": "Monitoramento Ambiental & Drenagem", "cost": 15, "effect": { "environment": +20, "infrastructure": +10 }, "desc": "Aciona bombas de drenagem e monitoramento de áreas de risco." }
+    ]
+  }
+}

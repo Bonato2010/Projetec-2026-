@@ -1,0 +1,235 @@
+/**
+ * ESTILOS DA CIDADE 2D EM PIXEL ART — RIO DE JANEIRO (PROJETEC 2026)
+ * Canvas Pixelated, HUD Flutuante, Toasts e Responsividade
+ */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background-color: #090b10;
+  color: #f8fafc;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  overflow: hidden;
+}
+
+/* Container do Canvas com Proporção 16:9 Centralizado */
+#viewport-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #090b10;
+}
+
+#city-canvas {
+  width: 100%;
+  height: 100%;
+  max-width: 100vw;
+  max-height: 56.25vw; /* 16:9 */
+  object-fit: contain;
+  
+  /* RENDERIZAÇÃO PIXEL ART NATIVA (Sem borrão bilinear) */
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-crisp-edges;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  
+  cursor: grab;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
+}
+
+#city-canvas:active {
+  cursor: grabbing;
+}
+
+/* ==========================================================================
+   HUD FLUTUANTE (CONTROLES PARA APRESENTAÇÃO NA TV / STAND)
+   ========================================================================== */
+
+#city-hud {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 95%;
+  max-width: 1080px;
+  background: rgba(15, 23, 42, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  padding: 12px 18px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
+  transition: transform 0.35s ease, opacity 0.35s ease;
+  z-index: 100;
+}
+
+#city-hud.hidden {
+  transform: translate(-50%, 120%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.hud-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.hud-section {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.hud-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #94a3b8;
+  margin-right: 4px;
+}
+
+/* Botões do HUD */
+.hud-btn {
+  background: rgba(30, 41, 59, 0.85);
+  color: #e2e8f0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 7px 12px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.18s ease;
+}
+
+.hud-btn:hover {
+  background: rgba(51, 65, 85, 0.95);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.hud-btn.active {
+  background: #0284c7;
+  color: #ffffff;
+  border-color: #38bdf8;
+  box-shadow: 0 0 12px rgba(2, 132, 199, 0.5);
+}
+
+.hud-btn-scenario.active {
+  background: #ea580c;
+  border-color: #fb923c;
+  box-shadow: 0 0 14px rgba(234, 88, 12, 0.6);
+}
+
+.hud-btn-action {
+  background: rgba(15, 23, 42, 0.95);
+  border-color: #334155;
+}
+
+.hud-btn-action.active {
+  background: #16a34a;
+  border-color: #4ade80;
+  box-shadow: 0 0 12px rgba(22, 163, 74, 0.5);
+}
+
+/* Indicador de Atalho de Teclado */
+.key-badge {
+  display: inline-block;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-size: 0.65rem;
+  font-family: monospace;
+  color: #94a3b8;
+}
+
+/* ==========================================================================
+   TOAST DE NOTIFICAÇÃO DE OCORRÊNCIA
+   ========================================================================== */
+
+#scenario-toast {
+  position: absolute;
+  top: 24px;
+  left: 50%;
+  transform: translate(-50%, -100px);
+  background: rgba(15, 23, 42, 0.92);
+  backdrop-filter: blur(10px);
+  border: 1px solid #38bdf8;
+  border-radius: 10px;
+  padding: 10px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+  opacity: 0;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+  pointer-events: none;
+  z-index: 150;
+  max-width: 520px;
+}
+
+#scenario-toast.visible {
+  transform: translate(-50%, 0);
+  opacity: 1;
+}
+
+.toast-icon {
+  font-size: 1.5rem;
+}
+
+.toast-body strong {
+  display: block;
+  font-size: 0.92rem;
+  color: #f8fafc;
+}
+
+.toast-body p {
+  font-size: 0.78rem;
+  color: #94a3b8;
+  margin-top: 2px;
+}
+
+/* Dica para reabrir o HUD */
+#hud-hint {
+  position: absolute;
+  bottom: 12px;
+  right: 18px;
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  color: #94a3b8;
+  cursor: pointer;
+  z-index: 90;
+  display: none;
+}
+
+#hud-hint:hover {
+  color: #ffffff;
+  background: rgba(30, 41, 59, 0.95);
+}

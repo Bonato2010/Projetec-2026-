@@ -147,8 +147,15 @@ document.addEventListener('DOMContentLoaded', () => {
     if (connectedOperatorsCount >= 2) {
       const qrBox = document.getElementById('tv-qr-box');
       const qrLabel = document.getElementById('qr-label-text');
+      const qrCorner = document.getElementById('eco-qr-corner');
       if (qrBox) qrBox.style.display = 'none';
-      if (qrLabel) qrLabel.innerText = 'PARTIDA CHEIA (2/2)';
+      if (qrLabel) qrLabel.innerText = 'PARTIDA CHEIA';
+      if (qrCorner) qrCorner.style.borderColor = 'var(--border-neon-green)';
+    } else {
+      const qrBox = document.getElementById('tv-qr-box');
+      const qrLabel = document.getElementById('qr-label-text');
+      if (qrBox) qrBox.style.display = 'block';
+      if (qrLabel) qrLabel.innerText = 'CONECTAR CELULAR';
     }
 
     if (window.soundManager) window.soundManager.playSuccess();

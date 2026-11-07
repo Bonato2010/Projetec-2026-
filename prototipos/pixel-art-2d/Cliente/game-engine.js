@@ -14,13 +14,15 @@ class GameEngine {
     this.canvas.width = this.width;
     this.canvas.height = this.height;
 
-    // Carrega a imagem panorâmica de referência como pano de fundo mestre
-    this.bgImage = new Image();
-    this.bgLoaded = false;
-    this.bgImage.onload = () => {
-      this.bgLoaded = true;
-    };
-    this.bgImage.src = './Recursos%20visuais/cidade-referencia-base.jpg';
+    // Carrega imagens panorâmicas de referência para crossfade suave (3 a 8s)
+    this.bgImage1 = new Image();
+    this.bgImage2 = new Image();
+    this.bgLoaded1 = false;
+    this.bgLoaded2 = false;
+    this.bgImage1.onload = () => { this.bgLoaded1 = true; };
+    this.bgImage2.onload = () => { this.bgLoaded2 = true; };
+    this.bgImage1.src = './Recursos%20visuais/cidade-referencia-base.jpg';
+    this.bgImage2.src = './Recursos%20visuais/alerta-referencia.png';
 
     // Gerenciador de Cenários
     this.scenarioManager = new ScenarioManager({
@@ -209,11 +211,19 @@ class GameEngine {
 
     ctx.clearRect(0, 0, w, h);
 
-    // 1. PANO DE FUNDO MESTRE (ARTE PIXEL ART OFICIAL DO RIO DE JANEIRO)
-    if (this.bgLoaded) {
-      ctx.imageSmoothingEnabled = false;
-      ctx.drawImage(this.bgImage, 0, 0, w, h);
-    } else {
+    // 1. PANO DE FUNDO MESTRE COM CROSSFADE SUAVE ENTRE REFERÊNCIAS (3 a 8s)
+    ctx.imageSmoothingEnabled = false;
+    if (this.bgLoaded1) {
+      ctx.drawImage(this.bgImage1, 0, 0, w, h);
+    }
+    if (this.bgLoaded2) {
+      // Crossfade suave baseado no tempo animado (ciclo de ~6 segundos)
+      const crossfadeAlpha = (Math.sin(this.animTime * 0.8) + 1) / 2 * 0.35;
+      ctx.globalAlpha = crossfadeAlpha;
+      ctx.drawImage(this.bgImage2, 0, 0, w, h);
+      ctx.globalAlpha = 1.0;
+    }
+    if (!this.bgLoaded1 && !this.bgLoaded2) {
       // Gradiente de fallback elegante
       const skyGrad = ctx.createLinearGradient(0, 0, 0, h);
       skyGrad.addColorStop(0, '#0c1322');

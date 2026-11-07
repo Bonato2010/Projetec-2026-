@@ -401,16 +401,13 @@ body {
 }
 
 .situation-thumb-sharp {
-  width: 56px;
-  height: 56px;
+  width: 96px;
+  height: 96px;
   border-radius: 6px;
-  border: 1px solid var(--border-neon-cyan);
-  background: #090e18;
+  border: 2px solid var(--border-neon-cyan);
+  background: url('cidade-referencia-base.jpg') no-repeat center center;
+  background-size: 350% 350%;
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 26px;
   flex-shrink: 0;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
@@ -512,16 +509,15 @@ body {
 }
 
 .sust-thumb-sharp {
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
   border-radius: 4px;
-  background: #064e3b;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
+  border: 2px solid var(--border-neon-green);
+  background: url('cidade-referencia-base.jpg') no-repeat center center;
+  background-size: 300% 300%;
   flex-shrink: 0;
   image-rendering: pixelated;
+  image-rendering: crisp-edges;
 }
 
 .sust-text-box {
@@ -549,26 +545,32 @@ body {
   right: 18px;
   z-index: 15;
   background: var(--bg-hud);
-  border: 1px solid var(--border-dark);
+  border: 2px solid var(--border-neon-cyan);
   border-radius: 8px;
-  padding: 10px;
+  padding: 14px;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+  box-shadow: 0 4px 25px rgba(0, 210, 255, 0.35);
+  transition: all 0.3s ease;
 }
 
 .eco-qr-box {
   background: #fff;
-  padding: 6px;
-  border-radius: 4px;
+  padding: 8px;
+  border-radius: 6px;
   margin-bottom: 6px;
 }
 
+.eco-qr-box canvas {
+  width: 120px;
+  height: 120px;
+}
+
 .eco-qr-tag {
-  font-size: 8px;
-  font-weight: 700;
+  font-size: 10px;
+  font-weight: 800;
   color: var(--color-green);
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
 }

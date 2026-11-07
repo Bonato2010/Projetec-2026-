@@ -1,5 +1,5 @@
 /**
- * CENTRAL AUTOMÁTICA DE SCREENSHOTS — PROJETEC 2026
+ * CENTRAL AUTOMÁTICA DE SCREENSHOTS
  * Captura automatizada de telas reais via navegador headless (Chrome / Edge)
  * Suporte a desktop (1440x900) e mobile (390x844) com execução de scripts e renderização completa.
  */

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>EcoCity 2D — Cidade do Rio de Janeiro em Pixel Art (Projetec 2026)</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/png" href="../site-informativo/assets/logos/logo-vida-simbolo-transparente.png">
+</head>
+<body>
+  <!-- Container da Câmera e Canvas Pixel Art 16:9 -->
+  <div id="viewport-container">
+    <canvas id="city-canvas"></canvas>
+  </div>
+
+  <!-- Toast Flutuante de Notificação de Ocorrências -->
+  <div id="scenario-toast">
+    <span class="toast-icon">☀️</span>
+    <div class="toast-body">
+      <strong>Cidade Viva (Rotina)</strong>
+      <p>Comércio ativo, trânsito fluido e moradores nas calçadas.</p>
+    </div>
+  </div>
+
+  <!-- Dica para Reabrir HUD em Modo Tela Cheia -->
+  <div id="hud-hint" onclick="window.__pixelCity && window.__pixelCity.toggleHud()">
+    ⌨️ Pressione <strong>[H]</strong> para reabrir os controles
+  </div>
+
+  <!-- HUD Flutuante com Controles para a Televisão / Stand -->
+  <div id="city-hud">
+    <!-- Linha 1: Seletores de Ocorrências e Emergências Urbanas -->
+    <div class="hud-row">
+      <div class="hud-section">
+        <span class="hud-label">🚨 Ocorrências Urbanas:</span>
+        <button class="hud-btn hud-btn-scenario active" data-scenario="normal" title="Cidade em rotina normal">
+          <span>☀️ Rotina</span>
+          <span class="key-badge">1</span>
+        </button>
+        <button class="hud-btn hud-btn-scenario" data-scenario="inundacao" title="Temporal torrencial com alagamento de vias">
+          <span>🌧️ Inundação</span>
+          <span class="key-badge">2</span>
+        </button>
+        <button class="hud-btn hud-btn-scenario" data-scenario="emergencia" title="Emergência urbana com sirenes e via interditada">
+          <span>🚨 Emergência</span>
+          <span class="key-badge">3</span>
+        </button>
+        <button class="hud-btn hud-btn-scenario" data-scenario="blecaute" title="Curto no transformador e apagão da rede elétrica">
+          <span>⚡ Blecaute</span>
+          <span class="key-badge">4</span>
+        </button>
+        <button class="hud-btn hud-btn-scenario" data-scenario="onda_calor" title="Sensação térmica de 42°C típica da Zona Oeste">
+          <span>🔥 Calor 42°C</span>
+          <span class="key-badge">5</span>
+        </button>
+      </div>
+
+      <!-- Ações Gerais -->
+      <div class="hud-section">
+        <button class="hud-btn hud-btn-action active" id="btn-auto-tour" title="Passeio automático contínuo de câmera para a televisão">
+          ⏸️ Pausar Tour
+        </button>
+        <button class="hud-btn hud-btn-action" id="btn-audio" title="Ativar sons da cidade via Web Audio">
+          🔇 Áudio: Mudo
+        </button>
+        <button class="hud-btn hud-btn-action" id="btn-toggle-hud" title="Ocultar painel para exibição limpa na tela [H]">
+          👁️ Ocultar HUD <span class="key-badge">H</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Linha 2: Horário do Dia e Iluminação -->
+    <div class="hud-row">
+      <div class="hud-section">
+        <span class="hud-label">⏰ Horário & Clima:</span>
+        <button class="hud-btn" data-time="dawn">🌅 Amanhecer</button>
+        <button class="hud-btn active" data-time="day">☀️ Dia Ensolarado</button>
+        <button class="hud-btn" data-time="sunset">🌇 Entardecer</button>
+        <button class="hud-btn" data-time="night">🌙 Noite Carioca</button>
+      </div>
+
+      <div class="hud-section">
+        <span class="hud-label" style="font-size: 0.72rem; color: #64748b;">
+          🖱️ Arraste na tela ou use <strong>[A]</strong> / <strong>[D]</strong> para passear pela cidade
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Carregador Modular da Aplicação -->
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

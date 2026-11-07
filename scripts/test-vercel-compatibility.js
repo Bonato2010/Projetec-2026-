@@ -70,17 +70,29 @@ if (fs.existsSync(siteRankingApiPath)) {
   assert(statusCode === 200 && Array.isArray(responseData), 'site/api/ranking GET responde com 200 e array');
 }
 
-// 5. Validar site/parque3d
-const siteParque3dIndex = path.join(SITE_DIR, 'parque3d', 'index.html');
-assert(fs.existsSync(siteParque3dIndex), 'site/parque3d/index.html existe');
+// 5. Validar site-informativo (Biotecnologia & Sustentabilidade)
+const siteInfoIndex = path.join(ROOT, 'site-informativo', 'index.html');
+const siteInfoCss = path.join(ROOT, 'site-informativo', 'css', 'styles.css');
+const siteInfoJs = path.join(ROOT, 'site-informativo', 'js', 'app.js');
+assert(fs.existsSync(siteInfoIndex), 'site-informativo/index.html existe');
+assert(fs.existsSync(siteInfoCss), 'site-informativo/css/styles.css existe');
+assert(fs.existsSync(siteInfoJs), 'site-informativo/js/app.js existe');
 
-// 6. Validar root vercel.json
+// 6. Validar que projetos 3D e Parque Suzana foram definitivamente encerrados
+const siteParque3dIndex = path.join(SITE_DIR, 'parque3d');
+assert(!fs.existsSync(siteParque3dIndex), 'site/parque3d foi definitivamente excluído');
+
+// 7. Validar root vercel.json
 const rootVercelJsonPath = path.join(ROOT, 'vercel.json');
 assert(fs.existsSync(rootVercelJsonPath), 'vercel.json da raiz existe');
 if (fs.existsSync(rootVercelJsonPath)) {
   try {
     const rootConfig = JSON.parse(fs.readFileSync(rootVercelJsonPath, 'utf8'));
-    assert(rootConfig.buildCommand.includes('sync-site-3d.js'), 'vercel.json da raiz sincroniza o build 3D');
+    const rewrites = rootConfig.rewrites || [];
+    const hasBioRewrite = rewrites.some(r => r.source === '/biotecnologia' && r.destination === '/site-informativo/index.html');
+    const hasSustRewrite = rewrites.some(r => r.source === '/sustentabilidade' && r.destination === '/site-informativo/index.html');
+    assert(hasBioRewrite, 'vercel.json possui rota /biotecnologia para o site informativo');
+    assert(hasSustRewrite, 'vercel.json possui rota /sustentabilidade para o site informativo');
   } catch (e) {
     assert(false, `vercel.json da raiz inválido: ${e.message}`);
   }
