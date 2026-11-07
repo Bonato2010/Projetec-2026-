@@ -1,7 +1,7 @@
 /**
  * PROJETO V.I.D.A. — CONTROLADOR MOBILE TOUCH
  * Celular do Visitante (Controle Remoto em Tempo Real da TV do Stand)
- * Parque Realengo Jornalista Susana Naspolini
+ * Sustentabilidade & Ciências Ambientais
  */
 
 class MobileController {
@@ -58,9 +58,9 @@ class MobileController {
         cameraTarget: "torres"
       },
       {
-        pergunta: "Quem foi a carismática jornalista homenageada que dá nome oficial ao parque?",
-        opcoes: ["Glória Maria", "Susana Naspolini", "Sandra Moreyra", "Fátima Bernardes"],
-        correta: 1,
+        pergunta: "Qual processo biotecnológico utiliza microrganismos ou plantas para descontaminar solos e corpos d'água?",
+        opcoes: ["Biorremediação e Fitorremediação", "Combustão Fóssil", "Transgenia Sintética Exclusiva", "Pasteurização Térmica"],
+        correta: 0,
         cameraTarget: "anfiteatro"
       }
     ];
@@ -320,7 +320,7 @@ class MobileController {
       });
     }
 
-    // 6. Anfiteatro Susana Naspolini
+    // 6. Espaço Cultural & Científico
     const btnAnfi = document.getElementById('btn-explore-anfiteatro');
     if (btnAnfi) {
       btnAnfi.addEventListener('click', () => {

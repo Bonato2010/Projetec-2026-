@@ -1,6 +1,6 @@
 /**
  * PROJETO V.I.D.A. — SERVIDOR DE REDE LOCAL & WEBSOCKET EM TEMPO REAL
- * Parque Realengo Jornalista Susana Naspolini • Stand de Feira de Ciências
+ * Sustentabilidade & Biotecnologia Aplicada • Projetec 2026
  * 
  * Funcionalidades:
  * 1. Servidor HTTP estático de alta performance.
@@ -32,6 +32,7 @@ const MIME_TYPES = {
   '.png': 'image/png',
   '.jpg': 'image/jpeg',
   '.jpeg': 'image/jpeg',
+  '.jfif': 'image/jpeg',
   '.gif': 'image/gif',
   '.svg': 'image/svg+xml',
   '.ico': 'image/x-icon',
@@ -69,6 +70,13 @@ const server = http.createServer((req, res) => {
   const parsedUrl = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
   let pathname = decodeURIComponent(parsedUrl.pathname);
 
+  // Redirecionamento 301/302 de /pixel-art-2d para /pixel-art-2d/ (com barra final)
+  if (pathname === '/pixel-art-2d' || pathname === '/tela2' || pathname === '/prototipo-pixel-art') {
+    res.writeHead(302, { 'Location': `${pathname}/${parsedUrl.search || ''}` });
+    res.end();
+    return;
+  }
+
   // Headers de CORS para a rede local da feira
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, HEAD, OPTIONS');
@@ -90,7 +98,7 @@ const server = http.createServer((req, res) => {
       allIps: netInfo.allIps,
       tvUrl: `http://${netInfo.preferredIp}:${PORT}/`,
       mobileUrl: `http://${netInfo.preferredIp}:${PORT}/controle.html`,
-      mobile3dUrl: `http://${netInfo.preferredIp}:${PORT}/parque3d?mode=mobile`
+      bioUrl: `http://${netInfo.preferredIp}:${PORT}/biotecnologia`
     }));
     return;
   }
@@ -185,7 +193,7 @@ const server = http.createServer((req, res) => {
     }
   }
 
-  // 2. Atalhos amigáveis
+  // 2. Atalhos amigáveis e Mapeamento de Prefixo do Protótipo Pixel Art 2D
   if (pathname === '/' || pathname === '/tv') {
     pathname = '/site/index.html';
   } else if (pathname === '/ranking-tv' || pathname === '/ranking') {
@@ -196,27 +204,24 @@ const server = http.createServer((req, res) => {
     pathname = '/prototipos/galeria-screenshots/index.html';
   } else if (pathname === '/screenshots' || pathname === '/screenshots/') {
     pathname = '/screenshots/index.html';
-  } else if (pathname === '/site-informativo' || pathname === '/site-informativo/' || pathname === '/ecocity' || pathname === '/informativo') {
+  } else if (pathname === '/site-informativo' || pathname === '/site-informativo/' || pathname === '/biotecnologia' || pathname === '/sustentabilidade' || pathname === '/informativo') {
     pathname = '/site-informativo/index.html';
-  } else if (pathname === '/parque3d') {
-    res.writeHead(301, { 'Location': '/parque3d/' });
-    res.end();
-    return;
-  } else if (pathname.startsWith('/parque3d/')) {
-    pathname = pathname.replace('/parque3d', '/parque-realengo-3d/dist');
-    if (pathname === '/parque-realengo-3d/dist' || pathname === '/parque-realengo-3d/dist/') {
-      pathname = '/parque-realengo-3d/dist/index.html';
+  } else if (pathname === '/pixel-art-2d' || pathname === '/pixel-art-2d/' || pathname === '/tela2' || pathname === '/prototipo-pixel-art') {
+    pathname = '/prototipos/pixel-art-2d/index.html';
+  } else if (pathname === '/pixel-art-2d/controle' || pathname === '/tela2/controle') {
+    pathname = '/prototipos/pixel-art-2d/controle.html';
+  } else if (pathname.startsWith('/pixel-art-2d/')) {
+    pathname = `/prototipos/pixel-art-2d/${pathname.slice(14)}`;
+  } else if (!pathname.startsWith('/site') && !pathname.startsWith('/site-informativo') && !pathname.startsWith('/prototipos') && !pathname.startsWith('/screenshots') && !pathname.startsWith('/api') && pathname !== '/ws') {
+    // Se o navegador requisitar recursos relativos (ex: Recursos visuais/..., Cliente/..., js/...) estando na URL /pixel-art-2d/
+    const prototipoCandidate = path.join(ROOT_DIR, 'prototipos', 'pixel-art-2d', pathname);
+    if (fs.existsSync(prototipoCandidate)) {
+      pathname = `/prototipos/pixel-art-2d${pathname}`;
     }
   }
 
   // Normalização do caminho seguro no disco
-  let candidateSitePath = path.normalize(path.join(ROOT_DIR, 'site', pathname));
-  let safePath = ROOT_DIR;
-  if (fs.existsSync(candidateSitePath) && !candidateSitePath.startsWith(path.join(ROOT_DIR, 'parque-realengo-3d')) && !candidateSitePath.startsWith(path.join(ROOT_DIR, 'prototipos')) && !candidateSitePath.startsWith(path.join(ROOT_DIR, 'screenshots'))) {
-    safePath = candidateSitePath;
-  } else {
-    safePath = path.normalize(path.join(ROOT_DIR, pathname));
-  }
+  let safePath = path.normalize(path.join(ROOT_DIR, pathname));
 
   // Proteção contra path traversal
   if (!safePath.startsWith(ROOT_DIR)) {
@@ -469,8 +474,8 @@ server.listen(PORT, '0.0.0.0', () => {
   console.log(`📱 TELA 2 (Celular do Visitante): http://${netInfo.preferredIp}:${PORT}/controle.html`);
   console.log(`🔄 WebSocket em tempo real:        ws://${netInfo.preferredIp}:${PORT}/ws`);
   console.log(`🖼️  Galeria de Screenshots:        http://localhost:${PORT}/galeria`);
-  console.log(`🌐 TELA 3 (Site Informativo EcoCity): http://localhost:${PORT}/site-informativo/`);
-  console.log(`🎮 TELA 4 (Gêmeo Digital 3D):         http://localhost:${PORT}/parque3d/`);
+  console.log(`🌐 TELA 3 (Biotecnologia & Sustentabilidade - Bio Nova): http://localhost:${PORT}/site-informativo/`);
+  console.log(`🎨 TELA 2 (Protótipo Pixel Art 2D): http://localhost:${PORT}/pixel-art-2d`);
   console.log(`----------------------------------------------------------------`);
   console.log(`✨ IPs de rede disponíveis:`);
   netInfo.allIps.forEach(i => console.log(`   - Interface [${i.iface}]: http://${i.ip}:${PORT}/`));

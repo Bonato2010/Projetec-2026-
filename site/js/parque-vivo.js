@@ -1,6 +1,6 @@
 /**
  * PROJETO V.I.D.A. — CENTRAL MULTITELA DE SUSTENTABILIDADE
- * Parque Realengo Jornalista Susana Naspolini
+ * Sustentabilidade & Biotecnologia Aplicada
  * Motor Gráfico 2.5D / 3D Isométrico com Depth Sorting (Z-Buffer / Painter's Algorithm),
  * Iluminação Direcional, Sombras Projetadas, Partículas Procedurais e Câmera Explorável com Lerp (60 FPS).
  */
@@ -112,7 +112,7 @@ class ParqueVivoEngine {
       },
       anfiteatro: {
         id: 'anfiteatro',
-        nome: "Anfiteatro Susana Naspolini & Skatepark",
+        nome: "Espaço Cultural & Skatepark",
         categoria: "Cultura, Esporte & Comunidade",
         descricao: "Concha acústica a céu aberto com arquibancada para 600 pessoas em homenagem à jornalista, ao lado do skatepark com bowl oficial.",
         metrica: "Capacidade: 600 lugares • Bowl: 1.200 m²",
@@ -1063,7 +1063,7 @@ class ParqueVivoEngine {
     ctx.restore();
   }
 
-  // --- MODELAGEM 3D: ANFITEATRO SUSANA NASPOLINI ---
+  // --- MODELAGEM: ESPAÇO CULTURAL ---
   renderAnfiteatro3D(ctx, x, y) {
     ctx.save();
     // Degraus concêntricos da arquibancada
@@ -1084,7 +1084,7 @@ class ParqueVivoEngine {
     ctx.fillStyle = '#fef3c7';
     ctx.font = 'bold 9px system-ui';
     ctx.textAlign = 'center';
-    ctx.fillText("ANFITEATRO SUSANA NASPOLINI", x, y + 80);
+    ctx.fillText("ESPAÇO CULTURAL", x, y + 80);
 
     ctx.restore();
   }

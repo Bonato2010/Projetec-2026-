@@ -1,6 +1,6 @@
 /**
  * PROJETO V.I.D.A. — CENTRAL MULTITELA DE SUSTENTABILIDADE
- * Parque Realengo Jornalista Susana Naspolini
+ * Sustentabilidade & Biotecnologia Aplicada
  * Motor de Sincronização em Tempo Real (TV Stand ⟷ Celular do Visitante)
  * Transporte híbrido: WebSocket (LAN/Wi-Fi) + BroadcastChannel + LocalStorage
  */

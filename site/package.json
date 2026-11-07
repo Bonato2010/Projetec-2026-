@@ -1,7 +1,7 @@
 {
   "name": "projetec-site-vida",
   "version": "1.0.0",
-  "description": "Plataforma Educativa V.I.D.A. — Parque Realengo Jornalista Susana Naspolini",
+  "description": "Plataforma Educativa V.I.D.A. — Sustentabilidade & Biotecnologia",
   "private": true,
   "scripts": {
     "start": "npx serve .",
@@ -10,7 +10,7 @@
   "keywords": [
     "projetec-2026",
     "sustentabilidade",
-    "parque-realengo",
+    "biotecnologia",
     "quiz",
     "vida"
   ],

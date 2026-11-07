@@ -1,6 +1,6 @@
 /**
  * QR Code Generator (Compact Standalone implementation for Canvas & SVG)
- * PROJETO V.I.D.A. — Parque Realengo Susana Naspolini
+ * PROJETO V.I.D.A. — Sustentabilidade & Biotecnologia
  */
 (function(global) {
   // Minimal standalone QR generator using standard reed-solomon & matrix encoding

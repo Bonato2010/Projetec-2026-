@@ -1,6 +1,6 @@
 /**
  * PROJETO V.I.D.A. — MOTOR OFICIAL DA PLATAFORMA DE QUIZ
- * Projetec 2026 • Parque Realengo Jornalista Susana Naspolini
+ * Projetec 2026 • Sustentabilidade & Biotecnologia
  * Gamificação, Avaliação (Nota 0 a 10), Áudio Web API, Histórico e Ranking
  */
 
@@ -1066,19 +1066,19 @@
       if (rawNota >= 9.5) {
         if (feedbackIconEl) feedbackIconEl.textContent = '🌟';
         feedbackTitleEl.textContent = `Desempenho Extraordinário, ${userName}!`;
-        feedbackMsgEl.innerHTML = `Você demonstrou domínio impecável sobre o <strong>Gêmeo Digital do Parque Realengo</strong>, gabaritando questões sobre macrodrenagem pluvial, microclima das Super-Torres e restauração da Mata Atlântica. Sua visão ambiental é inspiradora!`;
+        feedbackMsgEl.innerHTML = `Você demonstrou domínio impecável sobre <strong>Biotecnologia e Sustentabilidade</strong>, gabaritando questões sobre bioinsumos agrícolas, biocombustíveis avançados, biorremediação e bioeconomia circular. Sua visão científica é inspiradora!`;
       } else if (rawNota >= 7.5) {
         if (feedbackIconEl) feedbackIconEl.textContent = '🌿';
         feedbackTitleEl.textContent = `Parabéns pela Consciência Ambiental, ${userName}!`;
-        feedbackMsgEl.innerHTML = `Você alcançou um resultado de alto nível! Compreendeu as principais soluções sustentáveis aplicadas à Zona Oeste do Rio. Use a <em>Revisão de Questões</em> para lapidar detalhes técnicos e conquistar o selo máximo!`;
+        feedbackMsgEl.innerHTML = `Você alcançou um resultado de alto nível! Compreendeu as principais soluções sustentáveis e biotecnológicas aplicadas ao meio ambiente. Use a <em>Revisão de Questões</em> para lapidar detalhes técnicos e conquistar o selo máximo!`;
       } else if (rawNota >= 5.0) {
         if (feedbackIconEl) feedbackIconEl.textContent = '💡';
         feedbackTitleEl.textContent = `Boa Participação e Aprendizado Ativo, ${userName}!`;
-        feedbackMsgEl.innerHTML = `Você demonstrou boa sensibilidade socioambiental. O Parque Susana Naspolini integra diversas inovações arquitetônicas e ecológicas. Clique em <em>Revisar Questões</em> abaixo para ver a explicação científica de cada conceito!`;
+        feedbackMsgEl.innerHTML = `Você demonstrou boa sensibilidade socioambiental e científica. As inovações biotecnológicas integram soluções ecológicas essenciais para o futuro. Clique em <em>Revisar Questões</em> abaixo para ver a explicação científica de cada conceito!`;
       } else {
         if (feedbackIconEl) feedbackIconEl.textContent = '🌱';
         feedbackTitleEl.textContent = `Início de Jornada Sustentável, ${userName}!`;
-        feedbackMsgEl.innerHTML = `A sustentabilidade urbana é um aprendizado contínuo. Explore o <strong>Parque Realengo 3D</strong> para vivenciar as estruturas na prática, depois confira o gabarito comentado para tentar novamente!`;
+        feedbackMsgEl.innerHTML = `A sustentabilidade e a biotecnologia são aprendizados contínuos. Explore o <strong>Portal de Biotecnologia & Sustentabilidade</strong> para aprofundar seus conhecimentos, depois confira o gabarito comentado para tentar novamente!`;
       }
     }
 

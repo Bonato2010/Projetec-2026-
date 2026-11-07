@@ -6,6 +6,6 @@ module.exports = function handler(req, res) {
     port: 443,
     tvUrl: '/',
     mobileUrl: '/controle.html',
-    mobile3dUrl: '/parque3d?mode=mobile'
+    bioUrl: '/biotecnologia'
   });
 };

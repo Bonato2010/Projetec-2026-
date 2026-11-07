@@ -1,19 +1,19 @@
 {
-  "name": "vida-parque-realengo-multitela",
+  "name": "projetec-biotecnologia-sustentabilidade",
   "version": "1.0.0",
-  "description": "Central Multitela Interativa de Sustentabilidade do Parque Realengo Susana Naspolini para Feira de Ciências",
+  "description": "Plataforma de Biotecnologia, Sustentabilidade e Soluções Ambientais para Feira de Ciências",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",
-    "build": "npm --prefix parque-realengo-3d install && npm --prefix parque-realengo-3d run build && node scripts/sync-site-3d.js"
+    "test": "node scripts/test-vercel-compatibility.js",
+    "build": "echo 'Build estático pronto para produção'"
   },
   "keywords": [
+    "biotecnologia",
     "sustentabilidade",
-    "parque-realengo",
-    "multitela",
+    "meio-ambiente",
     "feira-de-ciencias",
-    "websocket",
     "rio-de-janeiro"
   ],
   "author": "Equipe V.I.D.A.",
