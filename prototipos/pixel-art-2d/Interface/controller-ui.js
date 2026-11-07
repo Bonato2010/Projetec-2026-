@@ -48,7 +48,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (roleTag) {
       if (selectedRole === 'coop_p1') roleTag.innerText = 'OPERADOR 1: INFRAESTRUTURA & TRANSPORTE';
       else if (selectedRole === 'coop_p2') roleTag.innerText = 'OPERADOR 2: SAÚDE & MEIO AMBIENTE';
-      else roleTag.innerText = 'COMANDO INTEGRAL (INDIVIDUAL)';
+      else if (selectedRole === 'individual') roleTag.innerText = 'COMANDO INTEGRAL (INDIVIDUAL)';
+      else if (selectedRole === 'adm') roleTag.innerText = 'PAINEL ADM: CONTROLE DE TEMPO & SIMULAÇÃO';
     }
 
     renderActions(selectedRole);
@@ -57,6 +58,42 @@ document.addEventListener('DOMContentLoaded', () => {
   function renderActions(role) {
     if (!mobileButtonsList) return;
     mobileButtonsList.innerHTML = '';
+
+    if (role === 'adm') {
+      const timeActions = [
+        { id: 'adm_pause', icon: '⏸️', title: 'Pausar Simulação', desc: 'Congela o relógio e os eventos da cidade', command: 'pause' },
+        { id: 'adm_resume', icon: '▶️', title: 'Retomar Simulação', desc: 'Reinicia o fluxo do relógio e da simulação', command: 'resume' },
+        { id: 'adm_1m', icon: '⏱️', title: '+1 Minuto na Simulação', desc: 'Avança o tempo da ocorrência em +1 minuto', command: 'add_time', minutes: 1 },
+        { id: 'adm_5m', icon: '⏱️', title: '+5 Minutos na Simulação', desc: 'Avança o tempo da ocorrência em +5 minutos', command: 'add_time', minutes: 5 },
+        { id: 'adm_10m', icon: '⏱️', title: '+10 Minutos na Simulação', desc: 'Avança o tempo da ocorrência em +10 minutos', command: 'add_time', minutes: 10 },
+        { id: 'adm_30m', icon: '⏱️', title: '+30 Minutos na Simulação', desc: 'Avança o tempo da ocorrência em +30 minutos', command: 'add_time', minutes: 30 }
+      ];
+
+      timeActions.forEach(act => {
+        const btn = document.createElement('button');
+        btn.className = 'mobile-action-btn';
+        btn.innerHTML = `
+          <span style="font-size: 22px;">${act.icon}</span>
+          <div>
+            <div>${act.title}</div>
+            <div style="font-size: 10px; color: var(--text-muted); font-weight: normal;">${act.desc}</div>
+          </div>
+        `;
+
+        btn.addEventListener('click', () => {
+          sync.send('SIMULATION_TIME_CONTROL', { command: act.command, minutes: act.minutes || 0 });
+
+          if (actionToast) {
+            actionToast.innerText = `✓ Comando ADM "${act.title}" executado!`;
+            actionToast.style.display = 'block';
+            setTimeout(() => { actionToast.style.display = 'none'; }, 2000);
+          }
+        });
+
+        mobileButtonsList.appendChild(btn);
+      });
+      return;
+    }
 
     const actions = [];
     if (role === 'coop_p1' || role === 'individual') {

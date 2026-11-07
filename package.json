@@ -19,6 +19,8 @@
   "author": "Equipe V.I.D.A.",
   "license": "ISC",
   "dependencies": {
+    "jsqr": "^1.4.0",
+    "qrcode": "^1.5.4",
     "ws": "^8.22.1"
   }
 }

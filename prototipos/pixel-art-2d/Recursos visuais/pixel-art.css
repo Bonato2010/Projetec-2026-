@@ -126,43 +126,87 @@ body {
   margin-top: 2px;
 }
 
-/* Painel de Modo de Operação */
-.eco-mode-badge {
+  /* Painel ADM de Controle de Tempo */
+.adm-panel {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  z-index: 50;
   background: var(--bg-hud);
-  border: 1px solid var(--border-dark);
+  border: 1px solid var(--border-neon-yellow);
   border-radius: 8px;
-  padding: 10px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+  padding: 10px 14px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+  backdrop-filter: blur(10px);
+  min-width: 190px;
 }
 
-.eco-mode-title {
-  font-size: 9px;
-  font-weight: 700;
-  color: var(--text-muted);
+.adm-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--border-neon-yellow);
+  text-transform: uppercase;
+  margin-bottom: 6px;
   letter-spacing: 1px;
 }
 
-.eco-operators-list {
+.adm-body {
   display: flex;
-  align-items: center;
-  gap: 14px;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.adm-row {
+  display: flex;
+  gap: 6px;
+}
+
+.adm-row-time {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+}
+
+.adm-btn {
+  flex: 1;
+  background: rgba(30, 41, 59, 0.9);
+  border: 1px solid var(--border-dark);
+  border-radius: 4px;
+  padding: 6px 8px;
+  color: #fff;
+  font-family: var(--font-hud);
   font-size: 11px;
   font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
 }
 
-.op-dot {
-  display: inline-block;
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  margin-right: 5px;
+.adm-btn:hover {
+  border-color: var(--border-neon-yellow);
+  background: rgba(255, 184, 0, 0.2);
 }
 
-.op-dot.blue { background: var(--color-blue); box-shadow: 0 0 8px var(--color-blue); }
-.op-dot.green { background: var(--color-green); box-shadow: 0 0 8px var(--color-green); }
+.adm-btn-time {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid var(--color-green);
+  border-radius: 4px;
+  padding: 5px 4px;
+  color: #fff;
+  font-family: var(--font-hud);
+  font-size: 10px;
+  font-weight: 800;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.adm-btn-time:hover {
+  background: rgba(16, 185, 129, 0.35);
+}
 
 /* Indicadores Globais do Topo */
 .eco-metrics-bar {
@@ -341,18 +385,18 @@ body {
 }
 
 /* ==========================================================================
-   3. BASE: PAINEL DE CONTROLE E IMPACTOS (RODAPÉ — MÁX 13% DA TELA)
+   3. BASE: PAINEL DE CONTROLE E IMPACTOS (RODAPÉ — TIPOGRAFIA AMPLIADA E LIMPA)
    ========================================================================== */
 .eco-bottom-hud {
   position: absolute;
-  bottom: 10px;
-  left: 18px;
-  right: 18px;
+  bottom: 14px;
+  left: 20px;
+  right: 20px;
   z-index: 20;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 12px;
-  max-height: 140px;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap: 16px;
+  max-height: 195px;
   pointer-events: none;
 }
 
@@ -361,49 +405,53 @@ body {
 }
 
 .bottom-panel {
-  background: rgba(10, 16, 28, 0.85);
-  border: 1px solid var(--border-neon-cyan);
-  border-radius: 8px;
-  padding: 10px 14px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.6);
-  backdrop-filter: blur(8px);
+  background: rgba(8, 14, 26, 0.94);
+  border: 1.5px solid var(--border-neon-cyan);
+  border-radius: 12px;
+  padding: 16px 20px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.7);
+  backdrop-filter: blur(10px);
   overflow: hidden;
-  max-height: 135px;
+  max-height: 185px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .bottom-panel-title {
-  font-size: 11px;
+  font-size: 21px;
   font-weight: 800;
-  letter-spacing: 1px;
+  letter-spacing: 1.2px;
   text-transform: uppercase;
   color: var(--border-neon-yellow);
-  margin-bottom: 6px;
+  margin-bottom: 12px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
 .phase-badge {
-  background: rgba(239, 68, 68, 0.2);
-  border: 1px solid var(--color-red);
+  background: rgba(239, 68, 68, 0.25);
+  border: 1.5px solid var(--color-red);
   color: var(--color-red);
-  padding: 1px 6px;
-  border-radius: 4px;
-  font-size: 9px;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 16px;
   font-weight: 800;
+  letter-spacing: 1px;
 }
 
 /* Situação Atual */
 .situation-box {
   display: flex;
-  gap: 10px;
+  gap: 16px;
   align-items: center;
 }
 
 .situation-thumb-sharp {
-  width: 96px;
-  height: 96px;
-  border-radius: 6px;
+  width: 90px;
+  height: 90px;
+  border-radius: 8px;
   border: 2px solid var(--border-neon-cyan);
   background: url('cidade-referencia-base.jpg') no-repeat center center;
   background-size: 350% 350%;
@@ -416,14 +464,16 @@ body {
 .situation-info {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 6px;
+  flex: 1;
 }
 
 .situation-desc {
   font-family: var(--font-sans);
-  font-size: 11px;
-  color: var(--text-silver);
-  line-height: 1.35;
+  font-size: 21px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.45;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -434,20 +484,20 @@ body {
 .impacts-grid-2x2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 6px 10px;
+  gap: 12px 16px;
 }
 
 .impact-row {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 10px;
 }
 
 .impact-label {
-  font-size: 9px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--text-silver);
-  width: 85px;
+  width: 125px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -455,23 +505,23 @@ body {
 
 .impact-bar-wrapper {
   flex: 1;
-  height: 6px;
+  height: 10px;
   background: #111a2e;
-  border-radius: 3px;
+  border-radius: 5px;
   overflow: hidden;
 }
 
 .impact-bar-fill {
   height: 100%;
-  border-radius: 3px;
+  border-radius: 5px;
   transition: width 0.4s ease;
 }
 
 .impact-val {
-  font-size: 10px;
+  font-size: 17px;
   font-weight: 800;
   color: #fff;
-  width: 30px;
+  width: 45px;
   text-align: right;
   font-family: var(--font-hud);
 }
@@ -481,37 +531,37 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(14, 165, 233, 0.12));
-  border-color: rgba(16, 185, 129, 0.35);
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(14, 165, 233, 0.15));
+  border-color: rgba(16, 185, 129, 0.4);
 }
 
 .last-decision-ticker {
-  font-size: 10px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--border-neon-cyan);
-  background: rgba(14, 165, 233, 0.1);
-  padding: 2px 6px;
-  border-radius: 4px;
+  background: rgba(14, 165, 233, 0.15);
+  padding: 6px 12px;
+  border-radius: 6px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-bottom: 4px;
+  margin-bottom: 8px;
 }
 
 .sustainability-card-sharp {
   display: flex;
   align-items: center;
-  gap: 8px;
-  background: rgba(17, 26, 46, 0.9);
-  border: 1px solid var(--border-neon-green);
-  border-radius: 6px;
-  padding: 4px 8px;
+  gap: 12px;
+  background: rgba(17, 26, 46, 0.92);
+  border: 1.5px solid var(--border-neon-green);
+  border-radius: 8px;
+  padding: 8px 12px;
 }
 
 .sust-thumb-sharp {
-  width: 44px;
-  height: 44px;
-  border-radius: 4px;
+  width: 52px;
+  height: 52px;
+  border-radius: 6px;
   border: 2px solid var(--border-neon-green);
   background: url('cidade-referencia-base.jpg') no-repeat center center;
   background-size: 300% 300%;
@@ -523,54 +573,131 @@ body {
 .sust-text-box {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 2px;
 }
 
 .sust-title {
-  font-size: 10px;
+  font-size: 17px;
   font-weight: 800;
   color: #fff;
 }
 
 .sust-tip {
-  font-size: 9px;
+  font-size: 15px;
   color: var(--text-silver);
   font-family: var(--font-sans);
+  line-height: 1.3;
 }
 
-/* QR Code de Pareamento Mobile */
+/* QR Code de Pareamento Mobile & Hub Dual (Reduzido e Discreto) */
 .eco-qr-corner {
   position: absolute;
-  top: 80px;
-  right: 18px;
+  top: 72px;
+  right: 14px;
   z-index: 15;
-  background: var(--bg-hud);
-  border: 2px solid var(--border-neon-cyan);
+  background: rgba(8, 14, 26, 0.9);
+  border: 1px solid rgba(0, 210, 255, 0.25);
   border-radius: 8px;
-  padding: 14px;
+  padding: 8px 10px;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: 0 4px 25px rgba(0, 210, 255, 0.35);
-  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 210, 255, 0.18);
+  backdrop-filter: blur(6px);
+  max-width: 360px;
+}
+
+.qr-hub-header {
+  font-family: var(--font-hud);
+  font-size: 9px;
+  font-weight: 800;
+  color: var(--border-neon-cyan);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+  opacity: 0.9;
+}
+
+.qr-cards-grid {
+  display: flex;
+  gap: 8px;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.qr-access-card {
+  background: rgba(12, 18, 32, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 6px;
+  width: 145px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.qr-access-card:hover {
+  border-color: var(--border-neon-cyan);
+  box-shadow: 0 2px 10px rgba(0, 210, 255, 0.15);
+}
+
+.qr-card-title {
+  font-family: var(--font-hud);
+  font-size: 10px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+
+.qr-card-desc {
+  font-size: 8px;
+  color: var(--text-silver);
+  line-height: 1.2;
+  margin-bottom: 4px;
+  min-height: 18px;
 }
 
 .eco-qr-box {
   background: #fff;
-  padding: 8px;
-  border-radius: 6px;
-  margin-bottom: 6px;
+  padding: 3px;
+  border-radius: 4px;
+  margin-bottom: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.eco-qr-box canvas {
-  width: 120px;
-  height: 120px;
+.eco-qr-box canvas, .eco-qr-box img {
+  width: 64px;
+  height: 64px;
+  display: block;
+}
+
+.qr-card-legend {
+  font-size: 7px;
+  font-weight: 800;
+  color: var(--color-green);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 1.1;
 }
 
 .eco-qr-tag {
-  font-size: 10px;
+  font-size: 8px;
   font-weight: 800;
   color: var(--color-green);
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
+}
+
+@media (max-width: 900px) {
+  .qr-cards-grid {
+    flex-direction: column;
+  }
+  .eco-qr-corner {
+    right: 10px;
+    top: 70px;
+  }
 }

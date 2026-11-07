@@ -21,8 +21,24 @@ class GameEngine {
     this.bgLoaded2 = false;
     this.bgImage1.onload = () => { this.bgLoaded1 = true; };
     this.bgImage2.onload = () => { this.bgLoaded2 = true; };
-    this.bgImage1.src = './Recursos%20visuais/cidade-referencia-base.jpg';
-    this.bgImage2.src = './Recursos%20visuais/alerta-referencia.png';
+    this.bgImage1.src = 'Recursos%20visuais/cidade-referencia-base.jpg';
+    this.bgImage2.src = 'Recursos%20visuais/alerta-referencia.png';
+
+    window.__ecoPixelGame = this;
+
+  }
+
+  setScenarioScene(cenario, fase) {
+    const imgPath = `Recursos%20visuais/scenes/${cenario}/${fase}.jfif`;
+    this.bgImage1 = new Image();
+    this.bgLoaded1 = false;
+    this.bgImage1.onload = () => { this.bgLoaded1 = true; };
+    this.bgImage1.onerror = () => {
+      // Fallback para imagem base se houver erro
+      this.bgImage1.src = 'Recursos%20visuais/cidade-referencia-base.jpg';
+    };
+    this.bgImage1.src = imgPath;
+  }
 
     // Gerenciador de Cenários
     this.scenarioManager = new ScenarioManager({
@@ -30,27 +46,15 @@ class GameEngine {
       onAlert: (scenario) => this.handleAlert(scenario)
     });
 
-    // Elementos Dinâmicos e Entidades
-    this.vehicles = [
-      { id: 1, x: 150, y: 0, speed: 2.2, type: 'bus_yellow', w: 140, h: 48, dir: 1 },
-      { id: 2, x: 550, y: 0, speed: 1.8, type: 'bus_blue', w: 150, h: 50, dir: 1 },
-      { id: 3, x: 920, y: 0, speed: 3.2, type: 'car_gray', w: 70, h: 32, dir: 1 },
-      { id: 4, x: 1300, y: 0, speed: 2.8, type: 'car_red', w: 65, h: 30, dir: 1 },
-      { id: 5, x: 1650, y: 0, speed: 3.0, type: 'police_cruiser', w: 75, h: 34, dir: 1, siren: true }
+    // Elementos Dinâmicos: Animação Suave de Aviões no Céu Panorâmico
+    this.airplanes = [
+      { x: -100, y: 140, speed: 2.2, w: 70, h: 26, bank: 0.08 },
+      { x: -600, y: 90, speed: 2.8, w: 55, h: 20, bank: -0.04 }
     ];
 
     this.policeUnits = [
       { x: 740, y: 0, w: 78, h: 35, siren: true },
       { x: 1220, y: 0, w: 78, h: 35, siren: true }
-    ];
-
-    this.pedestrians = [
-      { x: 180, speed: 0.9, color: '#3b82f6', anim: 0, dir: 1 },
-      { x: 320, speed: 0.7, color: '#ec4899', anim: 1.5, dir: 1 },
-      { x: 620, speed: 0.8, color: '#10b981', anim: 0.8, dir: -1 },
-      { x: 1040, speed: 1.1, color: '#f59e0b', anim: 2.1, dir: 1 },
-      { x: 1480, speed: 0.85, color: '#8b5cf6', anim: 3.0, dir: -1 },
-      { x: 1720, speed: 0.95, color: '#ef4444', anim: 1.2, dir: 1 }
     ];
 
     // Nuvens
@@ -138,22 +142,15 @@ class GameEngine {
     this.heli.rotorAngle += 0.45;
     this.heli.beamAngle = Math.sin(this.animTime * 1.5) * 0.25;
 
-    // Tráfego de Veículos
-    const roadSpeedMult = isFlood && floodStage >= 2 ? 0.2 : (isWar ? 0.6 : 1.0);
-    this.vehicles.forEach(v => {
-      v.x += v.speed * roadSpeedMult;
-      if (v.x > this.width + 250) {
-        v.x = -200;
+    // Tráfego de Aviões Suave no Céu
+    this.airplanes.forEach(plane => {
+      plane.x += plane.speed;
+      plane.y += Math.sin(this.animTime * 1.8 + plane.x * 0.008) * 0.25;
+      if (plane.x > this.width + 150) {
+        plane.x = -200;
+        plane.y = 80 + Math.random() * 120;
+        plane.speed = 2.0 + Math.random() * 1.2;
       }
-    });
-
-    // Pedestres
-    const pedSpeedMult = isWar ? 0.4 : (isFlood && floodStage >= 2 ? 0.3 : 1.0);
-    this.pedestrians.forEach(p => {
-      p.x += p.speed * p.dir * pedSpeedMult;
-      p.anim += 0.15;
-      if (p.x > this.width + 60) p.x = -40;
-      if (p.x < -60) p.x = this.width + 40;
     });
 
     // Partículas de Fumaça e Chamas (Barricada na Guerra de Facções)
@@ -245,11 +242,8 @@ class GameEngine {
     // 6. POSTES E ILUMINAÇÃO PÚBLICA (CONES DE LUZ NA CALÇADA)
     this.drawStreetLighting(ctx, w, h);
 
-    // 7. VEÍCULOS E TRANSPORTE CARIOCA
-    this.drawVehicles(ctx, w, h, isWar, isFlood);
-
-    // 8. PEDESTRES E CIDADÃOS
-    this.drawPedestrians(ctx, w, h);
+    // 7. ANIMAÇÃO SUAVE DE AVIÕES NO CÉU PANORÂMICO
+    this.drawAirplanes(ctx, w, h);
 
     // 9. EFEITOS ESPECÍFICOS DE GUERRA DE FACÇÕES (BARRICADA, SIRENES, GIROFLEX)
     if (isWar) {
@@ -366,92 +360,30 @@ class GameEngine {
     ctx.restore();
   }
 
-  drawVehicles(ctx, w, h, isWar, isFlood) {
+  drawAirplanes(ctx, w, h) {
     ctx.save();
-    const streetY = h * 0.77;
-
-    this.vehicles.forEach(v => {
-      const vx = v.x;
-      const vy = streetY;
-
-      // Desenho do Ônibus Carioca (Amarelo ou Azul)
-      if (v.type === 'bus_yellow' || v.type === 'bus_blue') {
-        const busColor = v.type === 'bus_yellow' ? '#f59e0b' : '#0284c7';
-        ctx.fillStyle = busColor;
-        ctx.fillRect(vx, vy - 35, v.w, v.h);
-        ctx.fillStyle = '#ffffff';
-        ctx.fillRect(vx, vy - 20, v.w, 8); // Faixa branca carioca
-        // Janelas
-        ctx.fillStyle = '#bae6fd';
-        for (let j = 12; j < v.w - 15; j += 22) {
-          ctx.fillRect(vx + j, vy - 32, 16, 10);
-        }
-        // Rodas em pixel art
-        ctx.fillStyle = '#0f172a';
-        ctx.fillRect(vx + 20, vy + 8, 18, 10);
-        ctx.fillRect(vx + v.w - 35, vy + 8, 18, 10);
-        // Faróis dianteiros acesos
-        ctx.fillStyle = 'rgba(255, 255, 180, 0.4)';
-        ctx.fillRect(vx + v.w, vy - 15, 60, 20);
-      }
-      // Carro de passeio
-      else if (v.type === 'car_gray' || v.type === 'car_red') {
-        ctx.fillStyle = v.type === 'car_red' ? '#dc2626' : '#64748b';
-        ctx.fillRect(vx, vy - 15, v.w, 24);
-        ctx.fillStyle = '#334155';
-        ctx.fillRect(vx + 14, vy - 24, v.w - 28, 12);
-        // Janelas
-        ctx.fillStyle = '#94a3b8';
-        ctx.fillRect(vx + 18, vy - 22, 14, 8);
-        ctx.fillRect(vx + 36, vy - 22, 14, 8);
-        // Rodas
-        ctx.fillStyle = '#0f172a';
-        ctx.fillRect(vx + 8, vy + 6, 12, 6);
-        ctx.fillRect(vx + v.w - 20, vy + 6, 12, 6);
-        // Faróis
-        ctx.fillStyle = 'rgba(255, 255, 200, 0.35)';
-        ctx.fillRect(vx + v.w, vy - 8, 45, 14);
-      }
-      // Viatura Policial / Resgate
-      else if (v.type === 'police_cruiser') {
-        ctx.fillStyle = '#f8fafc';
-        ctx.fillRect(vx, vy - 16, v.w, 26);
-        ctx.fillStyle = '#1e3a8a';
-        ctx.fillRect(vx, vy - 6, v.w, 8); // Faixa azul PM
-        ctx.fillStyle = '#0f172a';
-        ctx.fillRect(vx + 8, vy + 6, 12, 7);
-        ctx.fillRect(vx + v.w - 20, vy + 6, 12, 7);
-
-        // Giroflex Sirene (Piscante Vermelho e Azul Alternado)
-        const strobe = Math.floor(this.animTime * 12) % 2 === 0;
-        ctx.fillStyle = strobe ? '#ff2233' : '#0066ff';
-        ctx.shadowColor = strobe ? '#ff3344' : '#3388ff';
-        ctx.shadowBlur = 16;
-        ctx.fillRect(vx + 28, vy - 24, 18, 8);
-        ctx.shadowBlur = 0;
-      }
-    });
-    ctx.restore();
-  }
-
-  drawPedestrians(ctx, w, h) {
-    ctx.save();
-    const walkY = h * 0.81;
-
-    this.pedestrians.forEach(p => {
-      const px = p.x;
-      const py = walkY;
-      const legOffset = Math.sin(p.anim) * 4;
-
-      // Tronco e cabeça
-      ctx.fillStyle = '#fbcfe8'; // Tom de pele pixel
-      ctx.fillRect(px, py - 18, 5, 5);
-      ctx.fillStyle = p.color; // Camisa
-      ctx.fillRect(px - 1, py - 13, 7, 7);
-      // Pernas animadas
-      ctx.fillStyle = '#1e293b';
-      ctx.fillRect(px - 1, py - 6, 3, 6 + legOffset);
-      ctx.fillRect(px + 3, py - 6, 3, 6 - legOffset);
+    this.airplanes.forEach(plane => {
+      const px = plane.x;
+      const py = plane.y;
+      // Fuselagem
+      ctx.fillStyle = '#f1f5f9';
+      ctx.beginPath();
+      ctx.ellipse(px, py, plane.w / 2, plane.h / 2, plane.bank, 0, Math.PI * 2);
+      ctx.fill();
+      // Asas
+      ctx.fillStyle = '#cbd5e1';
+      ctx.beginPath();
+      ctx.ellipse(px, py - 2, plane.w * 0.28, plane.h * 1.3, 0.25, 0, Math.PI * 2);
+      ctx.fill();
+      // Estabilizador traseiro
+      ctx.fillStyle = '#0ea5e9';
+      ctx.fillRect(px - plane.w * 0.38, py - plane.h * 0.9, 5, 10);
+      // Luz de navegação / brilho
+      ctx.fillStyle = '#ef4444';
+      ctx.shadowColor = '#ef4444';
+      ctx.shadowBlur = 10;
+      ctx.fillRect(px + plane.w * 0.42, py, 3, 3);
+      ctx.shadowBlur = 0;
     });
     ctx.restore();
   }
@@ -587,14 +519,7 @@ class GameEngine {
   }
 
   handleAlert(scenario) {
-    const modal = document.getElementById('emergency-modal');
-    if (modal) {
-      const titleElem = document.getElementById('alert-scenario-title');
-      const descElem = document.getElementById('alert-scenario-desc');
-      if (titleElem) titleElem.innerText = scenario.title;
-      if (descElem) descElem.innerText = scenario.description;
-      modal.style.display = 'flex';
-    }
+    this.scenarioManager.startSimulation();
   }
 }
 

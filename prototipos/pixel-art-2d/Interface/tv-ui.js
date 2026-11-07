@@ -8,6 +8,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const engine = new GameEngine(canvasId);
   engine.start();
 
+  // Iniciar cenário padrão e simulação imediatamente para ativar o cronômetro
+  engine.scenarioManager.loadScenario('guerra_faccoes');
+  engine.scenarioManager.startSimulation();
+
   // Expor no window para testes automatizados e Playwright
   window.__ecoPixelGame = engine;
 
@@ -16,20 +20,11 @@ document.addEventListener('DOMContentLoaded', () => {
   window.__ecoSync = sync;
 
   // Elementos do Topo
-  const op1Label = document.getElementById('op1-label');
-  const op2Label = document.getElementById('op2-label');
-  const hudModeTitle = document.getElementById('hud-mode-title');
   const topValEnv = document.getElementById('top-val-env');
   const topMeterEnv = document.getElementById('top-meter-env');
   const topValSafety = document.getElementById('top-val-safety');
   const topMeterSafety = document.getElementById('top-meter-safety');
   const missionTimer = document.getElementById('mission-timer');
-
-  // Elementos do Modal de Emergência
-  const modal = document.getElementById('emergency-modal');
-  const alertStartBtn = document.getElementById('alert-start-btn');
-  const alertScenarioTitle = document.getElementById('alert-scenario-title');
-  const alertScenarioDesc = document.getElementById('alert-scenario-desc');
 
   // Elementos da Base
   const situationText = document.getElementById('situation-text');
@@ -104,14 +99,31 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // Botão de Iniciar Protocolo no Modal
-  if (alertStartBtn) {
-    alertStartBtn.addEventListener('click', () => {
-      modal.style.display = 'none';
-      engine.scenarioManager.startSimulation();
-      if (window.soundManager) window.soundManager.playSuccess();
+  // Iniciar simulação automaticamente
+  engine.scenarioManager.startSimulation();
+
+  // Controles do Painel ADM (Tempo e Pausa)
+  const admToggleBtn = document.getElementById('adm-toggle-btn');
+  const admBody = document.getElementById('adm-body');
+  if (admToggleBtn && admBody) {
+    admToggleBtn.addEventListener('click', () => {
+      const isHidden = admBody.style.display === 'none';
+      admBody.style.display = isHidden ? 'flex' : 'none';
+      admToggleBtn.innerText = isHidden ? '▼' : '▲';
     });
   }
+
+  const admPauseBtn = document.getElementById('adm-pause');
+  const admResumeBtn = document.getElementById('adm-resume');
+  if (admPauseBtn) admPauseBtn.addEventListener('click', () => engine.scenarioManager.pause());
+  if (admResumeBtn) admResumeBtn.addEventListener('click', () => engine.scenarioManager.resume());
+
+  document.querySelectorAll('.adm-btn-time').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const secs = parseInt(btn.dataset.time || 0, 10);
+      engine.scenarioManager.addTime(secs);
+    });
+  });
 
   // Cliques manuais nas decisões da base
   if (bottomDecisionsGrid) {
@@ -131,19 +143,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Sincronização com o Celular (Visitantes do Stand)
   sync.on('VISITOR_JOIN_REQUEST', (payload) => {
-    const v = payload.visitor;
     connectedOperatorsCount = Math.min(2, connectedOperatorsCount + 1);
-    if (v.modo === 'coop_p1') {
-      if (op1Label) op1Label.innerText = `Operador 1: ${v.nome}`;
-      if (hudModeTitle) hudModeTitle.innerText = 'MODO: COOPERATIVO';
-    } else if (v.modo === 'coop_p2') {
-      if (op2Label) op2Label.innerText = `Operador 2: ${v.nome}`;
-      if (hudModeTitle) hudModeTitle.innerText = 'MODO: COOPERATIVO';
-    } else {
-      if (hudModeTitle) hudModeTitle.innerText = `MODO: INDIVIDUAL (${v.nome})`;
-    }
 
-    // Se 2 operadores conectados, esconde QR e mostra PARTIDA CHEIA
     if (connectedOperatorsCount >= 2) {
       const qrBox = document.getElementById('tv-qr-box');
       const qrLabel = document.getElementById('qr-label-text');
@@ -164,6 +165,19 @@ document.addEventListener('DOMContentLoaded', () => {
   sync.on('player_action', (payload) => {
     if (payload && payload.actionId) {
       engine.scenarioManager.applyDecision(payload.actionId);
+      if (window.soundManager) window.soundManager.playSuccess();
+    }
+  });
+
+  sync.on('SIMULATION_TIME_CONTROL', (payload) => {
+    if (payload && payload.command) {
+      if (payload.command === 'pause') {
+        engine.scenarioManager.pause();
+      } else if (payload.command === 'resume') {
+        engine.scenarioManager.resume();
+      } else if (payload.command === 'add_time') {
+        engine.scenarioManager.addTime((payload.minutes || 1) * 60);
+      }
       if (window.soundManager) window.soundManager.playSuccess();
     }
   });

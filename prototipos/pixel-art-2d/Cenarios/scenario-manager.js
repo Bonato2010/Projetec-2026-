@@ -25,6 +25,52 @@ class ScenarioManager {
     this.appliedDecisions = new Set();
     this.onUpdateCallback = options.onUpdate || (() => {});
     this.onAlertCallback = options.onAlert || (() => {});
+
+    this.stagesSequence = [
+      { step: 1, cenario: 'alagamento', fase: 'crise', title: 'ALAGAMENTO', sub: 'CRISE HÍDRICA' },
+      { step: 2, cenario: 'apagao', fase: 'resposta', title: 'APAGÃO', sub: 'RESPOSTA DA REDE' },
+      { step: 3, cenario: 'aliens', fase: 'recuperacao', title: 'ANOMALIA', sub: 'RECUPERAÇÃO' },
+      { step: 4, cenario: 'ameaca-externa', fase: 'crise', title: 'AMEAÇA EXTERNA', sub: 'CRISE OPERACIONAL' },
+      { step: 5, cenario: 'seguranca', fase: 'resposta', title: 'SEGURANÇA', sub: 'RESPOSTA TÁTICA' },
+      { step: 6, cenario: 'governanca', fase: 'recuperacao', title: 'GOVERNANÇA', sub: 'RECUPERAÇÃO SOCIAL' },
+      { step: 7, cenario: 'alagamento', fase: 'resposta', title: 'ALAGAMENTO', sub: 'RESPOSTA EM ANDAMENTO' },
+      { step: 8, cenario: 'apagao', fase: 'recuperacao', title: 'APAGÃO', sub: 'RECUPERAÇÃO DO SISTEMA' },
+      { step: 9, cenario: 'aliens', fase: 'crise', title: 'ANOMALIA', sub: 'CRISE ESPACIAL' },
+      { step: 10, cenario: 'ameaca-externa', fase: 'resposta', title: 'AMEAÇA EXTERNA', sub: 'RESPOSTA DE DEFESA' },
+      { step: 11, cenario: 'seguranca', fase: 'recuperacao', title: 'SEGURANÇA', sub: 'RECUPERAÇÃO DA ORDEM' },
+      { step: 12, cenario: 'governanca', fase: 'crise', title: 'GOVERNANÇA', sub: 'CRISE INSTITUCIONAL' },
+      { step: 13, cenario: 'alagamento', fase: 'recuperacao', title: 'ALAGAMENTO', sub: 'RECUPERAÇÃO DAS BACIAS' },
+      { step: 14, cenario: 'apagao', fase: 'crise', title: 'APAGÃO', sub: 'CRISE ENERGÉTICA' },
+      { step: 15, cenario: 'aliens', fase: 'resposta', title: 'ANOMALIA', sub: 'RESPOSTA CIENTÍFICA' },
+      { step: 16, cenario: 'ameaca-externa', fase: 'recuperacao', title: 'AMEAÇA EXTERNA', sub: 'RECUPERAÇÃO DE FRONTEIRAS' },
+      { step: 17, cenario: 'seguranca', fase: 'crise', title: 'SEGURANÇA', sub: 'CRISE URBANA' },
+      { step: 18, cenario: 'governanca', fase: 'resposta', title: 'GOVERNANÇA', sub: 'RESPOSTA DIALOGADA' }
+    ];
+    this.currentStageIndex = 0;
+    this.stageTimeElapsed = 0;
+    this.stageDuration = 120; // 120 segundos por etapa
+  }
+
+  loadStage(index) {
+    this.currentStageIndex = index;
+    this.stageTimeElapsed = 0;
+    const stage = this.stagesSequence[index];
+
+    this.currentScenario = {
+      id: stage.cenario,
+      title: stage.title,
+      subtitle: stage.sub,
+      phase: stage.fase,
+      step: stage.step,
+      description: `Etapa ${stage.step}/18: Cenário ${stage.title} — Fase ${stage.fase.toUpperCase()}`,
+      situation: `Monitoramento ativo da etapa ${stage.step} (${stage.cenario} / ${stage.fase}).`
+    };
+
+    if (typeof window !== 'undefined' && window.__ecoPixelGame && typeof window.__ecoPixelGame.setScenarioScene === 'function') {
+      window.__ecoPixelGame.setScenarioScene(stage.cenario, stage.fase);
+    }
+
+    this.broadcastUpdate();
   }
 
   loadScenario(scenarioId) {
@@ -69,26 +115,36 @@ class ScenarioManager {
 
   startSimulation() {
     this.simulationState = 'active';
+    if (!this.currentScenario) {
+      this.loadStage(0);
+    }
+  }
+
+  pause() {
+    this.simulationState = 'paused';
+    this.broadcastUpdate();
+  }
+
+  resume() {
+    this.simulationState = 'active';
+    this.broadcastUpdate();
+  }
+
+  addTime(seconds) {
+    this.stageTimeElapsed = Math.max(0, this.stageTimeElapsed - seconds);
+    this.broadcastUpdate();
   }
 
   update(delta) {
     if (this.simulationState !== 'active') return;
 
     this.elapsedTime += delta;
-    this.remainingTime = Math.max(0, this.remainingTime - delta);
+    this.stageTimeElapsed += delta;
+    this.remainingTime = Math.max(0, this.stageDuration - this.stageTimeElapsed);
 
-    // Evolução temporal para Inundação
-    if (this.currentScenario && this.currentScenario.type === 'flood') {
-      if (this.elapsedTime > 15 && this.elapsedTime <= 45) {
-        this.floodLevel = 2; // Chuva intensa e início de alagamento
-      } else if (this.elapsedTime > 45) {
-        this.floodLevel = 3; // Alagamento severo
-      }
-    }
-
-    // Se o tempo esgotar, encerra a simulação
-    if (this.remainingTime <= 0) {
-      this.simulationState = 'ended';
+    if (this.stageTimeElapsed >= this.stageDuration) {
+      this.currentStageIndex = (this.currentStageIndex + 1) % this.stagesSequence.length;
+      this.loadStage(this.currentStageIndex);
     }
 
     this.broadcastUpdate();

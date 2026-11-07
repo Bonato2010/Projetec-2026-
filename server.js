@@ -213,9 +213,12 @@ const server = http.createServer((req, res) => {
   } else if (pathname.startsWith('/pixel-art-2d/')) {
     pathname = `/prototipos/pixel-art-2d/${pathname.slice(14)}`;
   } else if (!pathname.startsWith('/site') && !pathname.startsWith('/site-informativo') && !pathname.startsWith('/prototipos') && !pathname.startsWith('/screenshots') && !pathname.startsWith('/api') && pathname !== '/ws') {
-    // Se o navegador requisitar recursos relativos (ex: Recursos visuais/..., Cliente/..., js/...) estando na URL /pixel-art-2d/
+    // Se o navegador requisitar recursos relativos (css, js, public, etc.)
+    const siteCandidate = path.join(ROOT_DIR, 'site', pathname);
     const prototipoCandidate = path.join(ROOT_DIR, 'prototipos', 'pixel-art-2d', pathname);
-    if (fs.existsSync(prototipoCandidate)) {
+    if (fs.existsSync(siteCandidate)) {
+      pathname = `/site${pathname}`;
+    } else if (fs.existsSync(prototipoCandidate)) {
       pathname = `/prototipos/pixel-art-2d${pathname}`;
     }
   }
