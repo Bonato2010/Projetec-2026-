@@ -1,0 +1,574 @@
+/* ==========================================================================
+   ECOCITY PIXEL ART — SISTEMA VISUAL COMPLETO (CENTRO DE OPERAÇÕES)
+   Baseado fielmente na direção artística de referência da PROJETEC 2026
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Chakra+Petch:wght@500;600;700;800&display=swap');
+
+:root {
+  --bg-space: #070b12;
+  --bg-hud: rgba(10, 16, 28, 0.92);
+  --bg-card: rgba(17, 26, 46, 0.95);
+  --border-neon-cyan: #00d2ff;
+  --border-neon-green: #00ff88;
+  --border-neon-red: #ff3344;
+  --border-neon-yellow: #ffb800;
+  --border-dark: #1b2840;
+  
+  --text-white: #ffffff;
+  --text-silver: #c4d1eb;
+  --text-muted: #7284a6;
+  --text-dim: #445472;
+  
+  --color-green: #10b981;
+  --color-blue: #0ea5e9;
+  --color-yellow: #f59e0b;
+  --color-red: #ef4444;
+  --color-purple: #8b5cf6;
+
+  --font-pixel: 'Press Start 2P', monospace;
+  --font-hud: 'Chakra Petch', sans-serif;
+  --font-sans: 'Plus Jakarta Sans', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+body {
+  background-color: var(--bg-space);
+  color: var(--text-white);
+  font-family: var(--font-hud);
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+}
+
+/* Canvas da Cidade em Pixel Art */
+#pixel-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* ==========================================================================
+   1. TOPO: HEADER DO CENTRO DE OPERAÇÕES
+   ========================================================================== */
+.eco-top-hud {
+  position: absolute;
+  top: 14px;
+  left: 18px;
+  right: 18px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  pointer-events: none;
+}
+
+.eco-top-hud > * {
+  pointer-events: auto;
+}
+
+/* Logo do Centro de Operações */
+.eco-logo-box {
+  background: var(--bg-hud);
+  border: 1px solid var(--border-dark);
+  border-left: 4px solid var(--color-green);
+  border-radius: 8px;
+  padding: 10px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+  backdrop-filter: blur(10px);
+}
+
+.eco-logo-icon {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, #00ff88, #059669);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  box-shadow: 0 0 12px rgba(0, 255, 136, 0.4);
+}
+
+.eco-logo-title {
+  font-family: var(--font-hud);
+  font-weight: 800;
+  font-size: 20px;
+  letter-spacing: -0.5px;
+  line-height: 1;
+  color: #fff;
+}
+
+.eco-logo-sub {
+  font-family: var(--font-hud);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--color-green);
+  font-weight: 700;
+  margin-top: 2px;
+}
+
+/* Painel de Modo de Operação */
+.eco-mode-badge {
+  background: var(--bg-hud);
+  border: 1px solid var(--border-dark);
+  border-radius: 8px;
+  padding: 10px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+}
+
+.eco-mode-title {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+}
+
+.eco-operators-list {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.op-dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.op-dot.blue { background: var(--color-blue); box-shadow: 0 0 8px var(--color-blue); }
+.op-dot.green { background: var(--color-green); box-shadow: 0 0 8px var(--color-green); }
+
+/* Indicadores Globais do Topo */
+.eco-metrics-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.metric-pill {
+  background: var(--bg-hud);
+  border: 1px solid var(--border-dark);
+  border-radius: 8px;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+  min-width: 140px;
+}
+
+.metric-pill-icon {
+  font-size: 20px;
+}
+
+.metric-pill-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.metric-pill-label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+.metric-pill-value {
+  font-size: 14px;
+  font-weight: 800;
+  color: #fff;
+  font-family: var(--font-hud);
+}
+
+.mini-meter-bar {
+  height: 4px;
+  background: #111a2e;
+  border-radius: 2px;
+  margin-top: 4px;
+  overflow: hidden;
+}
+
+.mini-meter-fill {
+  height: 100%;
+  transition: width 0.4s ease;
+}
+
+/* Temporizador */
+.eco-timer-box {
+  background: var(--bg-hud);
+  border: 1px solid var(--border-dark);
+  border-radius: 8px;
+  padding: 8px 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.eco-timer-val {
+  font-family: var(--font-pixel);
+  font-size: 14px;
+  color: var(--color-yellow);
+}
+
+/* ==========================================================================
+   2. CENTRO: MODAL DE ALERTA DE EMERGÊNCIA
+   ========================================================================== */
+.emergency-modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  transition: opacity 0.3s ease;
+}
+
+.emergency-modal-box {
+  width: 660px;
+  background: #0f1523;
+  border: 2px solid var(--border-neon-red);
+  border-radius: 12px;
+  box-shadow: 0 0 50px rgba(255, 51, 68, 0.45), inset 0 0 20px rgba(255, 51, 68, 0.15);
+  padding: 28px 36px;
+  text-align: center;
+  position: relative;
+  animation: alertPulse 2s infinite ease-in-out;
+}
+
+@keyframes alertPulse {
+  0% { transform: scale(0.98); box-shadow: 0 0 40px rgba(255, 51, 68, 0.35); }
+  50% { transform: scale(1.01); box-shadow: 0 0 65px rgba(255, 51, 68, 0.6); }
+  100% { transform: scale(0.98); box-shadow: 0 0 40px rgba(255, 51, 68, 0.35); }
+}
+
+.alert-header-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 51, 68, 0.15);
+  border: 1px solid var(--border-neon-red);
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-size: 13px;
+  font-weight: 800;
+  color: #ff3344;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.alert-scenario-sub {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-silver);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 6px;
+}
+
+.alert-scenario-title {
+  font-family: var(--font-hud);
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--border-neon-yellow);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  text-shadow: 0 0 15px rgba(255, 184, 0, 0.4);
+}
+
+.alert-scenario-desc {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: #e2e8f0;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.alert-action-btn {
+  background: linear-gradient(135deg, #dc2626, #991b1b);
+  border: 1px solid #f87171;
+  color: #fff;
+  font-family: var(--font-hud);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 12px 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(220, 38, 38, 0.5);
+  transition: all 0.2s ease;
+}
+
+.alert-action-btn:hover {
+  background: linear-gradient(135deg, #ef4444, #b91c1c);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 22px rgba(239, 68, 68, 0.7);
+}
+
+/* ==========================================================================
+   3. BASE: PAINEL DE CONTROLE E IMPACTOS (RODAPÉ — MÁX 13% DA TELA)
+   ========================================================================== */
+.eco-bottom-hud {
+  position: absolute;
+  bottom: 10px;
+  left: 18px;
+  right: 18px;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+  max-height: 140px;
+  pointer-events: none;
+}
+
+.eco-bottom-hud > * {
+  pointer-events: auto;
+}
+
+.bottom-panel {
+  background: rgba(10, 16, 28, 0.85);
+  border: 1px solid var(--border-neon-cyan);
+  border-radius: 8px;
+  padding: 10px 14px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+  backdrop-filter: blur(8px);
+  overflow: hidden;
+  max-height: 135px;
+}
+
+.bottom-panel-title {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--border-neon-yellow);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.phase-badge {
+  background: rgba(239, 68, 68, 0.2);
+  border: 1px solid var(--color-red);
+  color: var(--color-red);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 9px;
+  font-weight: 800;
+}
+
+/* Situação Atual */
+.situation-box {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.situation-thumb-sharp {
+  width: 56px;
+  height: 56px;
+  border-radius: 6px;
+  border: 1px solid var(--border-neon-cyan);
+  background: #090e18;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  flex-shrink: 0;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.situation-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.situation-desc {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  color: var(--text-silver);
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Impactos em Grade 2x2 */
+.impacts-grid-2x2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 10px;
+}
+
+.impact-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.impact-label {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--text-silver);
+  width: 85px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.impact-bar-wrapper {
+  flex: 1;
+  height: 6px;
+  background: #111a2e;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.impact-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+.impact-val {
+  font-size: 10px;
+  font-weight: 800;
+  color: #fff;
+  width: 30px;
+  text-align: right;
+  font-family: var(--font-hud);
+}
+
+/* Banner da Feira e Última Decisão */
+.stand-motto-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(14, 165, 233, 0.12));
+  border-color: rgba(16, 185, 129, 0.35);
+}
+
+.last-decision-ticker {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--border-neon-cyan);
+  background: rgba(14, 165, 233, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 4px;
+}
+
+.sustainability-card-sharp {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(17, 26, 46, 0.9);
+  border: 1px solid var(--border-neon-green);
+  border-radius: 6px;
+  padding: 4px 8px;
+}
+
+.sust-thumb-sharp {
+  width: 36px;
+  height: 36px;
+  border-radius: 4px;
+  background: #064e3b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+  image-rendering: pixelated;
+}
+
+.sust-text-box {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.sust-title {
+  font-size: 10px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.sust-tip {
+  font-size: 9px;
+  color: var(--text-silver);
+  font-family: var(--font-sans);
+}
+
+/* QR Code de Pareamento Mobile */
+.eco-qr-corner {
+  position: absolute;
+  top: 80px;
+  right: 18px;
+  z-index: 15;
+  background: var(--bg-hud);
+  border: 1px solid var(--border-dark);
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+}
+
+.eco-qr-box {
+  background: #fff;
+  padding: 6px;
+  border-radius: 4px;
+  margin-bottom: 6px;
+}
+
+.eco-qr-tag {
+  font-size: 8px;
+  font-weight: 700;
+  color: var(--color-green);
+  letter-spacing: 0.5px;
+}
